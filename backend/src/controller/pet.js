@@ -1,8 +1,8 @@
-const pool = require('../db')
+const pool = require('../db');
 
 async function createPetTable(ctx) {
     try {
-        await pool.query('CREATE TABLE pet ( petid SERIAL PRIMARY KEY, name VARCHAR(20) );')
+        await pool.query('CREATE TABLE pet ( petid SERIAL PRIMARY KEY, name VARCHAR(20) )');
         ctx.body = 'pet table created';
     } catch (e) {
         ctx.body = 'error';
@@ -25,7 +25,7 @@ async function readAllPetRows(ctx) {
         const resultObject = await pool.query('SELECT * FROM pet');
         ctx.body = 'selected all pet rows';
         console.table(resultObject);
-        console.table(resultObject.rows)
+        console.table(resultObject.rows);
     } catch (e) {
         ctx.body = 'error';
         ctx.status = 403;
@@ -34,7 +34,7 @@ async function readAllPetRows(ctx) {
 
 async function dropPetTable(ctx) {
     try {
-        await pool.query('DROP TABLE pet')
+        await pool.query('DROP TABLE pet');
         ctx.status = 200;
     } catch (e) {
         ctx.body = 'error';
@@ -47,4 +47,4 @@ module.exports = {
     insertPetRow,
     readAllPetRows,
     dropPetTable
-}
+};

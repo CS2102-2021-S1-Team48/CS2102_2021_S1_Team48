@@ -1,5 +1,5 @@
 async function sayHello(ctx) {
-    console.log('going to send response now')
+    console.log('going to send response now');
     
     // response body is a json
     ctx.body = {
@@ -7,4 +7,4 @@ async function sayHello(ctx) {
     };
 }
 
-module.exports = sayHello
+module.exports = sayHello;
