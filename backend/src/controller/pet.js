@@ -12,7 +12,9 @@ async function createPetTable(ctx) {
 
 async function insertPetRow(ctx) {
     try {
-        await pool.query('INSERT INTO pet (name) VALUES (' + "'eva'" + ')'); // notice eva must be wrapped in single quotes
+
+        const petname = 'hebe';
+        await pool.query(`INSERT INTO pet (name) VALUES ('${petname}')`); // notice eva must be wrapped in single quotes
         ctx.body = 'pet row inserted';
     } catch (e) {
         ctx.body ='error';
