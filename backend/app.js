@@ -14,8 +14,8 @@ console.log('Try hitting localhost:3000/hello on your browser');
    await next() passes control to other functions
 */
 app.use(async (ctx, next) => {
-   console.log('this will appear before every response!');
-   await next();
+    console.log('this will appear before every response!');
+    await next();
 });
 
 app.use(router.routes());

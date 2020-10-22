@@ -13,5 +13,8 @@
     "koa": "^2.13.0",
     "koa-router": "^9.4.0",
     "pg": "^8.4.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.11.0"
   }
 }
