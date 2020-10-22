@@ -12,6 +12,6 @@ router.patch('/insertPetRow', insertPetRow)
 
 router.get('/readAllPetRows', readAllPetRows)
 
-router.del('/drop', dropPetTable)
+router.del('/dropPetTable', dropPetTable)
 
 module.exports = router
