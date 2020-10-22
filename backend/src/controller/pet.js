@@ -12,7 +12,6 @@ async function createPetTable(ctx) {
 
 async function insertPetRow(ctx) {
     try {
-
         const petname = 'hebe';
         await pool.query(`INSERT INTO pet (name) VALUES ('${petname}')`); // notice eva must be wrapped in single quotes
         ctx.body = 'pet row inserted';
