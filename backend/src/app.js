@@ -8,7 +8,7 @@ console.log('Try hitting localhost:3000/hello on your browser');
 
 
 /*
-   Custom middleware for illustrative purposes
+   Custom middleware for illustrative purposes - NO ACTUAL USE
    middleware is something that executes in between request and response
    that's why it's called 'middle' ware
    await next() passes control to other functions
@@ -18,6 +18,7 @@ app.use(async (ctx, next) => {
     await next();
 });
 
+// koa router defined middleware. don't touch.
 app.use(router.routes());
 app.use(router.allowedMethods());
 
