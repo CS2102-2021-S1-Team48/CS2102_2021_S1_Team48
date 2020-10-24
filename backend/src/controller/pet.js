@@ -24,9 +24,10 @@ async function insertPetRow(ctx) {
 async function readAllPetRows(ctx) {
     try {
         const resultObject = await pool.query('SELECT * FROM pet');
-        ctx.body = 'selected all pet rows';
         console.table(resultObject);
         console.table(resultObject.rows);
+        console.log(resultObject.rows[0]);
+        ctx.body = 'hi';
     } catch (e) {
         ctx.body = 'error';
         ctx.status = 403;
