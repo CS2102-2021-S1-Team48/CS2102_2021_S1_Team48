@@ -8,7 +8,7 @@ router.get('/hello', sayHello);
 
 router.post('/createPetTable', createPetTable);
 
-router.post('/insertPetRow/', insertPetRow);
+router.post('/insertPetRow', insertPetRow);
 
 router.get('/readAllPetRows', readAllPetRows);
 
