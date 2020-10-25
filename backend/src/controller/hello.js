@@ -1,10 +1,13 @@
 async function sayHello(ctx) {
-    console.log('going to send response now');
-    
-    // response body is a json
-    ctx.body = {
-        hello: 'world'
-    };
+    try {
+        // response body is a json
+        ctx.body = {
+            hello: 'world'
+        };
+    } catch (e) {
+        console.log('going to send response now');
+        ctx.status = 403;
+    }
 }
 
 module.exports = sayHello;
