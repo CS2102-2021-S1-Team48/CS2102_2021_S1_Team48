@@ -7,6 +7,7 @@ const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller
 const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, getAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
+const { createCaretakersFtTable, dropCaretakersFtTable, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 
 
 
@@ -39,6 +40,15 @@ router.get('/caretakers/:usernamect', getCaretakerByUsername);
 // caretakerspt
 router.post('/caretakers/createtable', createCaretakersPtTable);
 router.del('/caretakers/droptable', dropCaretakersPtTable);
+
+// caretakersft
+router.post('/caretakers/createtable', createCaretakersFtTable);
+router.del('/caretakers/droptable', dropCaretakersFtTable);
+router.get('/caretakersft', getCaretakerFtInfo);
+router.patch('/caretakersft/startdate1/:startdate1', editStartDate1);
+router.patch('/caretakersft/enddate1/:enddate1', editEndDate1);
+router.patch('/caretakersft/startdate2/:startdate2', editStartDate2);
+router.patch('/caretakersft/enddate2/:enddate2', editEndDate2);
 
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
