@@ -4,6 +4,7 @@ const { createUsersTable, dropUsersTable, createUser, changeUsername, changePass
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
+const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
 
@@ -37,6 +38,11 @@ router.get('/caretakers/:usernamect', getCaretakerByUsername);
 // caretakerspt
 router.post('/caretakers/createtable', createCaretakersPtTable);
 router.del('/caretakers/droptable', dropCaretakersPtTable);
+
+// basedailyprices
+router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
+router.del('/basedailyprices/droptable', dropBaseDailyPricesTable);
+router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
 
 // bids
 router.post('/bids/createtable', createBidsTable);
