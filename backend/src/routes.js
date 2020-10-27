@@ -44,8 +44,8 @@ router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
 router.del('/basedailyprices/droptable', dropBaseDailyPricesTable);
 router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
 router.get('basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
-router.patch();
-router.del();
+//router.patch();
+//router.del();
 
 // bids
 router.post('/bids/createtable', createBidsTable);
