@@ -25,11 +25,8 @@ router.del('/petowners/droptable', dropPetownersTable);
 // caretakers
 router.post('/caretakers/createtable', createCaretakersTable);
 router.del('/caretakers/droptable', dropCaretakersTable);
-<<<<<<< HEAD
 router.get('/caretakers', getAllCaretakers)
 router.get('/caretakers/:usernamect', getCaretakerByUsername)
-
-=======
 
 // bids
 router.post('/bids/createtable', createBidsTable);
@@ -39,7 +36,6 @@ router.get('/bids/accepted', getAcceptedBids);
 router.get('/bids/unaccepted', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim
 router.get('bids/review/:usernamect', getReviewsOfCaretaker);
->>>>>>> 162c4355c523450ceb19d7d44c008c6ef0eefd22
 
 /* deprecated routes
 router.post('/createPetTable', createPetTable);
