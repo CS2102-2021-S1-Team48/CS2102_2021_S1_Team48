@@ -1,9 +1,9 @@
 const Router = require('koa-router');
-const { createCaretakersTable, dropCaretakersTable } = require('./controller/caretakers');
 const sayHello = require('./controller/hello');
 const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
-const { createCaretakersTable, dropCaretakersTable } = require('./controller/caretakers');
+const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
+
 
 const router = new Router();
 
@@ -25,7 +25,8 @@ router.del('/petowners/droptable', dropPetownersTable);
 // caretakers
 router.post('/caretakers/createtable', createCaretakersTable);
 router.del('/caretakers/droptable', dropCaretakersTable);
-
+router.get('/caretakers', getAllCaretakers)
+router.get('/caretakers/:usernamect', getCaretakerByUsername)
 
 
 /* deprecated routes
