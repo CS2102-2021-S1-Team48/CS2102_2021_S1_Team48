@@ -1,7 +1,9 @@
 const Router = require('koa-router');
+const { createCaretakersTable, dropCaretakersTable } = require('./controller/caretakers');
 const sayHello = require('./controller/hello');
-const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
+const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
+const { createCaretakersTable, dropCaretakersTable } = require('./controller/caretakers');
 
 const router = new Router();
 
@@ -20,7 +22,9 @@ router.patch('/users/changepassword/:newpassword', changePassword);
 router.post('/petowners/createtable', createPetownersTable);
 router.del('/petowners/droptable', dropPetownersTable);
 
-
+// caretakers
+router.post('/caretakers/createtable', createCaretakersTable);
+router.del('/caretakers/droptable', dropCaretakersTable);
 
 
 
