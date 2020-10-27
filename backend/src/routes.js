@@ -4,7 +4,7 @@ const { createUsersTable, dropUsersTable, createUser, changeUsername, changePass
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
-const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice } = require('./controller/basedailyprices');
+const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
 
@@ -43,8 +43,7 @@ router.del('/caretakers/droptable', dropCaretakersPtTable);
 router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
 router.del('/basedailyprices/droptable', dropBaseDailyPricesTable);
 router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
-router.get();
-router.get();
+router.get('basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
 router.patch();
 router.del();
 
@@ -54,7 +53,7 @@ router.del('/bids/droptable', dropBidsTable);
 router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020
 router.get('/bids/accepted', getAcceptedBids); 
 router.get('/bids/unaccepted', getUnacceptedBids);
-router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is no ? query then it should get all bids
+router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
 router.get('bids/review/:usernamect', getReviewsOfCaretaker);
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);

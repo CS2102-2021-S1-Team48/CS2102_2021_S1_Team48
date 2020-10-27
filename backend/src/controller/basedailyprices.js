@@ -39,8 +39,22 @@ async function addBaseDailyPrice(ctx) {
     }
 }
 
+// GET api at router
+async function getBaseDailyPrices(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createBaseDailyPricesTable,
     dropBaseDailyPricesTable,
-    addBaseDailyPrice
+    addBaseDailyPrice,
+    getBaseDailyPrices
 };
