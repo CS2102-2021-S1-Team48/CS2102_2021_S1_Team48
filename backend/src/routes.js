@@ -4,7 +4,7 @@ const { createUsersTable, dropUsersTable, createUser, changeUsername, changePass
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
-const { createAvailabilitiesTable, dropAvailabilitiesTable } = require('./controller/availabilities');
+const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability } = require('./controller/availabilities');
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
@@ -43,6 +43,7 @@ router.del('/caretakers/droptable', dropCaretakersPtTable);
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
 router.del('/availabilities/droptable', dropAvailabilitiesTable);
+router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
 
 // basedailyprices
 router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
