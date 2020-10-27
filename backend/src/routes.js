@@ -3,7 +3,13 @@ const sayHello = require('./controller/hello');
 const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
+const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid } = require('./controller/bids');
+
+
+
+
+
 
 const router = new Router();
 
@@ -27,6 +33,10 @@ router.post('/caretakers/createtable', createCaretakersTable);
 router.del('/caretakers/droptable', dropCaretakersTable);
 router.get('/caretakers', getAllCaretakers);
 router.get('/caretakers/:usernamect', getCaretakerByUsername);
+
+// caretakerspt
+router.post('/caretakers/createtable', createCaretakersPtTable);
+router.del('/caretakers/droptable', dropCaretakersPtTable);
 
 // bids
 router.post('/bids/createtable', createBidsTable);
