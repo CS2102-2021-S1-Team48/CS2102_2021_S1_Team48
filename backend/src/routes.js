@@ -4,7 +4,7 @@ const { createUsersTable, dropUsersTable, createUser, changeUsername, changePass
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
-const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability } = require('./controller/availabilities');
+const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, getAvailabilities } = require('./controller/availabilities');
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
@@ -44,6 +44,8 @@ router.del('/caretakers/droptable', dropCaretakersPtTable);
 router.post('/availabilities/createtable', createAvailabilitiesTable);
 router.del('/availabilities/droptable', dropAvailabilitiesTable);
 router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
+router.get('/availabilities', getAvailabilities); // GET /availabilities?usernamect=john&pettype=cat // If there is nothing after the ? then it should get all availabilities.
+
 
 // basedailyprices
 router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
