@@ -67,6 +67,7 @@ async function getUnacceptedBids(ctx) {
 }
 
 // GET /bids?petname=eva&usernamect=john&usernamepo=lim
+// If there is no ? query then it should get all bids
 // GET api at router
 async function getBids(ctx) {
     try {
