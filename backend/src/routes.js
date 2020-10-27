@@ -45,7 +45,7 @@ router.post('/availabilities/createtable', createAvailabilitiesTable);
 router.del('/availabilities/droptable', dropAvailabilitiesTable);
 router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
 router.get('/availabilities', getAvailabilities); // GET /availabilities?usernamect=john&pettype=cat // If there is nothing after the ? then it should get all availabilities.
-router.patch('/availabilities/:startdate/:enddate/:pettype', editAvailability);
+router.patch('/availabilities/:startdate/:enddate/:pettype', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=01072020&enddate=19032020&pettype=dog&price=100
 
 // basedailyprices
 router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
