@@ -3,7 +3,7 @@ const sayHello = require('./controller/hello');
 const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
-const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker } = require('./controller/bids');
+const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid } = require('./controller/bids');
 
 const router = new Router();
 
@@ -36,6 +36,8 @@ router.get('/bids/accepted', getAcceptedBids);
 router.get('/bids/unaccepted', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim
 router.get('bids/review/:usernamect', getReviewsOfCaretaker);
+router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
+router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 
 /* deprecated routes
 router.post('/createPetTable', createPetTable);

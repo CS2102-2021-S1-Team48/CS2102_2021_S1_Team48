@@ -93,6 +93,32 @@ async function getReviewsOfCaretaker(ctx) {
     }
 }
 
+// PATCH api at router
+async function acceptBid(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
+// PATCH api at router
+async function undoAcceptBid(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createBidsTable,
     dropBidsTable,
@@ -100,5 +126,7 @@ module.exports = {
     getAcceptedBids,
     getUnacceptedBids,
     getBids,
-    getReviewsOfCaretaker
+    getReviewsOfCaretaker,
+    acceptBid,
+    undoAcceptBid
 };
