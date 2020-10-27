@@ -12,11 +12,14 @@
     border-bottom: 1px solid rgba(255, 62, 0, 0.1);
     font-weight: 300;
     padding: 0 1em;
+    max-width: 1024px;
   }
 
   ul {
-    margin: 0;
+    display: flex;
+    margin: 0 auto;
     padding: 0;
+    justify-content: space-evenly;
   }
 
   ul::after {
@@ -26,8 +29,8 @@
   }
 
   li {
-    display: block;
-    float: left;
+    display: inline-flex;
+    padding: 10px 20px;
   }
 
   .selected {

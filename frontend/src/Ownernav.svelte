@@ -17,8 +17,10 @@
   }
 
   ul {
-    margin: 0;
+    display: flex;
+    margin: 0 auto;
     padding: 0;
+    justify-content: space-evenly;
   }
 
   ul::after {
