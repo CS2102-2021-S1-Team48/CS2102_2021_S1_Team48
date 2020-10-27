@@ -1,5 +1,14 @@
 const pool = require('../db');
 
+
+
+// create a new users controller instead
+
+
+
+
+
+
 async function createPetTable(ctx) {
     try {
         await pool.query('CREATE TABLE pet ( petid SERIAL PRIMARY KEY, name VARCHAR(20) )');
