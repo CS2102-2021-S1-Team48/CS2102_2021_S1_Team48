@@ -4,6 +4,7 @@ const sayHello = require('./controller/hello');
 const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable } = require('./controller/caretakers');
+const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker } = require('./controller/bids');
 
 const router = new Router();
 
@@ -26,7 +27,14 @@ router.del('/petowners/droptable', dropPetownersTable);
 router.post('/caretakers/createtable', createCaretakersTable);
 router.del('/caretakers/droptable', dropCaretakersTable);
 
-
+// bids
+router.post('/bids/createtable', createBidsTable);
+router.del('/bids/droptable', dropBidsTable);
+router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020
+router.get('/bids/accepted', getAcceptedBids); 
+router.get('/bids/unaccepted', getUnacceptedBids);
+router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim
+router.get('bids/review/:usernamect', getReviewsOfCaretaker);
 
 /* deprecated routes
 router.post('/createPetTable', createPetTable);
