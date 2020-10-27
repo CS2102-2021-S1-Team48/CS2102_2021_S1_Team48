@@ -119,6 +119,19 @@ async function undoAcceptBid(ctx) {
     }
 }
 
+// DEL api at router
+async function deleteBid(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createBidsTable,
     dropBidsTable,
@@ -128,5 +141,6 @@ module.exports = {
     getBids,
     getReviewsOfCaretaker,
     acceptBid,
-    undoAcceptBid
+    undoAcceptBid,
+    deleteBid
 };

@@ -4,7 +4,7 @@ const { createUsersTable, dropUsersTable, createUser, changeUsername, changePass
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
-const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid } = require('./controller/bids');
+const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
 
 
@@ -48,6 +48,7 @@ router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamep
 router.get('bids/review/:usernamect', getReviewsOfCaretaker);
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
+router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate' , deleteBid);
 
 /* deprecated routes
 router.post('/createPetTable', createPetTable);
