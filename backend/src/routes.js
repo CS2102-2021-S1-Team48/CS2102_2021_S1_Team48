@@ -25,8 +25,8 @@ router.del('/petowners/droptable', dropPetownersTable);
 // caretakers
 router.post('/caretakers/createtable', createCaretakersTable);
 router.del('/caretakers/droptable', dropCaretakersTable);
-router.get('/caretakers', getAllCaretakers)
-router.get('/caretakers/:usernamect', getCaretakerByUsername)
+router.get('/caretakers', getAllCaretakers);
+router.get('/caretakers/:usernamect', getCaretakerByUsername);
 
 // bids
 router.post('/bids/createtable', createBidsTable);
