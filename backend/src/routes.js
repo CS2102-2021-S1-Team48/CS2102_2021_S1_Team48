@@ -6,12 +6,11 @@ const router = new Router();
 
 router.get('/hello', sayHello);
 
-router.post('/createPetTable', createPetTable);
 
-router.post('/insertPetRow/:petname', insertPetRow);
-
-router.get('/readAllPetRows', readAllPetRows);
-
-router.del('/dropPetTable', dropPetTable);
+// deprecated
+// router.post('/createPetTable', createPetTable);
+// router.post('/insertPetRow/:petname', insertPetRow);
+// router.get('/readAllPetRows', readAllPetRows);
+// router.del('/dropPetTable', dropPetTable);
 
 module.exports = router;
