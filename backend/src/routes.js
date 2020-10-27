@@ -14,7 +14,7 @@ router.get('/hello', sayHello);
 // users
 router.post('/users/createtable', createUsersTable);
 router.del('/users/droptable', dropUsersTable);
-router.post('/users', createUser);
+router.post('/users', createUser);  // POST /users?username=johndoe99&password=password1
 router.patch('/users/changeusername/:newusername', changeUsername);
 router.patch('/users/changepassword/:newpassword', changePassword);
 
