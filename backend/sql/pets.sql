@@ -32,7 +32,11 @@ SELECT * FROM PETS WHERE petname = 'sam' AND username_petowner = 'johndoe9999';
 
 -- Edit the details of a specific pet in the table 
 -- PATCH /pets/:petname?petname=evaline&requirements=coldaircon , editPetDetails
+UPDATE pets SET petname = 'evaline' WHERE petname = 'emma' AND username_petowner = 'johndoe99';
+UPDATE pets SET requirements = 'hugs daily' WHERE petname = 'emma2' AND username_petowner = 'johndoe99';
+UPDATE pets SET petname = 'evaline', requirements = 'carnivore' WHERE petname = 'emma' AND username_petowner = 'johndoe999';
 
 
 -- Delete a specific pet in the table
 -- DEL /pet/:petname , deletePetByPetname
+DELETE FROM pets WHERE username_petowner = 'muthar' AND petname = 'evaline';
