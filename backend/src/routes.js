@@ -8,6 +8,7 @@ const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, ge
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, getCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
+const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername } = require('./controller/admins');
 
 
 
@@ -49,6 +50,13 @@ router.patch('/caretakersft/startdate1/:startdate1', editStartDate1);
 router.patch('/caretakersft/enddate1/:enddate1', editEndDate1);
 router.patch('/caretakersft/startdate2/:startdate2', editStartDate2);
 router.patch('/caretakersft/enddate2/:enddate2', editEndDate2);
+
+// admins
+router.post('/admins/createtable', createAdminsTable);
+router.del('/admins/droptable', dropAdminsTable);
+router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
+router.patch('/admins/changeusername/:newusername', changeAdminUsername);
+router.patch('/admins/changepassword/:newpassword', changeAdminPassword);
 
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
