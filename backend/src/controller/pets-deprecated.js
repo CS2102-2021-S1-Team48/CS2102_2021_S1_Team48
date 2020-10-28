@@ -2,8 +2,11 @@ const pool = require('../db');
 
 
 
-// create a new users controller instead
-
+/*
+    This js file has been deprecated.
+    Please create a new pets.js file as the pets controller.
+    Will keep this file for reference when necessary.
+*/
 
 
 
