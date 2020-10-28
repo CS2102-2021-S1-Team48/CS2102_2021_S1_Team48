@@ -24,8 +24,10 @@
   }
 
   .long-input {
+    padding: 0 10px 70px;
     height: 100px;
     width: 540px;
+    text-align: justify;
   }
 </style>
 

@@ -18,6 +18,12 @@
       requirements: "Daily walks",
       id: 3,
     },
+    {
+      name: "Geordi",
+      category: "Golden Retriever",
+      requirements: "Potty in the evening",
+      id: 3,
+    },
   ];
 
   const handleClick = (name) => {
