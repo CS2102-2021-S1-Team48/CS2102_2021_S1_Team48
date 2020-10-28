@@ -9,6 +9,7 @@ const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice,
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, getCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername } = require('./controller/admins');
+const { createCreditCardsTable, dropCreditCardsTable, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
 
 
 
@@ -57,6 +58,14 @@ router.del('/admins/droptable', dropAdminsTable);
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
 router.patch('/admins/changeusername/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:newpassword', changeAdminPassword);
+
+// creditcards
+router.post('/creditcards/createtable', createCreditCardsTable);
+router.del('/creditcards/droptable', dropCreditCardsTable);
+router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=21082020
+router.get('/creditcards', getCreditCard);
+router.patch('/creditcards', changeCreditCard); // PATCH /creditcards?cardnum=456expiry=21072021
+router.del('/creditcards', removeCreditCard);
 
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
