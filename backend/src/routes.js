@@ -8,8 +8,9 @@ const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, ge
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, getCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
-const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername } = require('./controller/admins');
+const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
 const { createCreditCardsTable, dropCreditCardsTable, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
+const { createOwnsTable, dropOwnsTable } = require('./controller/owns');
 
 
 
@@ -66,6 +67,10 @@ router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&exp
 router.get('/creditcards', getCreditCard);
 router.patch('/creditcards', changeCreditCard); // PATCH /creditcards?cardnum=456expiry=21072021
 router.del('/creditcards', removeCreditCard);
+
+// owns
+router.post('/owns/createtable', createOwnsTable);
+router.del('/owns/droptable', dropOwnsTable);
 
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
