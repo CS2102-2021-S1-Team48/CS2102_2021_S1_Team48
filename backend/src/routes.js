@@ -11,6 +11,7 @@ const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, g
 const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
 const { createCreditCardsTable, dropCreditCardsTable, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
 const { createOwnsTable, dropOwnsTable } = require('./controller/owns');
+const { createPetsTable, dropPetsTable, addPet, getPet, getPetByPetname } = require('./controller/pets');
 
 
 
@@ -71,6 +72,14 @@ router.del('/creditcards', removeCreditCard);
 // owns
 router.post('/owns/createtable', createOwnsTable);
 router.del('/owns/droptable', dropOwnsTable);
+
+// pets
+router.post('/pets/createtable', createPetsTable);
+router.del('/pets/droptable', dropPetsTable);
+router.post('/pets', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
+router.get('/pets', getPet);
+router.get('/pets:petname', getPetByPetname);
+
 
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
