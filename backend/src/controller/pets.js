@@ -66,10 +66,38 @@ async function getPetByPetname(ctx) {
     }
 }
 
+// PATCH api at router
+async function editPetDetails(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
+// DEL api at router
+async function deletePetByPetname(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createPetsTable,
     dropPetsTable,
     addPet,
     getPet,
-    getPetByPetname
+    getPetByPetname,
+    editPetDetails,
+    deletePetByPetname
 };
