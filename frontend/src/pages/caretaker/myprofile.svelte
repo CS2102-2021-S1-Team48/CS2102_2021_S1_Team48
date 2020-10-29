@@ -23,8 +23,8 @@
 		{ name: "Bimlesh", rating: "3/5", reviewMsg: "shit" },
 	];
 	function toggle() {
-		showAvailabilityModal = false;
-		showModal = true;
+		showAvailabilityModal = !showAvailabilityModal;
+		showModal = !showModal;
 	}
 </script>
 
