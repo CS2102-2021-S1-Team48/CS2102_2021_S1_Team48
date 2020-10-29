@@ -5,8 +5,8 @@
 
 <style>
   .contents {
-    float: right;
-    width: 80%;
+    padding-left: 230px;
+    width: 1024px;
   }
 </style>
 
