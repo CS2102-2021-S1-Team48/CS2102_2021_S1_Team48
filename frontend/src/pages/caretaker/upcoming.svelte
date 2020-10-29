@@ -1,5 +1,5 @@
 <script>
-  let bidRequests = [
+  let SuccessfulBids = [
     {
       owner: "Daniel",
       payment: "cash",
@@ -64,12 +64,7 @@
     margin: 5px 0;
     padding: 10px;
   }
-  .button {
-    width: 100px;
-    height: 60px;
-    display: inline-flex;
-    padding: 10px;
-  }
+
   .subDescription {
     display: table-row;
     justify-content: space-around;
@@ -95,7 +90,7 @@
 </nav>
 
 <div>
-  {#each bidRequests as bid}
+  {#each SuccessfulBids as bid}
     <div class="bid">
       <div class="contents">
         <div class="subDescription">

@@ -114,7 +114,7 @@
       <div class="contents">{bid.from}</div>
       <div class="contents">{bid.to}</div>
       <div class="contents">
-        <div style="margin:auto">{bid.bid}</div>
+        <div style="margin:auto"><h8>S$</h8>{bid.bid}</div>
       </div>
       <div class="button">
         <div style="margin:auto">
