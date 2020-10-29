@@ -17,7 +17,7 @@
     padding: 0 5em;
     position: absolute;
     float: left;
-    background-color: bisque;
+    background-color: #709ce2e5;
     height: 100%;
   }
 
