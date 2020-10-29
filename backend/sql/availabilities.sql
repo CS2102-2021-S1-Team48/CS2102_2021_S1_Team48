@@ -1,6 +1,33 @@
 -- Create availabilities table
 -- POST /availabilities/createtable , createAvailabilitiesTable
+CREATE TABLE availabilities (
+  startdate			    DATE,
+  enddate			    DATE,
+  pettype			    VARCHAR(20)	NOT NULL,
+  price				    NUMERIC, 
+  username_caretaker 	VARCHAR(20) REFERENCES caretakers(username) ON DELETE CASCADE ON UPDATE CASCADE,
+  
+  PRIMARY KEY (username_caretaker, startdate, enddate, pettype)
+);
 
+-- Trigger 
+-- Before inserting availability into the table, check that the price specificed by the caretaker is not lower than what is specificed in the base daily prices table
+-- Note the single quote in line 17 and 25 can be replaced with $$ (Used single quote because db-fiddle cannot do multiline $$ quote)
+CREATE OR REPLACE FUNCTION checkBasePrice() RETURNS TRIGGER AS 
+' DECLARE 
+    basePrice NUMERIC; rating NUMERIC; 
+  BEGIN 
+    SELECT c.rating INTO rating FROM caretakers c WHERE c.username = NEW.username_caretaker;
+    SELECT b.amount INTO basePrice FROM basedailyprices b WHERE b.minrating = rating AND b.pettype = NEW.pettype; 
+    IF new.price < basePrice THEN RAISE EXCEPTION ''cannot be lower than base price'';
+    END IF;
+  RETURN NEW; 
+  END; ' 
+LANGUAGE plpgsql;
+
+CREATE TRIGGER insert_availabilities
+BEFORE INSERT ON availabilities
+FOR EACH ROW EXECUTE PROCEDURE checkBasePrice();
 
 
 -- Drop availabilities table
