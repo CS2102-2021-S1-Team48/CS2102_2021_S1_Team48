@@ -1,21 +1,21 @@
 <script>
-	import { createEventDispatcher, onDestroy } from 'svelte';
+	import { createEventDispatcher, onDestroy } from "svelte";
 
 	const dispatch = createEventDispatcher();
-	const close = () => dispatch('close');
+	const close = () => dispatch("close");
 
 	let modal;
 
-	const handle_keydown = e => {
-		if (e.key === 'Escape') {
+	const handle_keydown = (e) => {
+		if (e.key === "Escape") {
 			close();
 			return;
 		}
 
-		if (e.key === 'Tab') {
+		if (e.key === "Tab") {
 			// trap focus
-			const nodes = modal.querySelectorAll('*');
-			const tabbable = Array.from(nodes).filter(n => n.tabIndex >= 0);
+			const nodes = modal.querySelectorAll("*");
+			const tabbable = Array.from(nodes).filter((n) => n.tabIndex >= 0);
 
 			let index = tabbable.indexOf(document.activeElement);
 			if (index === -1 && e.shiftKey) index = 0;
@@ -28,7 +28,8 @@
 		}
 	};
 
-	const previously_focused = typeof document !== 'undefined' && document.activeElement;
+	const previously_focused =
+		typeof document !== "undefined" && document.activeElement;
 
 	if (previously_focused) {
 		onDestroy(() => {
@@ -40,24 +41,6 @@
 		close();
 	}
 </script>
-<svelte:window on:keydown={handle_keydown}/>
-
-<div class="modal-background" on:click={close}></div>
-
-<div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
-	<slot name="header"></slot>
-	
-	<button class="close" on:click={close}>
-		X
-	</button>
-	
-	<hr>
-	<slot></slot>
-	<hr>
-
-	<!-- svelte-ignore a11y-autofocus -->
-	<!-- <button autofocus on:click={close}>close modal</button> -->
-</div>
 
 <style>
 	.modal-background {
@@ -66,8 +49,8 @@
 		left: 0;
 		width: 150%;
 		height: 150%;
-    border-radius: 15px;
-		background: rgba(0,0,0,0.3);
+		border-radius: 15px;
+		background: rgba(0, 0, 0, 0.3);
 	}
 
 	.modal {
@@ -78,7 +61,7 @@
 		max-width: 45em;
 		max-height: calc(100vh);
 		overflow: auto;
-		transform: translate(-50%,-50%);
+		transform: translate(-50%, -50%);
 		padding: 1em;
 		border-radius: 25px;
 		background: white;
@@ -88,20 +71,36 @@
 		/* display: block;
 	} */
 	.close {
-    display: block;
-    box-sizing: border-box;
-    position: absolute;
-    z-index: 1000;
-    top: 1rem;
-    right: 1rem;
-    margin: 0;
-    padding: 0;
-    width: 1.5rem;
-    height: 1.5rem;
-    border: 0;
-    color: black;
-    border-radius: 1.5rem;
-    background: white;
-    box-shadow: 0 0 0 1px black;
+		display: block;
+		box-sizing: border-box;
+		position: absolute;
+		z-index: 1000;
+		top: 1rem;
+		right: 1rem;
+		margin: 0;
+		padding: 0;
+		width: 1.5rem;
+		height: 1.5rem;
+		border: 0;
+		color: black;
+		border-radius: 1.5rem;
+		background: white;
+		box-shadow: 0 0 0 1px black;
 	}
 </style>
+
+<svelte:window on:keydown={handle_keydown} />
+
+<div class="modal-background" on:click={close} />
+
+<div class="modal" role="dialog" aria-modal="true" bind:this={modal}>
+	<slot name="header" />
+
+	<button class="close" on:click={close}> X </button>
+
+	<hr />
+	<slot />
+
+	<!-- svelte-ignore a11y-autofocus -->
+	<!-- <button autofocus on:click={close}>close modal</button> -->
+</div>
