@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 // POST api at router
-async function createUsersTable(ctx) {
+async function createCaretakersTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -14,7 +14,7 @@ async function createUsersTable(ctx) {
 }
 
 // DEL api at router
-async function dropUsersTable(ctx) {
+async function dropCaretakersTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -26,8 +26,8 @@ async function dropUsersTable(ctx) {
     }
 }
 
-// POST api at router
-async function createUser(ctx) {
+// GET api at router
+async function getAllCaretakers(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -39,21 +39,8 @@ async function createUser(ctx) {
     }
 }
 
-// PATCH api at router
-async function changeUsername(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = 'success';
-    } catch (e) {
-        console.log(e);
-        ctx.body = 'error';
-        ctx.status = 403;
-    }
-}
-
-// PATCH api at router
-async function changePassword(ctx) {
+// GET api at router
+async function getCaretakerByUsername(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -66,9 +53,8 @@ async function changePassword(ctx) {
 }
 
 module.exports = {
-    createUsersTable,
-    dropUsersTable,
-    createUser,
-    changeUsername,
-    changePassword
+    createCaretakersTable,
+    dropCaretakersTable,
+    getAllCaretakers,
+    getCaretakerByUsername
 };

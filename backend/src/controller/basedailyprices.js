@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 // POST api at router
-async function createUsersTable(ctx) {
+async function createBaseDailyPricesTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -14,7 +14,7 @@ async function createUsersTable(ctx) {
 }
 
 // DEL api at router
-async function dropUsersTable(ctx) {
+async function dropBaseDailyPricesTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -26,8 +26,9 @@ async function dropUsersTable(ctx) {
     }
 }
 
+// POST /basedailyprices?amount=123&pettype=dog&minrating=3
 // POST api at router
-async function createUser(ctx) {
+async function addBaseDailyPrice(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -39,8 +40,10 @@ async function createUser(ctx) {
     }
 }
 
-// PATCH api at router
-async function changeUsername(ctx) {
+// If there is nothing after the ? then it should get all base daily prices.
+// GET /basedailyprices?pettype=cat&minrating=5 
+// GET api at router
+async function getBaseDailyPrices(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -52,8 +55,9 @@ async function changeUsername(ctx) {
     }
 }
 
+// PATCH /basedailyprices/:pettype/:minrating?amount=3
 // PATCH api at router
-async function changePassword(ctx) {
+async function editBaseDailyPrice(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
@@ -64,11 +68,26 @@ async function changePassword(ctx) {
         ctx.status = 403;
     }
 }
+
+// DEL api at router
+async function deleteBaseDailyPrice(ctx) {
+    try {
+        const sqlQuery = '';
+        await pool.query(sqlQuery);
+        ctx.body = 'success';
+    } catch (e) {
+        console.log(e);
+        ctx.body = 'error';
+        ctx.status = 403;
+    }
+}
+
 
 module.exports = {
-    createUsersTable,
-    dropUsersTable,
-    createUser,
-    changeUsername,
-    changePassword
+    createBaseDailyPricesTable,
+    dropBaseDailyPricesTable,
+    addBaseDailyPrice,
+    getBaseDailyPrices,
+    editBaseDailyPrice,
+    deleteBaseDailyPrice
 };

@@ -63,7 +63,6 @@
     border: 1px solid;
     border-radius: 5px;
     margin: 5px 0;
-    padding: 10px;
   }
 </style>
 
