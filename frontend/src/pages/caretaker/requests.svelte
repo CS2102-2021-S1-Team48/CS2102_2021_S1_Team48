@@ -2,24 +2,30 @@
   let bidRequests = [
     {
       owner: "Daniel",
+      payment: "cash",
       pet: "Maple",
       type: "Cat",
+      require: "brush daily",
       from: "2020-11-29",
       to: "2020-12-29",
       bid: 24,
     },
     {
       owner: "Jenny",
+      payment: "credit card",
       pet: "Morty",
       type: "Dinosaur",
+      require: "NIL",
       from: "2020-11-29",
       to: "2020-12-29",
       bid: 26,
     },
     {
       owner: "Xiao Kai",
+      payment: "cash",
       pet: "Rax",
       type: "Rat",
+      require: "bedtime songs",
       from: "2020-11-22",
       to: "2020-12-31",
       bid: 70,
@@ -58,6 +64,16 @@
     display: inline-flex;
     padding: 10px;
   }
+  .subDescription {
+    display: table-row;
+    justify-content: space-around;
+  }
+  h10 {
+    font-style: oblique;
+    font-weight: bold;
+    font-style: italic;
+    font-size: smaller;
+  }
 </style>
 
 <nav>
@@ -75,16 +91,31 @@
 <div>
   {#each bidRequests as bid}
     <div class="bid">
-      <div class="contents">{bid.owner}</div>
+      <div class="contents">
+        <div class="subDescription">
+          <div>{bid.owner}</div>
+          <div>
+            <h10>Payment:</h10>
+            {bid.payment}
+          </div>
+        </div>
+      </div>
       <div class="contents">{bid.pet}</div>
-      <div class="contents">{bid.type}</div>
+      <div class="contents">
+        <div class="subDescription">
+          <div>{bid.type}</div>
+
+          <h10>Require:</h10>
+          {bid.require}
+        </div>
+      </div>
       <div class="contents">{bid.from}</div>
       <div class="contents">{bid.to}</div>
       <div class="contents">{bid.bid}</div>
       <div class="button">
         <button
           on:click={() => {
-            handleClear(bid.pet);
+            alert('Link this please!')
           }}>
           Accept
         </button>
