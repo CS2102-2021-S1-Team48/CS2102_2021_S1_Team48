@@ -137,7 +137,7 @@
 {#if showModal}
 	<Modal on:close={() => (showModal = false)}>
 		<h2 slot="header">Availability : New Availability</h2>
-		<AddAvailabilityForm />
+		<AddAvailabilityForm closeHandler={toggle}/>
 	</Modal>
 {/if}
 
