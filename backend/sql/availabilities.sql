@@ -33,33 +33,36 @@ FOR EACH ROW EXECUTE PROCEDURE checkBasePrice();
 
 -- Drop availabilities table
 -- DEL  /availabilities/droptable , dropAvailabilitiesTable
-
+DROP TABLE availabilities;
 
 
 -- Add a new availability for a specific caretaker into the table
 -- POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100 , postAvailability
-
+INSERT INTO availabilities VALUES ('2020-10-29', '2020-10-30', 'dog', 100, 'johndoe99');
 
 
 
 -- Get all availabilities in the table
 -- GET /availabilities , getAllAvailabilities
+SELECT * FROM availabilities;
 
 
 
 
 -- Get all availabilities of a specific caretaker and/or a specific pet type in the table.
 -- GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
-
+SELECT * FROM availabilities WHERE username_caretaker = 'johndoe99';
+SELECT * FROM availabilities WHERE pettype = 'cat';
+SELECT * FROM availabilities WHERE username_caretaker = 'johndoe99' AND pettype = 'cat';
 
 
 
 -- Edit a specific availability of the caretaker in the table
 -- PATCH /availabilities/:startdate/:enddate/:pettype?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
-
+UPDATE availabilities SET startdate = '01-07-2020', enddate = '01-08-2020', price = 0 WHERE username_caretaker = 'johndoe99' AND startdate = '2020-10-29' AND enddate = '2020-10-30';
 
 
 
 -- Delete a specific availability of the caretaker in the table
 -- DEL /availabilities/:startdate/:enddate/:pettype , deleteAvailability
-
+DELETE FROM availabilities WHERE username_caretaker = 'johndoe99' AND startdate = '2020-01-07' AND enddate = '2020-01-08';
