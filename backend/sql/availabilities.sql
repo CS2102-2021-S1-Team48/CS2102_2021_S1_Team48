@@ -13,6 +13,7 @@ CREATE TABLE availabilities (
 -- Trigger 
 -- Before inserting availability into the table, check that the price specificed by the caretaker is not lower than what is specificed in the base daily prices table
 -- Note the single quote in line 17 and 25 can be replaced with $$ (Used single quote because db-fiddle cannot do multiline $$ quote)
+-- If replacing with $$, then have to scan function body for string literals
 CREATE OR REPLACE FUNCTION checkBasePrice() RETURNS TRIGGER AS 
 ' DECLARE 
     basePrice NUMERIC; rating NUMERIC; 
