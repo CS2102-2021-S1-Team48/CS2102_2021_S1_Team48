@@ -14,13 +14,6 @@ const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice,
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
 
-
-
-
-
-
-
-
 const router = new Router();
 
 router.get('/hello', sayHello);

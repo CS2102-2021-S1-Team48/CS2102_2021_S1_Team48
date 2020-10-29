@@ -58,6 +58,16 @@ async function getBaseDailyPrices(ctx) {
 // PATCH /basedailyprices/:pettype/:minrating?amount=3
 // PATCH api at router
 async function editBaseDailyPrice(ctx) {
+    
+    // traditional way
+    const pettype = ctx.params.pettype;
+    const minrating = ctx.params.minrating;
+    const amount = ctx.query.amount;
+
+    // js way. destructuring an object
+    const { pettype, minrating } = ctx.params;
+    const { amount } = ctx.query;
+
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
