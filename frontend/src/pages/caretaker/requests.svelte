@@ -100,7 +100,9 @@
           </div>
         </div>
       </div>
-      <div class="contents">{bid.pet}</div>
+      <div class="contents">
+        <div style="margin:auto">{bid.pet}</div>
+      </div>
       <div class="contents">
         <div class="subDescription">
           <div>{bid.type}</div>
@@ -111,14 +113,18 @@
       </div>
       <div class="contents">{bid.from}</div>
       <div class="contents">{bid.to}</div>
-      <div class="contents">{bid.bid}</div>
+      <div class="contents">
+        <div style="margin:auto">{bid.bid}</div>
+      </div>
       <div class="button">
-        <button
-          on:click={() => {
-            alert('Link this please!')
-          }}>
-          Accept
-        </button>
+        <div style="margin:auto">
+          <button
+            on:click={() => {
+              alert('Link this please!');
+            }}>
+            Accept
+          </button>
+        </div>
       </div>
     </div>
   {/each}
