@@ -19,4 +19,4 @@ UPDATE admins SET username = 'janedoe99' WHERE username = 'johndoe99';
 
 -- Change the username of an existing admin
 -- PATCH /admins/changepassword/:newpassword , changeAdminPassword
-UPDATE admins SET password = 'qwerty' WHERE username = 'janedoe99';
+UPDATE admins SET pw = 'qwerty' WHERE username = 'janedoe99';
