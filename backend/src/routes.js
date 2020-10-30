@@ -92,7 +92,7 @@ router.del('/availabilities/:startdate/:enddate/:pettype', deleteAvailability);
 router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
 router.del('/basedailyprices/droptable', dropBaseDailyPricesTable);
 router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
-router.get('basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
+router.get('/basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
 router.patch('/basedailyprices/:pettype/:minrating', editBaseDailyPrice); // PATCH /basedailyprices/:pettype/:minrating?amount=3
 router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
 
