@@ -26,10 +26,12 @@ async function dropUsersTable(ctx) {
     }
 }
 
+// POST /users?username=johndoe99&password=password1
 // POST api at router
 async function createUser(ctx) {
+    const { username, password } = ctx.query;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `INSERT INTO users VALUES ('${username}', '${password}')`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -40,9 +42,14 @@ async function createUser(ctx) {
 }
 
 // PATCH api at router
+// Same issue, need the current username to test, so I will use query param to simulate the current user
+// I.e. changeusername/newusername?oldusername=123
 async function changeUsername(ctx) {
+    const newUsername = ctx.params.newusername;
+
+    const oldUsername = ctx.query.oldusername;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE users SET username = '${newUsername}' WHERE username = '${oldUsername}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -53,9 +60,14 @@ async function changeUsername(ctx) {
 }
 
 // PATCH api at router
+// Same issue, need the current username to test, so I will use query param to simulate the current user
+// I.e. changepassword/newpassword?username=123
 async function changePassword(ctx) {
+    const newPassword = ctx.params.newpassword;
+
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE users SET pw = '${newPassword}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
