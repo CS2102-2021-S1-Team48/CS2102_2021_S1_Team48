@@ -33,6 +33,10 @@ async function createUser(ctx) {
     try {
         const sqlQuery = `INSERT INTO users VALUES ('${username}', '${password}')`;
         await pool.query(sqlQuery);
+
+        const insertIntoPetowners = `INSERT INTO petowners VALUES ('${username}')`;
+        await pool.query(insertIntoPetowners);
+
         ctx.body = 'success';
     } catch (e) {
         console.log(e);
