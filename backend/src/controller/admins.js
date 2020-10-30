@@ -27,9 +27,11 @@ async function dropAdminsTable(ctx) {
 }
 
 // POST api at router
+// POST /admins?username=johndoe99&password=password1 , createAdmin
 async function createAdmin(ctx) {
+    const { username, password } = ctx.query;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -40,9 +42,13 @@ async function createAdmin(ctx) {
 }
 
 // PATCH api at router
+// PATCH /admins/changeusername/:newusername , changeAdminUsername
+// NOTE: to test have to oldusername. I added a query parameter for old username i.e. :newusername?oldusername=1234. Remove when using cookies
 async function changeAdminUsername(ctx) {
+    const newUsername = ctx.params.newusername;
+    const oldUsername = ctx.query.oldusername;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE admins SET username = '${newUsername}' WHERE username = '${oldUsername}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -53,9 +59,13 @@ async function changeAdminUsername(ctx) {
 }
 
 // PATCH api at router
+// PATCH /admins/changepassword/:newpassword , changeAdminPassword
+// Same issue with username, see comment above
 async function changeAdminPassword(ctx) {
+    const newPassword = ctx.params.newpassword;
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE admins SET pw = '${newPassword}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {

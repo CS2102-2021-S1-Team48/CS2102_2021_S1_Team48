@@ -60,13 +60,13 @@ async function getBaseDailyPrices(ctx) {
 async function editBaseDailyPrice(ctx) {
     
     // traditional way
-    const pettype = ctx.params.pettype;
-    const minrating = ctx.params.minrating;
-    const amount = ctx.query.amount;
+    // const pettype = ctx.params.pettype;
+    // const minrating = ctx.params.minrating;
+    // const amount = ctx.query.amount;
 
     // js way. destructuring an object
-    const { pettype, minrating } = ctx.params;
-    const { amount } = ctx.query;
+    // const { pettype, minrating } = ctx.params;
+    // const { amount } = ctx.query;
 
     try {
         const sqlQuery = '';
