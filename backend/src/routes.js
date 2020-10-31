@@ -9,7 +9,7 @@ const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername, ch
 const { createCreditCardsTable, dropCreditCardsTable, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
 const { createOwnsTable, dropOwnsTable } = require('./controller/owns');
 const { createPetsTable, dropPetsTable, addPet, getPet, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
-const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, getAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
+const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
 
@@ -85,7 +85,8 @@ router.del('/pets/:petname', deletePetByPetname);
 router.post('/availabilities/createtable', createAvailabilitiesTable);
 router.del('/availabilities/droptable', dropAvailabilitiesTable);
 router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
-router.get('/availabilities', getAvailabilities); // GET /availabilities?usernamect=john&pettype=cat // If there is nothing after the ? then it should get all availabilities.
+router.get('/availabilities', getAllAvailabilities); 
+router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
 router.patch('/availabilities/:startdate/:enddate/:pettype', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=01072020&enddate=19032020&pettype=dog&price=100
 router.del('/availabilities/:startdate/:enddate/:pettype', deleteAvailability); 
 
