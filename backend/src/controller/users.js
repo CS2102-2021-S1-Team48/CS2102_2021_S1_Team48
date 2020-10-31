@@ -37,6 +37,9 @@ async function createUser(ctx) {
         const insertIntoPetowners = `INSERT INTO petowners VALUES ('${username}')`;
         await pool.query(insertIntoPetowners);
 
+        const insertIntoCaretakers = `INSERT INTO caretakers VALUES ('${username}')`;
+        await pool.query(insertIntoCaretakers);
+
         ctx.body = 'success';
     } catch (e) {
         console.log(e);
