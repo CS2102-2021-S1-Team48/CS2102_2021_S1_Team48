@@ -4,7 +4,7 @@ const { createUsersTable, dropUsersTable, createUser, changeUsername, changePass
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
-const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, getCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
+const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
 const { createCreditCardsTable, dropCreditCardsTable, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
 const { createOwnsTable, dropOwnsTable } = require('./controller/owns');
@@ -47,6 +47,7 @@ router.del('/caretakers/droptable', dropCaretakersFtTable);
 router.get('/caretakersft', getCaretakerFtInfo);
 router.post('/caretakersft', switchCaretakerPtToFt);
 router.get('/caretakersft', getCaretakerFtInfo);
+router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
 router.patch('/caretakersft/startdate1/:startdate1', editStartDate1);
 router.patch('/caretakersft/enddate1/:enddate1', editEndDate1);
 router.patch('/caretakersft/startdate2/:startdate2', editStartDate2);
