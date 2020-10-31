@@ -76,9 +76,9 @@ router.post('/pets/createtable', createPetsTable);
 router.del('/pets/droptable', dropPetsTable);
 router.post('/pets', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
 router.get('/pets', getPet);
-router.get('/pets:petname', getPetByPetname);
+router.get('/pets/:petname', getPetByPetname);
 router.patch('/pets/:petname', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
-router.del('/pet/:petname', deletePetByPetname);
+router.del('/pets/:petname', deletePetByPetname);
 
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
