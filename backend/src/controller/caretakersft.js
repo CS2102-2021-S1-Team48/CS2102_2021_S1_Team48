@@ -77,9 +77,14 @@ async function getSpecificCaretakerFtInfo(ctx) {
 }
 
 // PATCH api at router
+// /caretakersft/startdate1/:startdate1
+// Same issue need the username, temporary solution will be to use query param
 async function editStartDate1(ctx) {
+    const startdate1 = ctx.params.startdate1;
+
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE caretakers_ft SET startdate1 = '${startdate1}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -90,9 +95,14 @@ async function editStartDate1(ctx) {
 }
 
 // PATCH api at router
+// /caretakersft/enddate1/:enddate1
+// Same issue need the username, temporary solution will be to use query param
 async function editEndDate1(ctx) {
+    const enddate1 = ctx.params.enddate1;
+
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE caretakers_ft SET enddate1 = '${enddate1}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -103,9 +113,14 @@ async function editEndDate1(ctx) {
 }
 
 // PATCH api at router
+// /caretakersft/startdate2/:startdate2
+// Same issue need the username, temporary solution will be to use query param
 async function editStartDate2(ctx) {
+    const startdate2 = ctx.params.startdate2;
+
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE caretakers_ft SET startdate2 = '${startdate2}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
@@ -116,9 +131,14 @@ async function editStartDate2(ctx) {
 }
 
 // PATCH api at router
+// /caretakersft/enddate2/:enddate2
+// Same issue need the username, temporary solution will be to use query param
 async function editEndDate2(ctx) {
+    const enddate2 = ctx.params.enddate2;
+
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
+        const sqlQuery = `UPDATE caretakers_ft SET enddate2 = '${enddate2}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = 'success';
     } catch (e) {
