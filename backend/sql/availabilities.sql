@@ -65,4 +65,4 @@ UPDATE availabilities SET startdate = '01-07-2020', enddate = '01-08-2020', pric
 
 -- Delete a specific availability of the caretaker in the table
 -- DEL /availabilities/:startdate/:enddate/:pettype , deleteAvailability
-DELETE FROM availabilities WHERE username_caretaker = 'johndoe99' AND startdate = '2020-01-07' AND enddate = '2020-01-08';
+DELETE FROM availabilities WHERE username_caretaker = 'johndoe99' AND startdate = '2020-01-07' AND enddate = '2020-01-08' AND pettype = 'dog';
