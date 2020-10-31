@@ -3,8 +3,8 @@
 CREATE TABLE caretakers (
     username varchar(20) PRIMARY KEY,
     petdays INTEGER DEFAULT 0,
-    rating NUMERIC DEFAULT NULL,
-    petlimit INTEGER,
+    rating INTEGER DEFAULT 3,
+    petlimit INTEGER DEFAULT 3,
 
     FOREIGN KEY(username) REFERENCES users(username)
 	ON DELETE CASCADE
