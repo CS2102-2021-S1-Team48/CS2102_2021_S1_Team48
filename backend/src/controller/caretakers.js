@@ -29,9 +29,10 @@ async function dropCaretakersTable(ctx) {
 // GET api at router
 async function getAllCaretakers(ctx) {
     try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
+        const sqlQuery = 'SELECT * FROM caretakers';
+        const resultObject = await pool.query(sqlQuery);
         ctx.body = 'success';
+        console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
@@ -41,10 +42,12 @@ async function getAllCaretakers(ctx) {
 
 // GET api at router
 async function getCaretakerByUsername(ctx) {
+    const username = ctx.params.usernamect;
     try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
+        const sqlQuery = `SELECT * FROM caretakers WHERE username = '${username}'`;
+        const resultObject = await pool.query(sqlQuery);
         ctx.body = 'success';
+        console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
