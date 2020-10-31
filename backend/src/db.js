@@ -10,7 +10,7 @@ const pool = new Pool({
     user: 'postgres',
     host: 'petdb.cluuodrt5y8f.ap-southeast-1.rds.amazonaws.com',
     database: 'postgres',
-    password: 'postgres',
+    password: 'petdbrds123',
     port: 5432,
 });
 
