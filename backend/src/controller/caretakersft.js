@@ -27,10 +27,18 @@ async function dropCaretakersFtTable(ctx) {
 }
 
 // POST api at router
+// Same issue need the username, temporary solution will be to use query param
+// Additionally api document missing startdate and enddate (I have added in already). Will use query param as well.
 async function switchCaretakerPtToFt(ctx) {
+    const { startdate1, enddate1, startdate2, enddate2 } = ctx.query;
+
+    const username = ctx.query.username;
     try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
+        // Should we be using trigger to delete so that we can guarantee atomicity?
+        //const deleteFromCaretakersPt = `DELETE FROM caretakers_pt WHERE username = '${username}'`;
+        //await pool.query(deleteFromCaretakersPt);
+        const insertIntoCaretakersFt = `INSERT INTO caretakers_ft VALUES ('${username}', '${startdate1}', '${enddate1}', '${startdate2}', '${enddate2}')`;
+        await pool.query(insertIntoCaretakersFt);
         ctx.body = 'success';
     } catch (e) {
         console.log(e);
