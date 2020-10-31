@@ -1,5 +1,7 @@
 const pool = require('../db');
 
+// On thinking further, what is this table used for?
+
 // POST api at router
 async function createCreditCardsTable(ctx) {
     try {
