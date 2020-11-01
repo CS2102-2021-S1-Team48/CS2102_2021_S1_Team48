@@ -1,6 +1,13 @@
 <script>
   import PickTransfer from "../../PickTransfer.svelte";
   import PickTransferForm from "../../PickTransferForm.svelte";
+  import { account } from "../../user.js";
+
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
 
   let showModal = false;
 

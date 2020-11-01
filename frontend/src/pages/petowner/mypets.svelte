@@ -1,6 +1,13 @@
 <script>
   import Addpets from "../../Addpets.svelte";
   import AddPetsForm from "../../AddPetsForm.svelte";
+  import { account } from "../../user.js";
+
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
 
   let showModal = false;
 

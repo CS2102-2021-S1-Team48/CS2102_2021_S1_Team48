@@ -1,5 +1,12 @@
 <script>
   import SearchCaretaker from "../../SearchCaretaker.svelte";
+  import { account } from "../../user.js";
+
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
 
   let yourbid;
 
