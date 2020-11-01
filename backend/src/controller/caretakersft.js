@@ -39,6 +39,8 @@ async function switchCaretakerPtToFt(ctx) {
         await pool.query(deleteFromCaretakersPt);
         const insertIntoCaretakersFt = `INSERT INTO caretakers_ft VALUES ('${username}', '${startdate1}', '${enddate1}', '${startdate2}', '${enddate2}')`;
         await pool.query(insertIntoCaretakersFt);
+        const updatePetLimit = `UPDATE caretakers SET petlimit = 5 WHERE username = '${username}'`;
+        await pool.query(updatePetLimit);
         ctx.body = 'success';
     } catch (e) {
         console.log(e);
