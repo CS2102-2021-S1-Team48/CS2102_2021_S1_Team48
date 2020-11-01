@@ -1,20 +1,23 @@
 <script>
   import { Router } from "@sveltech/routify";
   import { routes } from "@sveltech/routify/tmp/routes";
+  import { account } from "./user.js";
 
-  // for logins:
+  // init
   let userObject = null;
   const userbase = window.userbase;
   let authPromise = userbase
     .init({ appId: "bf57ab82-a8b7-444b-adbe-95e4f5038522" })
     .then(({ user }) => (userObject = user));
 
+  //auth
   let username, password;
 
   const signIn = () => {
     authPromise = userbase
       .signIn({ username, password })
       .then((user) => (userObject = user));
+    account.set(username);
   };
 
   const signUp = () => (authPromise = userbase.signUp({ username, password }));

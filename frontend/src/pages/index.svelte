@@ -1,3 +1,15 @@
+<script>
+  import { account } from "../user.js";
+
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
+
+  console.log("current username is: " + username);
+</script>
+
 <style>
   h1,
   h3 {
@@ -5,7 +17,7 @@
   }
 </style>
 
-<h1>Welcome back USER</h1>
+<h1>Welcome back {username}</h1>
 
 <h3>Click on the Pet Owner tab to manage your pets.</h3>
 
