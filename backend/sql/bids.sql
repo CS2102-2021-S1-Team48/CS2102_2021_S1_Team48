@@ -31,7 +31,7 @@ FOR EACH ROW EXECUTE PROCEDURE checkFullTime();
 
 -- TRIGGER BEFORE UPDATE IF ACCEPTED = TRUE -> CHECK IF CARETAKER IS PARTIMER. IF PARTIMER CHECK PETLIMIT AND HOW MANY PETS IS UNDER HIS CARE IN THE BIDS TABLE
 CREATE OR REPLACE FUNCTION checkPartTime() RETURNS TRIGGER AS 
-' BEGIN IF NEW.accepted = False THEN NEW.accepted = False; ELSIF (SELECT petlimit FROM caretakers c WHERE NEW.username_caretaker = c.username) > (SELECT COUNT(*) FROM bids WHERE startdate = NEW.startdate AND enddate = NEW.enddate AND accepted = True AND username_caretaker = NEW.username_caretaker) THEN NEW.accepted = True; ELSE raise EXCEPTION ''pet limit reached''; END IF; RETURN NEW; END; ' 
+' BEGIN IF NEW.accepted = False THEN NEW.accepted = False; ELSEIF OLD.accepted = NEW.accepted THEN OLD.accepted = NEW.accepted; ELSIF (SELECT petlimit FROM caretakers c WHERE NEW.username_caretaker = c.username) > (SELECT COUNT(*) FROM bids WHERE startdate = NEW.startdate AND enddate = NEW.enddate AND accepted = True AND username_caretaker = NEW.username_caretaker) THEN NEW.accepted = True; ELSE raise EXCEPTION ''pet limit reached''; END IF; RETURN NEW; END; ' 
 LANGUAGE plpgsql;
 
 CREATE TRIGGER updateBids
