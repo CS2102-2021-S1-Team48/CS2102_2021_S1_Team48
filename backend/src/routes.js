@@ -11,7 +11,7 @@ const { createOwnsTable, dropOwnsTable } = require('./controller/owns');
 const { createPetsTable, dropPetsTable, addPet, getPet, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
-const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, deleteBid } = require('./controller/bids');
+const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
 
 
 const router = new Router();
@@ -105,9 +105,10 @@ router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod
 router.get('/bids/accepted', getAcceptedBids); 
 router.get('/bids/unaccepted', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
-router.get('bids/review/:usernamect', getReviewsOfCaretaker);
+router.get('/bids/review/:usernamect', getReviewsOfCaretaker);
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
+router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating
 router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate' , deleteBid);
 
 /* deprecated routes
