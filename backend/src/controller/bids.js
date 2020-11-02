@@ -107,7 +107,7 @@ async function getReviewsOfCaretaker(ctx) {
     try {
         const sqlQuery = `SELECT * FROM bids WHERE username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
-        const row = resultobject.rows;
+        const rows = resultobject.rows;
         console.table(rows);
         ctx.body = {
             'reviews': rows
@@ -178,7 +178,7 @@ async function deleteBid(ctx) {
         const sqlQuery = `DELETE FROM bids WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
+            'success': 'True!'
         };
     } catch (e) {
         console.log(e);
