@@ -1,5 +1,5 @@
 /* Creates fulltimers table */
-
+-- table name caretakers_ft
 CREATE TABLE fulltimers (
     username VARCHAR(20) PRIMARY KEY REFERENCES caretakers(username)
 	     ON DELETE CASCADE

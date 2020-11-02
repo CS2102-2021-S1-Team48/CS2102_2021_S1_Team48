@@ -1,13 +1,15 @@
 /* Creates availability table */
 
+-- table availabilities
 CREATE TABLE availability (
     username VARCHAR(20) REFERENCES caretakers(username)
 	     ON DELETE CASCADE
 	     ON UPDATE CASCADE,
     start_date DATE,
     end_date DATE,
-    pet_type VARCHAR(40),
-    quantity INTEGER DEFAULT 1,
+    pet_type VARCHAR(40), 
+    quantity INTEGER DEFAULT 1, -- No quantity in original table
+    -- Price attribute in original
 	
     PRIMARY KEY(username, start_date, end_date, pet_type)
 );

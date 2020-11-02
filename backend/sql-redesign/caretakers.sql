@@ -6,6 +6,8 @@ CREATE TABLE caretakers (
 	     ON UPDATE CASCADE,
     petLimit INTEGER      NOT NULL,
     rating   NUMERIC(4,2) DEFAULT 0,
+    -- original table have petdays
+    -- original table dont have this check
 
 	
     CHECK (

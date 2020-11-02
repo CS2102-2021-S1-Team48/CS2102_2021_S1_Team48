@@ -7,10 +7,10 @@ CREATE TABLE bids (
     caretaker       VARCHAR(20),
     start_date      DATE,
     end_date        DATE,
-    quantity        INTEGER,
+    quantity        INTEGER, -- dont have quantity in the original table
     payment_method  VARCHAR(20) NOT NULL,
     transfer_method VARCHAR(20) NOT NULL,
-    bid_price       MONEY       NOT NULL,
+    bid_price       MONEY       NOT NULL, -- dont have bid_price in the original table
     isAccepted      BOOLEAN     NOT NULL,
     rating          INTEGER,
     review          VARCHAR(100),
