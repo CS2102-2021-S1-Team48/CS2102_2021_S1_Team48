@@ -54,16 +54,15 @@ async function createUser(ctx) {
 }
 
 // PATCH api at router
-// Same issue, need the current username to test, so I will use query param to simulate the current user
-// I.e. changeusername/newusername?oldusername=123
 async function changeUsername(ctx) {
-    const newUsername = ctx.params.newusername;
+    const { username, newusername } = ctx.params;
 
-    const oldUsername = ctx.query.oldusername;
     try {
-        const sqlQuery = `UPDATE users SET username = '${newUsername}' WHERE username = '${oldUsername}'`;
+        const sqlQuery = `UPDATE users SET username = '${newusername}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'newusername': newusername
+        };
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
