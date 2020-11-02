@@ -55,8 +55,6 @@ router.patch('/pets/:petname', editPetDetails); // PATCH /pets/:petname?petname=
 router.del('/pets/:petname', deletePetByPetname);
 
 // availabilities
-router.post('/availabilities/createtable', createAvailabilitiesTable);
-router.del('/availabilities/droptable', dropAvailabilitiesTable);
 router.post('/availabilities/:usernamect' , postAvailability); // POST /availabilities?startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities); 
 router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
@@ -64,7 +62,7 @@ router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAva
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
 // basedailyprices
-router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
+router.post('/basedailyprices/:adminusername', addBaseDailyPrice); // POST /basedailyprices/:adminusername?amount=123&pettype=dog&minrating=3
 router.get('/basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
 router.patch('/basedailyprices/:pettype/:minrating', editBaseDailyPrice); // PATCH /basedailyprices/:pettype/:minrating?amount=3
 router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
