@@ -8,7 +8,6 @@ async function createBidsTable(ctx) {
         ctx.body = 'success';
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -21,25 +20,32 @@ async function dropBidsTable(ctx) {
         ctx.body = 'success';
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
 
 // POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
 // POST api at router
-// Same issue, need petowner username. Temp solution is to use query param for petowner username
 async function addBid(ctx) {
     const { transfermethod, paymentmethod, petname, username_caretaker, startdate, enddate, pettype } = ctx.query;
 
-    const username_petowner = ctx.query.username_petowner;
+    const usernamepo = ctx.params.usernamepo;
     try {
-        const sqlQuery = `INSERT INTO bids VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${username_petowner}', '${username_caretaker}', '${startdate}', '${enddate}', '${pettype}')`;
+        const sqlQuery = `INSERT INTO bids VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${username_caretaker}', '${startdate}', '${enddate}', '${pettype}')`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success' : 'True!',
+            'usernamepo': usernamepo,
+            'transfermethod': transfermethod,
+            'paymentmethod': paymentmethod,
+            'petname': petname,
+            'username_caretaker': username_caretaker,
+            'startdate': startdate,
+            'enddate': enddate,
+            'pettype': pettype
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -49,11 +55,13 @@ async function getAcceptedBids(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM bids WHERE accepted = True';
         const resultobject = await pool.query(sqlQuery);
-        console.table(resultobject.rows);
-        ctx.body = 'success';
+        const rows = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'acceptedbids': rows
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -62,12 +70,14 @@ async function getAcceptedBids(ctx) {
 async function getUnacceptedBids(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM bids WHERE accepted = False';
-        const resultobeject = await pool.query(sqlQuery);
-        console.table(resultobeject.rows);
-        ctx.body = 'success';
+        const resultobject = await pool.query(sqlQuery);
+        const rows = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'unacceptedbids': rows
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -79,11 +89,13 @@ async function getBids(ctx) {
     try {
         const sqlQuery = `SELECT * FROM bids WHERE petname = '${petname}' AND username_caretaker = '${usernamect}' AND username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
-        console.table(resultobject.rows);
-        ctx.body = 'success';
+        const rows = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'bids': rows
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -95,11 +107,13 @@ async function getReviewsOfCaretaker(ctx) {
     try {
         const sqlQuery = `SELECT * FROM bids WHERE username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
-        console.table(resultobject.rows);
-        ctx.body = 'success';
+        const row = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'reviews': rows
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -111,10 +125,11 @@ async function acceptBid(ctx) {
     try {
         const sqlQuery = `UPDATE bids SET accepted = True WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -126,10 +141,11 @@ async function undoAcceptBid(ctx) {
     try {
         const sqlQuery = `UPDATE bids SET accepted = False WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -143,10 +159,13 @@ async function submitReviewAndRating(ctx) {
     try {
         const sqlQuery = `UPDATE bids SET rating = ${rating}, review = '${review}' WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!',
+            'rating': rating,
+            'review': review
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -158,10 +177,11 @@ async function deleteBid(ctx) {
     try {
         const sqlQuery = `DELETE FROM bids WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!',
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }

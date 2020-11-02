@@ -38,6 +38,7 @@ async function postAvailability(ctx) {
         const sqlQuery = `INSERT INTO availabilities VALUES ('${startdate}', '${enddate}', '${pettype}', ${price}, '${usernamect}')`;
         await pool.query(sqlQuery);
         ctx.body = {
+            'success': 'True!',
             'usernamect': usernamect,
             'startdate': startdate,
             'enddate': enddate,
@@ -126,6 +127,7 @@ async function editAvailability(ctx) {
             console.log(sqlQuery);
             await pool.query(sqlQuery);
             ctx.body = {
+                'success': 'True!',
                 'price': price
             };
 
@@ -133,6 +135,7 @@ async function editAvailability(ctx) {
             const sqlQuery = `UPDATE availabilities SET pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
+                'success': 'True!',
                 'pettype': pettype
             };
 
@@ -140,6 +143,7 @@ async function editAvailability(ctx) {
             const sqlQuery = `UPDATE availabilities SET price = ${price}, pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
+                'success': 'True!',
                 'price': price,
                 'pettype': pettype
 
@@ -149,6 +153,7 @@ async function editAvailability(ctx) {
             const sqlQuery = `UPDATE availabilities SET price = ${price}, pettype = '${pettype}', enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
+                'success': 'True!',
                 'price': price,
                 'pettype': pettype,
                 'enddate': enddate
@@ -158,6 +163,7 @@ async function editAvailability(ctx) {
             const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}', price = ${price}, pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
+                'success': 'True!',
                 'price': price,
                 'pettype': pettype,
                 'startdate': startdate
@@ -167,6 +173,7 @@ async function editAvailability(ctx) {
             const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}', enddate = '${enddate}', price = ${price}, pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
+                'success': 'True!',
                 'price': price,
                 'pettype': pettype,
                 'startdate': startdate,
@@ -189,6 +196,7 @@ async function deleteAvailability(ctx) {
         const sqlQuery = `DELETE FROM availabilities WHERE username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}' AND pettype = '${pettype}'`;
         await pool.query(sqlQuery);
         ctx.body = {
+            'success': 'True!',
             'usernamect': usernamect,
             'pettype': pettype,
             'startdate': startdate,

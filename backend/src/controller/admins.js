@@ -6,7 +6,7 @@ async function createAdminsTable(ctx) {
         const sqlQuery = '';
         await pool.query(sqlQuery);
         ctx.body = {
-            'Success' : 'True!'
+            'success' : 'True!'
         };
     } catch (e) {
         console.log(e);
@@ -20,7 +20,7 @@ async function dropAdminsTable(ctx) {
         const sqlQuery = '';
         await pool.query(sqlQuery);
         ctx.body = {
-            'Success' : 'True!'
+            'success' : 'True!'
         };
     } catch (e) {
         console.log(e);
@@ -36,7 +36,7 @@ async function createAdmin(ctx) {
         const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'Success' : 'True!',
+            'success' : 'True!',
             'username' : username,
             'password' : password
         };
@@ -54,6 +54,7 @@ async function changeAdminUsername(ctx) {
         const sqlQuery = `UPDATE admins SET username = '${newusername}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = {
+            'success': 'True!',
             'username' : newusername
         };
     } catch (e) {
@@ -71,6 +72,7 @@ async function changeAdminPassword(ctx) {
         const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username} AND pw = ${password}'`;
         await pool.query(sqlQuery);
         ctx.body = {
+            'success': 'True!',
             'newpassword' : newpassword
         };
     } catch (e) {
