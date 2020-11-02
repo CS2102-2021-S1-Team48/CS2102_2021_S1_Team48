@@ -53,7 +53,7 @@ async function addPet(ctx) {
 }
 
 // GET api at router
-async function getPet(ctx) {
+async function getPets(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM pets';
         const resultObject = await pool.query(sqlQuery);
@@ -171,7 +171,7 @@ module.exports = {
     dropPetsTable,
     addPet,
     getPetByUsername,
-    getPet,
+    getPets,
     getPetByPetname,
     editPetDetails,
     deletePetByPetname
