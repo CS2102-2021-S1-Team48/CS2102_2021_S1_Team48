@@ -5,10 +5,11 @@ async function createUsersTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'Success' : 'True!' 
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -18,10 +19,11 @@ async function dropUsersTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'Success' : 'True!' 
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -48,7 +50,6 @@ async function createUser(ctx) {
         };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -70,6 +71,7 @@ async function changeUsername(ctx) {
 }
 
 // PATCH api at router
+// TODO: Set trigger such that if WHERE clause password supplied is not the same as the old password, then fail
 async function changePassword(ctx) {
     const { username, password, newpassword } = ctx.params;
 

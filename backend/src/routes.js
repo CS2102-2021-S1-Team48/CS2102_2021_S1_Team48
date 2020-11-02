@@ -39,8 +39,8 @@ router.patch('/caretakersft/enddate2/:enddate2', editEndDate2);
 
 // admins
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
-router.patch('/admins/changeusername/:newusername', changeAdminUsername);
-router.patch('/admins/changepassword/:newpassword', changeAdminPassword);
+router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
+router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 
 // creditcards
 router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=20281022
@@ -56,20 +56,20 @@ router.patch('/pets/:petname', editPetDetails); // PATCH /pets/:petname?petname=
 router.del('/pets/:petname', deletePetByPetname);
 
 // availabilities
-router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
+router.post('/availabilities/:usernamect' , postAvailability); // POST /availabilities?startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities); 
 router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
-router.patch('/availabilities/:startdate/:enddate/:pettype', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=01072020&enddate=19032020&pettype=dog&price=100
-router.del('/availabilities/:startdate/:enddate/:pettype', deleteAvailability); 
+router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=20201031&enddate=20201101&pettype=dog&price=100
+router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
 // basedailyprices
-router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
+router.post('/basedailyprices/:adminusername', addBaseDailyPrice); // POST /basedailyprices/:adminusername?amount=123&pettype=dog&minrating=3
 router.get('/basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
 router.patch('/basedailyprices/:pettype/:minrating', editBaseDailyPrice); // PATCH /basedailyprices/:pettype/:minrating?amount=3
 router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
 
 // bids
-router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020
+router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=20201231&enddate=20210101
 router.get('/bids/accepted', getAcceptedBids); 
 router.get('/bids/unaccepted', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids

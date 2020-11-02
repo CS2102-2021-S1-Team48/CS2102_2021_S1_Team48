@@ -5,10 +5,11 @@ async function createAdminsTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'Success' : 'True!'
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -18,10 +19,11 @@ async function dropAdminsTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'Success' : 'True!'
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -33,44 +35,46 @@ async function createAdmin(ctx) {
     try {
         const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'Success' : 'True!',
+            'username' : username,
+            'password' : password
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
 
 // PATCH api at router
-// PATCH /admins/changeusername/:newusername , changeAdminUsername
-// NOTE: to test have to oldusername. I added a query parameter for old username i.e. :newusername?oldusername=1234. Remove when using cookies
+// PATCH /admins/changeusername/:username/:newusername , changeAdminUsername
 async function changeAdminUsername(ctx) {
-    const newUsername = ctx.params.newusername;
-    const oldUsername = ctx.query.oldusername;
+    const { username, newusername } = ctx.param;
     try {
-        const sqlQuery = `UPDATE admins SET username = '${newUsername}' WHERE username = '${oldUsername}'`;
+        const sqlQuery = `UPDATE admins SET username = '${newusername}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'username' : newusername
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
 
 // PATCH api at router
-// PATCH /admins/changepassword/:newpassword , changeAdminPassword
-// Same issue with username, see comment above
+// PATCH /admins/changepassword/:username/:password/:newpassword , changeAdminPassword
+// TODO trigger for where clause password == old password
 async function changeAdminPassword(ctx) {
-    const newPassword = ctx.params.newpassword;
-    const username = ctx.query.username;
+    const { username, password, newpassword } = ctx.params;
     try {
-        const sqlQuery = `UPDATE admins SET pw = '${newPassword}' WHERE username = '${username}'`;
+        const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username} AND pw = ${password}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'newpassword' : newpassword
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
