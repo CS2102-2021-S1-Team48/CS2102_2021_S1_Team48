@@ -87,7 +87,6 @@ async function changePassword(ctx) {
     }
 }
 
-
 // POST api at router
 async function login(ctx) {
     const { username, password } = ctx.params;
