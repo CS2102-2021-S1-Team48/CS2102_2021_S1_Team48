@@ -16,6 +16,16 @@
     };
     dispatch("addPet", pet);
   };
+
+  let pettypes = [
+    "Husky",
+    "Corgi",
+    "Dinosaur",
+    "Duck",
+    "Swine",
+    "Dragon",
+    "Ant",
+  ];
 </script>
 
 <style>
@@ -33,11 +43,12 @@
 
 <form on:submit|preventDefault={handleSubmit}>
   <input class="short-input" type="text" placeholder="name" bind:value={name} />
-  <input
-    class="short-input"
-    type="text"
-    placeholder="category"
-    bind:value={category} />
+
+  <select class="short-input" id="paymentmethod" bind:value={category}>
+    {#each pettypes as type}
+      <option value={type}>{type}</option>
+    {/each}
+  </select>
   <input
     class="long-input"
     type="text"
