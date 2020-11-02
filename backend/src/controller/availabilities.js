@@ -50,11 +50,14 @@ async function getAllAvailabilities(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM availabilities';
         const resultObject = await pool.query(sqlQuery);
-        ctx.body = 'success';
-        console.table(resultObject.rows);
+        const rows = resultObject.rows;
+        console.table(rows);
+        console.log(rows[0]);
+        ctx.body = {
+
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
