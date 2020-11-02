@@ -5,7 +5,9 @@ async function createCaretakersTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -17,7 +19,9 @@ async function dropCaretakersTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -45,8 +49,10 @@ async function getCaretakerByUsername(ctx) {
     try {
         const sqlQuery = `SELECT * FROM caretakers WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
-        ctx.body = 'success';
-        console.table(resultObject.rows);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'caretakers': rows
+        };
     } catch (e) {
         console.log(e);
         ctx.status = 403;

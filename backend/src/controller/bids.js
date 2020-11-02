@@ -5,7 +5,9 @@ async function createBidsTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -17,7 +19,9 @@ async function dropBidsTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
         ctx.status = 403;
