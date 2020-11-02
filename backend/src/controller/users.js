@@ -43,7 +43,9 @@ async function createUser(ctx) {
         const insertIntoCaretakersPt = `INSERT INTO caretakers_pt VALUES ('${username}')`;
         await pool.query(insertIntoCaretakersPt);
 
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'true!'
+        };
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
