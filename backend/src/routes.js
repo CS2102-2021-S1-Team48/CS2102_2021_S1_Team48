@@ -54,27 +54,17 @@ router.patch('/caretakersft/startdate2/:startdate2', editStartDate2);
 router.patch('/caretakersft/enddate2/:enddate2', editEndDate2);
 
 // admins
-router.post('/admins/createtable', createAdminsTable);
-router.del('/admins/droptable', dropAdminsTable);
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
 router.patch('/admins/changeusername/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:newpassword', changeAdminPassword);
 
 // creditcards
-router.post('/creditcards/createtable', createCreditCardsTable);
-router.del('/creditcards/droptable', dropCreditCardsTable);
 router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=20281022
 router.get('/creditcards', getCreditCard);
 router.patch('/creditcards', changeCreditCard); // PATCH /creditcards?cardnum=456expiry=21072021
 router.del('/creditcards', removeCreditCard); // DEL /creditcards?cardnum=123
 
-// owns
-router.post('/owns/createtable', createOwnsTable);
-router.del('/owns/droptable', dropOwnsTable);
-
 // pets
-router.post('/pets/createtable', createPetsTable);
-router.del('/pets/droptable', dropPetsTable);
 router.post('/pets', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
 router.get('/pets', getPet);
 router.get('/pets/:petname', getPetByPetname);
@@ -82,8 +72,6 @@ router.patch('/pets/:petname', editPetDetails); // PATCH /pets/:petname?petname=
 router.del('/pets/:petname', deletePetByPetname);
 
 // availabilities
-router.post('/availabilities/createtable', createAvailabilitiesTable);
-router.del('/availabilities/droptable', dropAvailabilitiesTable);
 router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities); 
 router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
@@ -91,16 +79,12 @@ router.patch('/availabilities/:startdate/:enddate/:pettype', editAvailability); 
 router.del('/availabilities/:startdate/:enddate/:pettype', deleteAvailability); 
 
 // basedailyprices
-router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
-router.del('/basedailyprices/droptable', dropBaseDailyPricesTable);
 router.post('/basedailyprices', addBaseDailyPrice); // POST /basedailyprices?amount=123&pettype=dog&minrating=3
 router.get('/basedailyprices', getBaseDailyPrices); // GET /basedailyprices?pettype=cat&minrating=5 // If there is nothing after the ? then it should get all base daily prices.  
 router.patch('/basedailyprices/:pettype/:minrating', editBaseDailyPrice); // PATCH /basedailyprices/:pettype/:minrating?amount=3
 router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
 
 // bids
-router.post('/bids/createtable', createBidsTable);
-router.del('/bids/droptable', dropBidsTable);
 router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020
 router.get('/bids/accepted', getAcceptedBids); 
 router.get('/bids/unaccepted', getUnacceptedBids);
@@ -110,12 +94,5 @@ router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate'
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating
 router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate' , deleteBid);
-
-/* deprecated routes
-router.post('/createPetTable', createPetTable);
-router.post('/insertPetRow/:petname', insertPetRow);
-router.get('/readAllPetRows', readAllPetRows);
-router.del('/dropPetTable', dropPetTable);
-*/
 
 module.exports = router;
