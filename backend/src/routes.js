@@ -1,5 +1,5 @@
 const Router = require('koa-router');
-const sayHello = require('./controller/hello');
+const { sayHello, sayHelloes} = require('./controller/hello');
 const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
 const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
 const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
@@ -17,6 +17,7 @@ const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBi
 const router = new Router();
 
 router.get('/hello', sayHello);
+router.get('/helloes', sayHelloes);
 
 // routes categorised by controllers
 
