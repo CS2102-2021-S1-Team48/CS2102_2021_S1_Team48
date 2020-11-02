@@ -5,7 +5,7 @@ const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caret
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
 const { addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
-const { addPet, getPet, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
+const { addPet, getPet, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
@@ -45,15 +45,16 @@ router.patch('/admins/changepassword/:username/:password/:newpassword', changeAd
 // creditcards
 router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=20281022
 router.get('/creditcards', getCreditCard);
-router.patch('/creditcards', changeCreditCard); // PATCH /creditcards?cardnum=456expiry=21072021
+router.patch('/creditcards/:cardnum', changeCreditCard); // PATCH /creditcards/5182993812311?cardnum=456expiry=21072021
 router.del('/creditcards', removeCreditCard); // DEL /creditcards?cardnum=123
 
 // pets
-router.post('/pets', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
+router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
 router.get('/pets', getPet);
-router.get('/pets/:petname', getPetByPetname);
-router.patch('/pets/:petname', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
-router.del('/pets/:petname', deletePetByPetname);
+router.get('/pets/:usernamepo', getPetByUsername);
+router.get('/pets/:petname/:usernamepo', getPetByPetname);
+router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
+router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // availabilities
 router.post('/availabilities/:usernamect', postAvailability); // POST /availabilities?startdate=20200701&enddate=20200319&pettype=dog&price=100
