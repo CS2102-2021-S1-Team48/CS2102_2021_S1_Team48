@@ -7,10 +7,11 @@ async function createCreditCardsTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -20,10 +21,11 @@ async function dropCreditCardsTable(ctx) {
     try {
         const sqlQuery = '';
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'True!'
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -37,11 +39,10 @@ async function addCreditCard(ctx) {
         const sqlQuery = `INSERT INTO creditcards VALUES ('${cardnum}', '${expiry}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'sucess': 'true!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -51,41 +52,47 @@ async function getCreditCard(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM creditcards';
         const resultObject = await pool.query(sqlQuery);
-        ctx.body = 'success';
+        const rows = resultObject.rows;
+        ctx.body = {
+            'creditcards': rows
+        };
         console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
 
 // PATCH api at router
-// PATCH /creditcards?cardnum=456expiry=21072021 , changeCreditCard
-// Same issue, need the old credit card number to test. Will add a temprary query param ?currentcreditcardnum
+// PATCH /creditcards/92981238821?cardnum=456expiry=21072021 , changeCreditCard
 async function changeCreditCard(ctx) {
     const { cardnum, expiry } = ctx.query;
 
-    const currentCreditCardNum = ctx.query.currentcreditcardnum;
+    const currentcardnum = ctx.params.cardnum;
 
     // Assuming that at least 1 must be provided
     try {
         if (expiry === undefined) {
-            const sqlQuery = `UPDATE creditcards SET cardnum = '${cardnum}' WHERE cardnum = '${currentCreditCardNum}'`;
+            const sqlQuery = `UPDATE creditcards SET cardnum = '${cardnum}' WHERE cardnum = '${currentcardnum}'`;
             await pool.query(sqlQuery);
-            ctx.body = 'success';
+            ctx.body = {
+                'success': 'true!'
+            };
         } else if (cardnum === undefined) {
-            const sqlQuery = `UPDATE creditcards SET expiry = '${expiry}' WHERE cardnum = '${currentCreditCardNum}'`;
+            const sqlQuery = `UPDATE creditcards SET expiry = '${expiry}' WHERE cardnum = '${currentcardnum}'`;
             await pool.query(sqlQuery);
-            ctx.body = 'success';
+            ctx.body = {
+                'success': 'true!'
+            };
         } else {
-            const sqlQuery = `UPDATE creditcards SET cardnum = '${cardnum}', expiry = '${expiry}' WHERE cardnum = '${currentCreditCardNum}'`;
+            const sqlQuery = `UPDATE creditcards SET cardnum = '${cardnum}', expiry = '${expiry}' WHERE cardnum = '${currentcardnum}'`;
             await pool.query(sqlQuery);
-            ctx.body = 'success';
+            ctx.body = {
+                'success': 'true!'
+            };
         }
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
@@ -102,7 +109,6 @@ async function removeCreditCard(ctx) {
         };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
