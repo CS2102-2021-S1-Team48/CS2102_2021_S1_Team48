@@ -51,13 +51,6 @@ async function getAllAvailabilities(ctx) {
         const sqlQuery = 'SELECT * FROM availabilities';
         const resultObject = await pool.query(sqlQuery);
         ctx.body = 'success';
-        
-        // There is a bug where the PGadmin database show the correct date but when returned below,
-        // the date is different. The error seems to be due to the different handling of time-zone
-        // during parsing from string and converting the Date-object back to string. 
-        // See: https://github.com/brianc/node-postgres/issues/818
-        // This bug holds true for any query that returns a date string (i.e. it is in bids as well)
-        // The documented fix is in the link above but I'm not sure if I understand fully how to do it as it requires some imports
         console.table(resultObject.rows);
     } catch (e) {
         console.log(e);

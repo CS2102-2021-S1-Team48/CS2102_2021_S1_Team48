@@ -49,11 +49,6 @@ async function getAcceptedBids(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM bids WHERE accepted = True';
         const resultobject = await pool.query(sqlQuery);
-
-        // Documented bug here, PGadmin shows the correct date but when returned below,
-        // it will show a different date probably due to timezone conversion
-        // See availabilities.js line 55
-        // This holds true for any return type that is of date.
         console.table(resultobject.rows);
         ctx.body = 'success';
     } catch (e) {
