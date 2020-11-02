@@ -53,9 +53,9 @@ async function switchCaretakerPtToFt(ctx) {
 async function getCaretakerFtInfo(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM caretakers_ft';
-        const resultObeject = await pool.query(sqlQuery);
+        const resultObject = await pool.query(sqlQuery);
         ctx.body = 'success';
-        console.table(resultObeject.rows);
+        console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
@@ -68,9 +68,9 @@ async function getSpecificCaretakerFtInfo(ctx) {
     const usernamect = ctx.params.usernamect;
     try {
         const sqlQuery = `SELECT * FROM caretakers_ft WHERE username = '${usernamect}' `;
-        const resultObeject = await pool.query(sqlQuery);
+        const resultObject = await pool.query(sqlQuery);
         ctx.body = 'success';
-        console.table(resultObeject.rows);
+        console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
