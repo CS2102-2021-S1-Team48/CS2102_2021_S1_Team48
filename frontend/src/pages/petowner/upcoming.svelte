@@ -1,4 +1,12 @@
 <script>
+  import { account } from "../../user.js";
+
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
+
   let leaving = [
     {
       caretaker: "Jamus",
