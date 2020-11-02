@@ -1,4 +1,6 @@
 <script>
+  import Modal from "../../Modal.svelte";
+  import ReviewForm from "../../ReviewForm.svelte";
   import { account } from "../../user.js";
 
   let username;
@@ -6,6 +8,8 @@
   const unsubscribe = account.subscribe((value) => {
     username = value;
   });
+
+  let showModal = false;
 
   let completed = [
     {
@@ -16,6 +20,39 @@
       price: 300,
     },
   ];
+
+  function toggleModal() {
+    showModal = !showModal;
+  }
+
+  function handleRating() {
+    //dummy
+    toggleModal();
+  }
+
+  //api tests
+
+  /*
+  function handleClick() {
+    fetch("http://18.139.110.246:3000/hello")
+      .then((resp) => resp.json())
+      .then((data) => console.log(data));
+  }
+
+  let dummy = "alexkohNEWNEW";
+  let dummypw = "sveltemaster";
+
+  function doPost() {
+    fetch(
+      `http://18.139.110.246:3000/users/changeusername/${dummy}/${dummypw}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => console.log(data));
+  }
+  */
 </script>
 
 <style>
@@ -36,6 +73,7 @@
     font-size: larger;
   }
   .contents {
+    max-width: 180px;
     width: 120px;
     text-align: center;
     display: inline-flex;
@@ -48,8 +86,12 @@
   }
 </style>
 
-<h1>Upcoming Events</h1>
-<h3>Leaving</h3>
+<Modal {showModal} on:click={toggleModal}>
+  <h3>Leave a Rating</h3>
+  <ReviewForm on:leaveRating={handleRating} />
+</Modal>
+
+<h1>Completed</h1>
 <nav>
   <ul class="header">
     <li>Caretaker</li>
@@ -69,7 +111,9 @@
       <div class="contents">{entry.start}</div>
       <div class="contents">{entry.end}</div>
       <div class="contents">{entry.price}</div>
-      <div class="contents"><button> Leave Review </button></div>
+      <div class="contents">
+        <button on:click={toggleModal}> Leave Review </button>
+      </div>
       <div class="contents"><button>CLEAR</button></div>
     </div>
   {:else}
