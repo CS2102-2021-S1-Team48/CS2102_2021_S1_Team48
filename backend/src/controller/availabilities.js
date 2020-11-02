@@ -52,9 +52,9 @@ async function getAllAvailabilities(ctx) {
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         console.table(rows);
-        console.log(rows[0]);
+        console.log(rows);
         ctx.body = {
-
+            'availabilities': rows
         };
     } catch (e) {
         console.log(e);
