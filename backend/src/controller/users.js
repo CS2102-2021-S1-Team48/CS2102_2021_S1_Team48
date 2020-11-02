@@ -71,7 +71,7 @@ async function changeUsername(ctx) {
 
 // PATCH api at router
 async function changePassword(ctx) {
-    const { username, password, newpassword } = ctx.params.newpassword;
+    const { username, password, newpassword } = ctx.params;
 
     try {
         const sqlQuery = `UPDATE users SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
@@ -85,10 +85,36 @@ async function changePassword(ctx) {
     }
 }
 
+async function login(ctx) {
+    const { username, password } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT COUNT(username) FROM users WHERE username = '${username}' AND pw = '${password}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        const onlyRow = rows[0];
+
+        const count = onlyRow.count;
+
+        if (count == 1) {
+            ctx.body = {
+                'username': username
+            };
+        } else {
+            ctx.status = 403;
+        }
+
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createUsersTable,
     dropUsersTable,
     createUser,
     changeUsername,
-    changePassword
+    changePassword,
+    login,
 };

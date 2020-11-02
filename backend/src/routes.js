@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createUser, changeUsername, changePassword } = require('./controller/users');
+const { createUser, changeUsername, changePassword, login } = require('./controller/users');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
@@ -22,6 +22,7 @@ router.get('/helloes', sayHelloes);
 router.post('/users', createUser);  // POST /users?username=johndoe99&password=password1
 router.patch('/users/changeusername/:username/:newusername', changeUsername);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
+router.post('/users/login/:username/:password', login);
 
 // caretakers
 router.get('/caretakers', getAllCaretakers);
