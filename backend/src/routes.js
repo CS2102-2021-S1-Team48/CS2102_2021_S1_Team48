@@ -29,13 +29,13 @@ router.get('/caretakers', getAllCaretakers);
 router.get('/caretakers/:usernamect', getCaretakerByUsername);
 
 // caretakersft
-router.post('/caretakersft', switchCaretakerPtToFt);
+router.post('/caretakersft/:usernamect', switchCaretakerPtToFt); // POST /caretakersft/duc99?startdate1=20200101&enddate1=20200531&startdate2=20200601&enddate2=20201231
 router.get('/caretakersft', getCaretakerFtInfo);
 router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
-router.patch('/caretakersft/startdate1/:startdate1', editStartDate1);
-router.patch('/caretakersft/enddate1/:enddate1', editEndDate1);
-router.patch('/caretakersft/startdate2/:startdate2', editStartDate2);
-router.patch('/caretakersft/enddate2/:enddate2', editEndDate2);
+router.patch('/caretakersft/startdate1/:startdate1/:usernamect', editStartDate1);
+router.patch('/caretakersft/enddate1/:enddate1/:usernamect', editEndDate1);
+router.patch('/caretakersft/startdate2/:startdate2/:usernamect', editStartDate2);
+router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
 
 // admins
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
