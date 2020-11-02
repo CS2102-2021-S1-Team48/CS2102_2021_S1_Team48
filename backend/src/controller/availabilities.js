@@ -123,6 +123,7 @@ async function editAvailability(ctx) {
     const { startdate, enddate, pettype, price } = ctx.query;
     try {
         if (startdate === undefined && enddate === undefined && pettype === undefined) {
+            // If user wants to change only price
             const sqlQuery = `UPDATE availabilities SET price = ${price} WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             console.log(sqlQuery);
             await pool.query(sqlQuery);
@@ -132,6 +133,7 @@ async function editAvailability(ctx) {
             };
 
         } else if (startdate === undefined && enddate === undefined && price === undefined) {
+            // If user only wants to change pettype
             const sqlQuery = `UPDATE availabilities SET pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
@@ -139,14 +141,82 @@ async function editAvailability(ctx) {
                 'pettype': pettype
             };
 
+        } else if (enddate === undefined && price === undefined && pettype === undefined) {
+            // If user wants to change only the startdate
+            const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'startdate': startdate
+            };
+
+        } else if (startdate === undefined && price === undefined && pettype === undefined) {
+            // If user wants to change only enddate
+            const sqlQuery = `UPDATE availabilities SET enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'enddate': enddate
+            };
+
         } else if (startdate === undefined && enddate === undefined) {
+            // If user wants to change both pettype and price
             const sqlQuery = `UPDATE availabilities SET price = ${price}, pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             await pool.query(sqlQuery);
             ctx.body = {
                 'success': 'True!',
                 'price': price,
                 'pettype': pettype
+            };
 
+        } else if (startdate === undefined && pettype === undefined) {
+            // If user wants to change both enddate and price
+            const sqlQuery = `UPDATE availabilities SET price = ${price}, enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'price': price,
+                'enddate': enddate
+            };
+
+        } else if (startdate === undefined && price === undefined) {
+            // If user wants to change both enddate and pettype
+            const sqlQuery = `UPDATE availabilities SET pettype = ${pettype}, enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'pettype': pettype,
+                'enddate': enddate
+            };
+
+        } else if (enddate === undefined && pettype === undefined) {
+            // If user wants to change both startdate and price
+            const sqlQuery = `UPDATE availabilities SET price = ${price}, startdate = '${startdate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'price': price,
+                'startdate': startdate
+            };
+
+        } else if (enddate === undefined && price === undefined) {
+            // If user wants to change both enddate and pettype
+            const sqlQuery = `UPDATE availabilities SET pettype = ${pettype}, enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'pettype': pettype,
+                'enddate': enddate
+            };
+
+        } else if (pettype === undefined && price === undefined) {
+            // If user wants to change both startdate and enddate
+            const sqlQuery = `UPDATE availabilities SET startdate = ${startdate}, enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'startdate': startdate,
+                'enddate': enddate
             };
 
         } else if (startdate === undefined) {
@@ -167,6 +237,28 @@ async function editAvailability(ctx) {
                 'price': price,
                 'pettype': pettype,
                 'startdate': startdate
+            };
+
+        } else if (pettype === undefined) {
+            // If user wants to change everything except pettype
+            const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}', price = ${price}, enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'price': price,
+                'startdate': startdate,
+                'enddate': enddate
+            };
+
+        } else if (price === undefined) {
+            // If user wants to change everything except price
+            const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}', pettype = ${pettype}, enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'success': 'True!',
+                'pettype': pettype,
+                'startdate': startdate,
+                'enddate': enddate
             };
 
         } else {
