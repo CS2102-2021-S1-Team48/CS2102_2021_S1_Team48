@@ -66,7 +66,7 @@ router.del('/creditcards/droptable', dropCreditCardsTable);
 router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=21082020
 router.get('/creditcards', getCreditCard);
 router.patch('/creditcards', changeCreditCard); // PATCH /creditcards?cardnum=456expiry=21072021
-router.del('/creditcards', removeCreditCard);
+router.del('/creditcards', removeCreditCard); // DEL /creditcards?cardnum=123
 
 // owns
 router.post('/owns/createtable', createOwnsTable);
