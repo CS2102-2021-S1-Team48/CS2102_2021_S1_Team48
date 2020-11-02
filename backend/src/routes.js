@@ -1,17 +1,14 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createUsersTable, dropUsersTable, createUser, changeUsername, changePassword } = require('./controller/users');
-const { createPetownersTable, dropPetownersTable } = require('./controller/petowners');
-const { createCaretakersTable, dropCaretakersTable, getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
-const { createCaretakersPtTable, dropCaretakersPtTable } = require('./controller/caretakerspt');
-const { createCaretakersFtTable, dropCaretakersFtTable, switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
-const { createAdminsTable, dropAdminsTable, createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
-const { createCreditCardsTable, dropCreditCardsTable, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
-const { createOwnsTable, dropOwnsTable } = require('./controller/owns');
-const { createPetsTable, dropPetsTable, addPet, getPet, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
-const { createAvailabilitiesTable, dropAvailabilitiesTable, postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
-const { createBaseDailyPricesTable, dropBaseDailyPricesTable, addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
-const { createBidsTable, dropBidsTable, addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
+const { createUser, changeUsername, changePassword } = require('./controller/users');
+const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
+const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
+const { createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
+const { addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
+const { addPet, getPet, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
+const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
+const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
 
 
 const router = new Router();
