@@ -57,8 +57,8 @@ router.patch('/caretakersft/enddate2/:enddate2', editEndDate2);
 router.post('/admins/createtable', createAdminsTable);
 router.del('/admins/droptable', dropAdminsTable);
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
-router.patch('/admins/changeusername/:newusername', changeAdminUsername);
-router.patch('/admins/changepassword/:newpassword', changeAdminPassword);
+router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
+router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 
 // creditcards
 router.post('/creditcards/createtable', createCreditCardsTable);
@@ -84,11 +84,11 @@ router.del('/pets/:petname', deletePetByPetname);
 // availabilities
 router.post('/availabilities/createtable', createAvailabilitiesTable);
 router.del('/availabilities/droptable', dropAvailabilitiesTable);
-router.post('/availabilities' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
+router.post('/availabilities/:usernamect' , postAvailability); // POST /availabilities?startdate=01072020&enddate=19032020&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities); 
 router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
-router.patch('/availabilities/:startdate/:enddate/:pettype', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=01072020&enddate=19032020&pettype=dog&price=100
-router.del('/availabilities/:startdate/:enddate/:pettype', deleteAvailability); 
+router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=01072020&enddate=19032020&pettype=dog&price=100
+router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
 // basedailyprices
 router.post('/basedailyprices/createtable', createBaseDailyPricesTable);
