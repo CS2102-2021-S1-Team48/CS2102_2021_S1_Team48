@@ -56,7 +56,7 @@ router.patch('/pets/:petname', editPetDetails); // PATCH /pets/:petname?petname=
 router.del('/pets/:petname', deletePetByPetname);
 
 // availabilities
-router.post('/availabilities/:usernamect' , postAvailability); // POST /availabilities?startdate=20200701&enddate=20200319&pettype=dog&price=100
+router.post('/availabilities/:usernamect', postAvailability); // POST /availabilities?startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities); 
 router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
 router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype?startdate=20201031&enddate=20201101&pettype=dog&price=100
@@ -77,6 +77,6 @@ router.get('/bids/review/:usernamect', getReviewsOfCaretaker);
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating
-router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate' , deleteBid);
+router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate', deleteBid);
 
 module.exports = router;
