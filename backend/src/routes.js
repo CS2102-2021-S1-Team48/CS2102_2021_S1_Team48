@@ -22,29 +22,15 @@ router.get('/helloes', sayHelloes);
 // routes categorised by controllers
 
 // users
-router.post('/users/createtable', createUsersTable);
-router.del('/users/droptable', dropUsersTable);
 router.post('/users', createUser);  // POST /users?username=johndoe99&password=password1
 router.patch('/users/changeusername/:username/:newusername', changeUsername);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
 
-// petowners
-router.post('/petowners/createtable', createPetownersTable);
-router.del('/petowners/droptable', dropPetownersTable);
-
 // caretakers
-router.post('/caretakers/createtable', createCaretakersTable);
-router.del('/caretakers/droptable', dropCaretakersTable);
 router.get('/caretakers', getAllCaretakers);
 router.get('/caretakers/:usernamect', getCaretakerByUsername);
 
-// caretakerspt
-router.post('/caretakers/createtable', createCaretakersPtTable);
-router.del('/caretakers/droptable', dropCaretakersPtTable);
-
 // caretakersft
-router.post('/caretakers/createtable', createCaretakersFtTable);
-router.del('/caretakers/droptable', dropCaretakersFtTable);
 router.post('/caretakersft', switchCaretakerPtToFt);
 router.get('/caretakersft', getCaretakerFtInfo);
 router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
