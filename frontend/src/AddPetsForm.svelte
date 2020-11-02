@@ -1,5 +1,12 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { petlist } from "./user.js";
+
+  let pettypes;
+
+  const unsubscribe = petlist.subscribe((value) => {
+    pettypes = value;
+  });
 
   let dispatch = createEventDispatcher();
 
@@ -16,16 +23,6 @@
     };
     dispatch("addPet", pet);
   };
-
-  let pettypes = [
-    "Husky",
-    "Corgi",
-    "Dinosaur",
-    "Duck",
-    "Swine",
-    "Dragon",
-    "Ant",
-  ];
 </script>
 
 <style>
