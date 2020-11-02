@@ -44,7 +44,6 @@ router.del('/caretakers/droptable', dropCaretakersPtTable);
 // caretakersft
 router.post('/caretakers/createtable', createCaretakersFtTable);
 router.del('/caretakers/droptable', dropCaretakersFtTable);
-router.get('/caretakersft', getCaretakerFtInfo);
 router.post('/caretakersft', switchCaretakerPtToFt);
 router.get('/caretakersft', getCaretakerFtInfo);
 router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
