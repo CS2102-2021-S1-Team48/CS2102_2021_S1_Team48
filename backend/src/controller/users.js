@@ -65,25 +65,22 @@ async function changeUsername(ctx) {
         };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
 
 // PATCH api at router
-// Same issue, need the current username to test, so I will use query param to simulate the current user
-// I.e. changepassword/newpassword?username=123
 async function changePassword(ctx) {
-    const newPassword = ctx.params.newpassword;
+    const { username, password, newpassword } = ctx.params.newpassword;
 
-    const username = ctx.query.username;
     try {
-        const sqlQuery = `UPDATE users SET pw = '${newPassword}' WHERE username = '${username}'`;
+        const sqlQuery = `UPDATE users SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'newpassword': newpassword
+        };
     } catch (e) {
         console.log(e);
-        ctx.body = 'error';
         ctx.status = 403;
     }
 }
