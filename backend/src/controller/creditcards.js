@@ -36,7 +36,9 @@ async function addCreditCard(ctx) {
     try {
         const sqlQuery = `INSERT INTO creditcards VALUES ('${cardnum}', '${expiry}')`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'sucess': 'true!'
+        };
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
@@ -95,7 +97,9 @@ async function removeCreditCard(ctx) {
     try {
         const sqlQuery = `DELETE FROM creditcards WHERE cardnum = '${currentCreditCardNum}'`;
         await pool.query(sqlQuery);
-        ctx.body = 'success';
+        ctx.body = {
+            'success': 'true!'
+        };
     } catch (e) {
         console.log(e);
         ctx.body = 'error';
