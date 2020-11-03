@@ -36,6 +36,7 @@ async function changeAdminUsername(ctx) {
 // PATCH api at router
 async function changeAdminPassword(ctx) {
     const { username, password, newpassword } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username} AND pw = ${password}'`;
         await pool.query(sqlQuery);
