@@ -1,14 +1,13 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createUser, changeUsername, changePassword, login } = require('./controller/users');
+const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { createAdmin, changeAdminUsername, changeAdminPassword } = require('./controller/admins');
-const { addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
-const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker } = require('./controller/bids');
 
 
 const router = new Router();
@@ -46,12 +45,6 @@ router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&passwor
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 
-// creditcards
-router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=20281022
-router.get('/creditcards', getCreditCard);
-router.patch('/creditcards/:cardnum', changeCreditCard); // PATCH /creditcards/5182993812311?cardnum=456expiry=21072021
-router.del('/creditcards', removeCreditCard); // DEL /creditcards?cardnum=123
-
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
 router.get('/pets', getPets);
@@ -80,6 +73,7 @@ router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
 router.get('/bids/reviews/:usernamect', getReviewsOfCaretaker);
 router.get('/bids/getpetdays/:usernamect', getPetDaysForThePeriod); // GET bids/getpetdays/:usernamect?startdate=20200101&enddate=20200201
+router.get('/bids/totalowedtocaretaker/:usernamect/:pettype/:startdate/:enddate',getTotalOwedToCaretaker); // GET /bids/totalowedtocaretaker/:usernamect/:pettype/:startdate/:enddate , getTotalOwedToCaretaker
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating

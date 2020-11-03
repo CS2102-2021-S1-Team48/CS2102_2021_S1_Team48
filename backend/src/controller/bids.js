@@ -152,6 +152,24 @@ async function getPetDaysForThePeriod(ctx) {
     }
 }
 
+// GET api at router
+// GET /bids/totalowedtocaretaker/:usernamect/:pettype/:startdate/:enddate , getTotalOwedToCaretaker
+async function getTotalOwedToCaretaker(ctx) {
+    const { usernamect, pettype, startdate, enddate } = ctx.params;
+    try {
+        const sqlQuery = `SELECT sum((b.enddate-b.startdate)*av.price) FROM bids b INNER JOIN availabilities av ON b.username_caretaker = av.username_caretaker AND b.pettype = av.pettype AND b.startdate = av.startdate AND b.enddate = av.enddate WHERE b.username_caretaker = '${usernamect}' AND b.startdate = '${startdate}' AND b.enddate = '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True'`;
+        const resultobject = await pool.query(sqlQuery);
+        const rows = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'total owned': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 // PATCH api at router
 // PATCH /bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate , acceptBid
 async function acceptBid(ctx) {
@@ -231,6 +249,7 @@ module.exports = {
     getBids,
     getReviewsOfCaretaker,
     getPetDaysForThePeriod,
+    getTotalOwedToCaretaker,
     acceptBid,
     undoAcceptBid,
     submitReviewAndRating,
