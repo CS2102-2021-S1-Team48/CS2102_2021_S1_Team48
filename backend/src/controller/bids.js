@@ -106,6 +106,7 @@ async function getBids(ctx) {
 
 // GET api at router
 // GET /bids/review/:usernamect , getReviewsOfCaretaker
+// TODO might be better to have a WHERE condition review NOT NULL
 async function getReviewsOfCaretaker(ctx) {
     const usernamect = ctx.params.usernamect;
     try {
