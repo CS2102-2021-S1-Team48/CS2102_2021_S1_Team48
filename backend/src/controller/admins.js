@@ -3,7 +3,8 @@ const pool = require('../db');
 // POST api at router
 // POST /admins?username=johndoe99&password=password1 , createAdmin
 async function createAdmin(ctx) {
-    const { username, password } = ctx.query;
+    const { username, password } = ctx.params;
+
     try {
         const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
         await pool.query(sqlQuery);

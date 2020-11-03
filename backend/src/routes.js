@@ -19,7 +19,7 @@ router.get('/helloes', sayHelloes);
 // routes categorised by controllers
 
 // admins
-router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
+router.post('/admins/register/:username/:password', createAdmin);
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 router.post('/admins/login/:username/:password', adminLogin);
