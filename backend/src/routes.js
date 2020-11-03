@@ -47,12 +47,6 @@ router.patch('/admins/changeusername/:username/:newusername', changeAdminUsernam
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 router.post('/admins/login/:username/:password', adminLogin);
 
-// creditcards
-router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=20281022
-router.get('/creditcards', getCreditCard);
-router.patch('/creditcards/:cardnum', changeCreditCard); // PATCH /creditcards/5182993812311?cardnum=456expiry=21072021
-router.del('/creditcards', removeCreditCard); // DEL /creditcards?cardnum=123
-
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
 router.get('/pets', getPets);
