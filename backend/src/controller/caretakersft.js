@@ -1,34 +1,6 @@
 const pool = require('../db');
 
 // POST api at router
-async function createCaretakersFtTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropCaretakersFtTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// POST api at router
 // POST /caretakersft/duc99?startdate1=20200101&enddate1=20200531&startdate2=20200601&enddate2=20201231
 async function switchCaretakerPtToFt(ctx) {
     const { startdate1, enddate1, startdate2, enddate2 } = ctx.query;
@@ -166,8 +138,6 @@ async function editEndDate2(ctx) {
 }
 
 module.exports = {
-    createCaretakersFtTable,
-    dropCaretakersFtTable,
     switchCaretakerPtToFt,
     getCaretakerFtInfo,
     getSpecificCaretakerFtInfo,

@@ -1,33 +1,5 @@
 const pool = require('../db');
 
-// POST api at router
-async function createUsersTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'Success' : 'True!' 
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropUsersTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'Success' : 'True!' 
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
 // POST /users?username=johndoe99&password=password1
 // POST api at router
 async function createUser(ctx) {
@@ -187,8 +159,6 @@ async function removeCreditCard(ctx) {
 }
 
 module.exports = {
-    createUsersTable,
-    dropUsersTable,
     createUser,
     changeUsername,
     changePassword,
