@@ -269,8 +269,6 @@ async function editAvailability(ctx) {
 }
 
 // DEL api at router
-// DEL /availabilities/:startdate/:enddate/:pettype/:usernamect , deleteAvailability
-// Same issue need caretaker usernme, temp solution use query param
 async function deleteAvailability(ctx) {
     const { startdate, enddate, pettype, usernamect } = ctx.params;
 
@@ -293,6 +291,7 @@ async function deleteAvailability(ctx) {
 module.exports = {
     postAvailability,
     getAllAvailabilities,
+    getAvailabilitiesByPetType,
     editAvailability,
     deleteAvailability
 };

@@ -21,7 +21,7 @@ router.get('/helloes', sayHelloes);
 /* 
     Routes categorised by controllers (tables)
     
-    /:<param> will be used when the api only require 3 or less params.
+    /:<param> will be used when the api only require 4 or less params.
     If the apis take in more than 3 params, it will use ? question mark, where each
     variable is separated by an & ampersand symbol.
 
