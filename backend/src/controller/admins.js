@@ -82,7 +82,7 @@ async function changeAdminPassword(ctx) {
 }
 
 // POST api at router
-async function login(ctx) {
+async function adminLogin(ctx) {
     const { username, password } = ctx.params;
 
     try {
@@ -113,5 +113,5 @@ module.exports = {
     createAdmin,
     changeAdminUsername,
     changeAdminPassword,
-    login
+    adminLogin
 };
