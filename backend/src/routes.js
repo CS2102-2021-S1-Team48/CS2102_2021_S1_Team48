@@ -7,7 +7,7 @@ const { createAdmin, changeAdminUsername, changeAdminPassword } = require('./con
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
-const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker } = require('./controller/bids');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker } = require('./controller/bids');
 
 
 const router = new Router();
@@ -73,6 +73,7 @@ router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
 router.get('/bids/reviews/:usernamect', getReviewsOfCaretaker);
 router.get('/bids/getpetdays/:usernamect', getPetDaysForThePeriod); // GET bids/getpetdays/:usernamect?startdate=20200101&enddate=20200201
+router.get('/bids/amountowedtocaretaker/:usernamepo/:usernamect/:pettype/:startdate/:enddate', getAmountOwedToCaretaker); // GET /bids/amountowedtocaretaker/:usernamepo/:usernamect/:pettype/:startdate/:enddate , getAmountOwedToCaretaker
 router.get('/bids/totalowedtocaretaker/:usernamect/:pettype/:startdate/:enddate',getTotalOwedToCaretaker); // GET /bids/totalowedtocaretaker/:usernamect/:pettype/:startdate/:enddate , getTotalOwedToCaretaker
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
