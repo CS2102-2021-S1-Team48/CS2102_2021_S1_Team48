@@ -185,7 +185,7 @@
 		margin-top: 5px;
 		align-items: center;
 		color: black;
-		background-color: cornflowerblue;
+		background-color: lightgrey;
 	}
 	.profile {
 		float: left;

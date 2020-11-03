@@ -99,7 +99,7 @@
 	}
 	onMount(async () => {
 		//`http://18.139.110.246:3000/availabilities/specific?usernamect=$(username)`
-		const getPetDaysCall = fetch(`http://18.139.110.246:3000/availabilities/specific?usernamect=alexkoh`, {
+		const getUsersAvailabilitiesCall = fetch(`http://18.139.110.246:3000/availabilities/specific?usernamect=alexkoh`, {
 			method: "GET",
 		})
 			.then((response) => response.json())
