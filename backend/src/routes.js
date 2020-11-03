@@ -21,7 +21,7 @@ router.get('/helloes', sayHelloes);
 /* 
     Routes categorised by controllers (tables)
     
-    /:<param> will be used when the api only require 3 or less params.
+    /:<param> will be used when the api only require 4 or less params.
     If the apis take in more than 3 params, it will use ? question mark, where each
     variable is separated by an & ampersand symbol.
 
@@ -46,8 +46,8 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // availabilities
 router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=20200701&enddate=20200319&pettype=dog&price=100
-router.get('/availabilities', getAllAvailabilities); 
-// router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
+router.get('/availabilities', getAllAvailabilities);
+router.get('/availabilities/:pettype', getAvailabilitiesByPetType);
 router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=20201031&enddate=20201101&pettype=dog&price=100
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 

@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 // POST api at router
-// POST /availabilities/?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100 , postAvailability
+// POST /availabilities/?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
 async function postAvailability(ctx) {
     const { usernamect, startdate, enddate, pettype, price } = ctx.query;
 
@@ -9,7 +9,6 @@ async function postAvailability(ctx) {
         const sqlQuery = `INSERT INTO availabilities VALUES ('${startdate}', '${enddate}', '${pettype}', ${price}, '${usernamect}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'usernamect': usernamect,
             'startdate': startdate,
             'enddate': enddate,
@@ -23,14 +22,11 @@ async function postAvailability(ctx) {
 }
 
 // GET api at router
-// GET /availabilities , getAllAvailabilities
 async function getAllAvailabilities(ctx) {
     try {
         const sqlQuery = 'SELECT * FROM availabilities';
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
-        console.table(rows);
-        console.log(rows);
         ctx.body = {
             'availabilities': rows
         };
@@ -41,53 +37,55 @@ async function getAllAvailabilities(ctx) {
 }
 
 // GET api at router
-// GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
-// async function getSpecificAvailabilities(ctx) {
-//     const { usernamect, pettype } = ctx.query;
+async function getAvailabilitiesByPetType(ctx) {
+    const { pettype } = ctx.params;
 
-//     let sqlQuery = '';
+    try {
+        const sqlQuery = `SELECT * FROM availabilities WHERE pettype = '${pettype}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'availabilities': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
 
-//     if (!usernamect) {
-//         sqlQuery = 
-//     }
+// GET api at router
+async function getAvailabilitiesByUsernameCT(ctx) {
+    const { usernamect } = ctx.params;
 
-//     try {
-//         if (pettype === undefined) {
-//             const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}'`;
-//             const resultObject = await pool.query(sqlQuery);
-//             const rows = resultObject.rows;
-//             console.table(rows);
-//             console.log(rows);
-//             ctx.body = {
-//                 'availabilities': rows
-//             };
+    try {
+        const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'availabilities': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
 
-//         } else if (usernamect === undefined) {
-//             const sqlQuery = `SELECT * FROM availabilities WHERE pettype = '${pettype}'`;
-//             const resultObject = await pool.query(sqlQuery);
-//             const rows = resultObject.rows;
-//             console.table(rows);
-//             console.log(rows);
-//             ctx.body = {
-//                 'availabilities': rows
-//             };
+// GET api at router
+async function getAvailabilitiesByUCTandPT(ctx) {
+    const { usernamect } = ctx.params;
 
-//         } else {
-//             const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}' AND pettype = '${pettype}'`;
-//             const resultObject = await pool.query(sqlQuery);
-//             const rows = resultObject.rows;
-//             console.table(rows);
-//             console.log(rows);
-//             ctx.body = {
-//                 'availabilities': rows
-//             };
-
-//         }
-//     } catch (e) {
-//         console.log(e);
-//         ctx.status = 403;
-//     }
-// }
+    try {
+        const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}' AND pettype = '${pettype}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'availabilities': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
 
 // PATCH api at router
 // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
@@ -256,8 +254,6 @@ async function editAvailability(ctx) {
 }
 
 // DEL api at router
-// DEL /availabilities/:startdate/:enddate/:pettype/:usernamect , deleteAvailability
-// Same issue need caretaker usernme, temp solution use query param
 async function deleteAvailability(ctx) {
     const { startdate, enddate, pettype, usernamect } = ctx.params;
 
@@ -280,6 +276,8 @@ async function deleteAvailability(ctx) {
 module.exports = {
     postAvailability,
     getAllAvailabilities,
+    getAvailabilitiesByPetType,
+    getAvailabilitiesByUsernameCT,
     editAvailability,
     deleteAvailability
 };
