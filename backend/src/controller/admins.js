@@ -1,7 +1,6 @@
 const pool = require('../db');
 
 // POST api at router
-// POST /admins?username=johndoe99&password=password1 , createAdmin
 async function createAdmin(ctx) {
     const { username, password } = ctx.params;
 
@@ -19,9 +18,9 @@ async function createAdmin(ctx) {
 }
 
 // PATCH api at router
-// PATCH /admins/changeusername/:username/:newusername , changeAdminUsername
 async function changeAdminUsername(ctx) {
     const { username, newusername } = ctx.param;
+
     try {
         const sqlQuery = `UPDATE admins SET username = '${newusername}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
@@ -35,8 +34,6 @@ async function changeAdminUsername(ctx) {
 }
 
 // PATCH api at router
-// PATCH /admins/changepassword/:username/:password/:newpassword , changeAdminPassword
-// TODO trigger for where clause password == old password
 async function changeAdminPassword(ctx) {
     const { username, password, newpassword } = ctx.params;
     try {
