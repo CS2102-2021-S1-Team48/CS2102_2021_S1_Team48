@@ -72,7 +72,7 @@ async function getAvailabilitiesByUsernameCT(ctx) {
 
 // GET api at router
 async function getAvailabilitiesByUCTandPT(ctx) {
-    const { usernamect } = ctx.params;
+    const { usernamect, pettype } = ctx.params;
 
     try {
         const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}' AND pettype = '${pettype}'`;
@@ -278,6 +278,7 @@ module.exports = {
     getAllAvailabilities,
     getAvailabilitiesByPetType,
     getAvailabilitiesByUsernameCT,
+    getAvailabilitiesByUCTandPT,
     editAvailability,
     deleteAvailability
 };
