@@ -42,52 +42,52 @@ async function getAllAvailabilities(ctx) {
 
 // GET api at router
 // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
-async function getSpecificAvailabilities(ctx) {
-    const { usernamect, pettype } = ctx.query;
+// async function getSpecificAvailabilities(ctx) {
+//     const { usernamect, pettype } = ctx.query;
 
-    let sqlQuery = '';
+//     let sqlQuery = '';
 
-    if (!usernamect) {
-        sqlQuery = 
-    }
+//     if (!usernamect) {
+//         sqlQuery = 
+//     }
 
-    try {
-        if (pettype === undefined) {
-            const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}'`;
-            const resultObject = await pool.query(sqlQuery);
-            const rows = resultObject.rows;
-            console.table(rows);
-            console.log(rows);
-            ctx.body = {
-                'availabilities': rows
-            };
+//     try {
+//         if (pettype === undefined) {
+//             const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}'`;
+//             const resultObject = await pool.query(sqlQuery);
+//             const rows = resultObject.rows;
+//             console.table(rows);
+//             console.log(rows);
+//             ctx.body = {
+//                 'availabilities': rows
+//             };
 
-        } else if (usernamect === undefined) {
-            const sqlQuery = `SELECT * FROM availabilities WHERE pettype = '${pettype}'`;
-            const resultObject = await pool.query(sqlQuery);
-            const rows = resultObject.rows;
-            console.table(rows);
-            console.log(rows);
-            ctx.body = {
-                'availabilities': rows
-            };
+//         } else if (usernamect === undefined) {
+//             const sqlQuery = `SELECT * FROM availabilities WHERE pettype = '${pettype}'`;
+//             const resultObject = await pool.query(sqlQuery);
+//             const rows = resultObject.rows;
+//             console.table(rows);
+//             console.log(rows);
+//             ctx.body = {
+//                 'availabilities': rows
+//             };
 
-        } else {
-            const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}' AND pettype = '${pettype}'`;
-            const resultObject = await pool.query(sqlQuery);
-            const rows = resultObject.rows;
-            console.table(rows);
-            console.log(rows);
-            ctx.body = {
-                'availabilities': rows
-            };
+//         } else {
+//             const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}' AND pettype = '${pettype}'`;
+//             const resultObject = await pool.query(sqlQuery);
+//             const rows = resultObject.rows;
+//             console.table(rows);
+//             console.log(rows);
+//             ctx.body = {
+//                 'availabilities': rows
+//             };
 
-        }
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
+//         }
+//     } catch (e) {
+//         console.log(e);
+//         ctx.status = 403;
+//     }
+// }
 
 // PATCH api at router
 // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
@@ -280,7 +280,6 @@ async function deleteAvailability(ctx) {
 module.exports = {
     postAvailability,
     getAllAvailabilities,
-    getSpecificAvailabilities,
     editAvailability,
     deleteAvailability
 };
