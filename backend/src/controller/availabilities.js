@@ -113,7 +113,6 @@ async function getSpecificAvailabilities(ctx) {
 
 // PATCH api at router
 // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
-// TODO expand the if statements
 async function editAvailability(ctx) {
     const currStartDate = ctx.params.startdate;
     const currEndDate = ctx.params.enddate;
