@@ -16,7 +16,12 @@ const router = new Router();
 router.get('/hello', sayHello);
 router.get('/helloes', sayHelloes);
 
-// routes categorised by controllers
+/* 
+    Routes categorised by controllers (tables)
+    Generally, /:<param> will be used when the api only require 3 or less params.
+    If the apis take in more than 3 params, it will use ? question mark, where each
+    variable is separated by an & ampersand symbol.
+*/
 
 // admins
 router.post('/admins/register/:username/:password', createAdmin);
