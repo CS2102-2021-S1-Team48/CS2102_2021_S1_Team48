@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
 const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin } = require('./controller/admins');
-const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
+const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker } = require('./controller/bids');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
@@ -20,11 +20,14 @@ router.get('/helloes', sayHelloes);
 
 /* 
     Routes categorised by controllers (tables)
-    Generally, /:<param> will be used when the api only require 3 or less params.
+    
+    /:<param> will be used when the api only require 3 or less params.
     If the apis take in more than 3 params, it will use ? question mark, where each
     variable is separated by an & ampersand symbol.
 
-    In the case of ? question mark, order of variables do not matter.
+    In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
+
+    In the case of ? question mark, order of variables do not matter. They are still compulsory to fill in, though.
 */
 
 // admins
@@ -44,7 +47,7 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 // availabilities
 router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities); 
-router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
+// router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
 router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=20201031&enddate=20201101&pettype=dog&price=100
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
