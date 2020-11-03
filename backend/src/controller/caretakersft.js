@@ -138,8 +138,6 @@ async function editEndDate2(ctx) {
 }
 
 module.exports = {
-    createCaretakersFtTable,
-    dropCaretakersFtTable,
     switchCaretakerPtToFt,
     getCaretakerFtInfo,
     getSpecificCaretakerFtInfo,

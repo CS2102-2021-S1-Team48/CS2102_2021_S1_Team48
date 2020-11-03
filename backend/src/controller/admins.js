@@ -80,8 +80,6 @@ async function adminLogin(ctx) {
 }
 
 module.exports = {
-    createAdminsTable,
-    dropAdminsTable,
     createAdmin,
     changeAdminUsername,
     changeAdminPassword,

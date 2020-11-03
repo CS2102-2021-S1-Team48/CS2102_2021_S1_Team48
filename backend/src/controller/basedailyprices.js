@@ -121,8 +121,6 @@ async function deleteBaseDailyPrice(ctx) {
 
 
 module.exports = {
-    createBaseDailyPricesTable,
-    dropBaseDailyPricesTable,
     addBaseDailyPrice,
     getBaseDailyPrices,
     editBaseDailyPrice,

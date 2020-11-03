@@ -273,8 +273,6 @@ async function deleteAvailability(ctx) {
 }
 
 module.exports = {
-    createAvailabilitiesTable,
-    dropAvailabilitiesTable,
     postAvailability,
     getAllAvailabilities,
     getSpecificAvailabilities,

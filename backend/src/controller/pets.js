@@ -139,8 +139,6 @@ async function deletePetByPetname(ctx) {
 }
 
 module.exports = {
-    createPetsTable,
-    dropPetsTable,
     addPet,
     getPetByUsername,
     getPets,

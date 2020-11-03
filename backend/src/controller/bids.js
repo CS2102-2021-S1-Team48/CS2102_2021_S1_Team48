@@ -195,8 +195,6 @@ async function deleteBid(ctx) {
 
 
 module.exports = {
-    createBidsTable,
-    dropBidsTable,
     addBid,
     getAcceptedBids,
     getUnacceptedBids,

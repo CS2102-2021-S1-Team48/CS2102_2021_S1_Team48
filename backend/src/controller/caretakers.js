@@ -32,8 +32,6 @@ async function getCaretakerByUsername(ctx) {
 }
 
 module.exports = {
-    createCaretakersTable,
-    dropCaretakersTable,
     getAllCaretakers,
     getCaretakerByUsername
 };

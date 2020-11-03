@@ -159,8 +159,6 @@ async function removeCreditCard(ctx) {
 }
 
 module.exports = {
-    createUsersTable,
-    dropUsersTable,
     createUser,
     changeUsername,
     changePassword,
