@@ -28,7 +28,7 @@ async function dropBidsTable(ctx) {
     }
 }
 
-// POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
+// POST /bids/:usernamepo?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
 // POST api at router
 async function addBid(ctx) {
     const { transfermethod, paymentmethod, petname, username_caretaker, startdate, enddate, pettype } = ctx.query;
@@ -38,7 +38,7 @@ async function addBid(ctx) {
         const sqlQuery = `INSERT INTO bids VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${username_caretaker}', '${startdate}', '${enddate}', '${pettype}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success' : 'True!',
+            'success': 'True!',
             'usernamepo': usernamepo,
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
@@ -56,8 +56,9 @@ async function addBid(ctx) {
 
 // GET api at router
 async function getAcceptedBids(ctx) {
+    const usernamect = ctx.params.usernamect;
     try {
-        const sqlQuery = 'SELECT * FROM bids WHERE accepted = True';
+        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -72,8 +73,9 @@ async function getAcceptedBids(ctx) {
 
 // GET api at router
 async function getUnacceptedBids(ctx) {
+    const usernamect = ctx.params.usernamect;
     try {
-        const sqlQuery = 'SELECT * FROM bids WHERE accepted = False';
+        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = False AND b.username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -91,7 +93,7 @@ async function getUnacceptedBids(ctx) {
 async function getBids(ctx) {
     const { petname, usernamect, usernamepo } = ctx.query;
     try {
-        const sqlQuery = `SELECT * FROM bids WHERE petname = '${petname}' AND username_caretaker = '${usernamect}' AND username_petowner = '${usernamepo}'`;
+        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.petname = '${petname}' AND b.username_caretaker = '${usernamect}' AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -105,17 +107,45 @@ async function getBids(ctx) {
 }
 
 // GET api at router
-// GET /bids/review/:usernamect , getReviewsOfCaretaker
+// GET /bids/reviews/:usernamect , getReviewsOfCaretaker
 async function getReviewsOfCaretaker(ctx) {
     const usernamect = ctx.params.usernamect;
     try {
-        const sqlQuery = `SELECT * FROM bids WHERE username_caretaker = '${usernamect}'`;
+        const sqlQuery = `SELECT * FROM bids WHERE username_caretaker = '${usernamect}' AND review IS NOT NULL `;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
         ctx.body = {
             'reviews': rows
         };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+// GET api at router
+// GET bids/getpetdays/:usernamect?startdate=20200101&enddate=20200201
+async function getPetDaysForThePeriod(ctx) {
+    const usernamect = ctx.params.usernamect;
+    const { startdate, enddate } = ctx.query;
+    try {
+        if (startdate === undefined && enddate === undefined) {
+            const sqlQuery = `SELECT sum(enddate-startdate) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' GROUP BY username_caretaker`;
+            const resultObject = await pool.query(sqlQuery);
+            const rows = resultObject.rows;
+            ctx.body = {
+                'caretakers': rows
+            };
+
+        } else {
+            const sqlQuery = `SELECT sum(enddate-startdate) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' AND startdate >= '${startdate}' AND enddate <= '${enddate}' GROUP BY username_caretaker`;
+            const resultObject = await pool.query(sqlQuery);
+            const rows = resultObject.rows;
+            ctx.body = {
+                'caretakers': rows
+            };
+        }
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -190,6 +220,8 @@ async function deleteBid(ctx) {
     }
 }
 
+
+
 module.exports = {
     createBidsTable,
     dropBidsTable,
@@ -198,6 +230,7 @@ module.exports = {
     getUnacceptedBids,
     getBids,
     getReviewsOfCaretaker,
+    getPetDaysForThePeriod,
     acceptBid,
     undoAcceptBid,
     submitReviewAndRating,

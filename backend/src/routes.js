@@ -8,7 +8,7 @@ const { addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = req
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
-const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid } = require('./controller/bids');
 
 
 const router = new Router();
@@ -23,6 +23,10 @@ router.post('/users', createUser);  // POST /users?username=johndoe99&password=p
 router.patch('/users/changeusername/:username/:newusername', changeUsername);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
 router.post('/users/login/:username/:password', login);
+router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
+router.get('/users/getcreditcard/:username', getCreditCard); // GET /users/getcreditcard/:username
+router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
+router.del('/users/removecreditcard/:username', removeCreditCard); // DEL /users/removecreditcard/:username , changeCreditCard
 
 // caretakers
 router.get('/caretakers', getAllCaretakers);
@@ -72,10 +76,11 @@ router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
 
 // bids
 router.post('/bids/:usernamepo', addBid); // POST /bids/:usernamepo?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=20201231&enddate=20210101
-router.get('/bids/accepted', getAcceptedBids); 
-router.get('/bids/unaccepted', getUnacceptedBids);
+router.get('/bids/accepted/:usernamect', getAcceptedBids); 
+router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
 router.get('/bids/reviews/:usernamect', getReviewsOfCaretaker);
+router.get('/bids/getpetdays/:usernamect', getPetDaysForThePeriod); // GET bids/getpetdays/:usernamect?startdate=20200101&enddate=20200201
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating

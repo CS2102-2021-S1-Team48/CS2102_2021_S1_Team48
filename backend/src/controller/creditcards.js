@@ -30,13 +30,14 @@ async function dropCreditCardsTable(ctx) {
     }
 }
 
-// POST api at router
-// POST /creditcards?cardnum=123&expiry=21082020 , addCreditCard
-// NOTE might have to add a trigger for cc table to automatically add into owns
+// PATCH api at router
+// PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
 async function addCreditCard(ctx) {
-    const { cardnum, expiry } = ctx.query;
+    const cardnum = ctx.query.cardnum;
+    const username = ctx.params.username;
+
     try {
-        const sqlQuery = `INSERT INTO creditcards VALUES ('${cardnum}', '${expiry}')`;
+        const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
@@ -48,9 +49,11 @@ async function addCreditCard(ctx) {
 }
 
 // GET api at router
+// GET /users/getcreditcard/:username
 async function getCreditCard(ctx) {
+    const username = ctx.params.username;
     try {
-        const sqlQuery = 'SELECT * FROM creditcards';
+        const sqlQuery = `SELECT * FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         ctx.body = {
@@ -64,33 +67,20 @@ async function getCreditCard(ctx) {
 }
 
 // PATCH api at router
-// PATCH /creditcards/92981238821?cardnum=456expiry=21072021 , changeCreditCard
+// PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
 async function changeCreditCard(ctx) {
-    const { cardnum, expiry } = ctx.query;
+    const { cardnum } = ctx.query;
 
-    const currentcardnum = ctx.params.cardnum;
+    const username = ctx.params.username;
 
     // Assuming that at least 1 must be provided
     try {
-        if (expiry === undefined) {
-            const sqlQuery = `UPDATE creditcards SET cardnum = '${cardnum}' WHERE cardnum = '${currentcardnum}'`;
-            await pool.query(sqlQuery);
-            ctx.body = {
-                'success': 'true!'
-            };
-        } else if (cardnum === undefined) {
-            const sqlQuery = `UPDATE creditcards SET expiry = '${expiry}' WHERE cardnum = '${currentcardnum}'`;
-            await pool.query(sqlQuery);
-            ctx.body = {
-                'success': 'true!'
-            };
-        } else {
-            const sqlQuery = `UPDATE creditcards SET cardnum = '${cardnum}', expiry = '${expiry}' WHERE cardnum = '${currentcardnum}'`;
-            await pool.query(sqlQuery);
-            ctx.body = {
-                'success': 'true!'
-            };
-        }
+        const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'success': 'true!'
+        };
+
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -98,11 +88,11 @@ async function changeCreditCard(ctx) {
 }
 
 // DEL api at router
-// Same issue, need the old credit card number to test. Will add a temprary query param ?currentcreditcardnum
+// DEL /users/removecreditcard/:username , changeCreditCard
 async function removeCreditCard(ctx) {
-    const currentCreditCardNum = ctx.query.currentcreditcardnum;
+    const username = ctx.params.username;
     try {
-        const sqlQuery = `DELETE FROM creditcards WHERE cardnum = '${currentCreditCardNum}'`;
+        const sqlQuery = `UPDATE users SET cardnum = NULL WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
