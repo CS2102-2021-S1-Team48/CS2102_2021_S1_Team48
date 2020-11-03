@@ -45,7 +45,8 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // availabilities
 router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=20200701&enddate=20200319&pettype=dog&price=100
-router.get('/availabilities', getAllAvailabilities); 
+router.get('/availabilities', getAllAvailabilities);
+router.get('/availabilities/:pettype', get)
 // router.get('/availabilities/specific', getSpecificAvailabilities); // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
 router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=20201031&enddate=20201101&pettype=dog&price=100
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
