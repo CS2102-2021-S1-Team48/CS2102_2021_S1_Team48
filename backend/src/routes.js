@@ -18,11 +18,14 @@ router.get('/helloes', sayHelloes);
 
 /* 
     Routes categorised by controllers (tables)
-    Generally, /:<param> will be used when the api only require 3 or less params.
+    
+    /:<param> will be used when the api only require 3 or less params.
     If the apis take in more than 3 params, it will use ? question mark, where each
     variable is separated by an & ampersand symbol.
 
-    In the case of ? question mark, order of variables do not matter.
+    In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
+
+    In the case of ? question mark, order of variables do not matter. They are still compulsory to fill in, though.
 */
 
 // admins
