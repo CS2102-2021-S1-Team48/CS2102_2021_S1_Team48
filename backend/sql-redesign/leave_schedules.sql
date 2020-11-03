@@ -1,15 +1,15 @@
 /* Creates leave_schedules table */
 
 -- TODO cannot apply leave if there is at least one pet under their care on that day
-CREATE TABLE leave_schedules (
-    username   VARCHAR(20) REFERENCES fulltimers(username)
+CREATE TABLE leaveschedule (
+    username   VARCHAR(20) REFERENCES caretaker_ft(username)
 	       ON DELETE CASCADE
 	       ON UPDATE CASCADE,
-    start_date DATE        NOT NULL,
-    end_date   DATE        NOT NULL,
+    startdate DATE        NOT NULL,
+    enddate   DATE        NOT NULL,
 
     PRIMARY KEY(username, start_date),
-    CHECK(end_date >= start_date)
+    CHECK(enddate >= startdate)
 );
 
 /* Drops leave_schedules table */
