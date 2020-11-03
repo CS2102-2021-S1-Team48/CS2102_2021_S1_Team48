@@ -1,8 +1,8 @@
 <style>
 	.box {
-		width: 200px;
-		font-size: 10px;
-		max-width: 60%;
+		width: 240%;
+		font-size: 16px;
+		max-width: 170%;
 		max-height: 5%;
 		border: 2px solid #aaa;
 		background-color: #ffd962df;
