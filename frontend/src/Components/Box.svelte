@@ -27,10 +27,10 @@
 	}
 
 	.CaretakerSince {
-		background-image: url(tutorial/icons/map-marker.svg);
+		background-image: url(./chronometer.svg);
 	}
 	.PetLimit {
-		background-image: url(Icons/pawprint.svg);
+		background-image: url(./pawprint.svg);
 	}
 
 	.CaretakerProfile {

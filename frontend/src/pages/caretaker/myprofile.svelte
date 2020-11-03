@@ -1,12 +1,14 @@
 <script>
 	import Box from "../../Components/Box.svelte";
+	import { onMount } from "svelte";
+	import { account } from "../../user";
 	import Modal from "../../Components/Modal.svelte";
 	import CaretakerAvailability from "../../Components/CaretakerAvailability.svelte";
 	import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
 	let showAvailabilityModal = false;
 	let showPriceModal = false;
 	let showModal = false;
-
+	let petDaysThisMth = 0;
 	let reviewers = [
 		{
 			name: "Alex Koh",
@@ -22,10 +24,145 @@
 		},
 		{ name: "Bimlesh", rating: "3/5", reviewMsg: "shit" },
 	];
+	let username;
+
+	const unsubscribe = account.subscribe((value) => {
+		username = value;
+	});
+	
 	function toggle() {
 		showAvailabilityModal = !showAvailabilityModal;
 		showModal = !showModal;
 	}
+	async function addAvailabilityEntry(event) {
+		//console.log(`Notify fired! Detail: ${event.detail.startDate, event.detail.endDate}`)
+
+		let startdate = event.detail.startDate.replaceAll("-", "");
+		// console.log(startdate);
+		let enddate = event.detail.endDate.replaceAll("-", "");
+		//console.log(enddate);
+		let pettype = event.detail.petType;
+		//console.log(pettype);
+		let price = event.detail.price;
+		//console.log(price);
+		const postAvailabilityCall = await fetch(
+			`http://18.139.110.246:3000/availabilities/alexkoh?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
+			{
+				method: "POST",
+			}
+		)
+			.then((response1) => response1.json())
+			.then((data1) => {
+				console.log(data1);
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
+		// console.log(price);
+
+	}
+	onMount(async () => {
+		//where?
+		// const getPetDaysCall = fetch("https://api.mocki.io/v1/ce5f60e2", {
+		// 	method: "GET",
+		// })
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		petDaysThisMth = data.city;
+		// 		// console.log(data.city);
+		// 		// console.log(data.name);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		// 	const postAvailabilityCall = fetch(
+		// 	`http://18.139.110.246:3000/availabilities?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
+		// 	{
+		// 		method: "POST",
+		// 	}
+		// )
+		// 	.then((response1) => response1.json())
+		// 	.then((data1) => {
+
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		// const Reviews = fetch("http://18.139.110.246:3000/helloes", {
+		// 	method: "GET",
+		// })
+		// 	.then((response1) => response1.json())
+		// 	.then((data1) => {
+		// 		console.log(data1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		// 	const Reviews1 = fetch("http://18.139.110.246:3000/users?username=wooohoooo&password=password1", {
+		// 	method: "POST",
+
+		// })
+		// 	.then((response1) => response1.json())
+		// 	.then((data1) => {
+		// 		console.log(data1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		// 	const Reviews2 = fetch("http://18.139.110.246:3000/creditcards?cardnum=3495959959551235&expiry=20200521", {
+		// 	method: "POST",
+		// 	// body: JSON.stringify({
+		// 	// 	username:'johndoe29',
+		// 	// 	password:'password1'
+		// 	// })
+		// })
+		// 	.then((response1) => response1.json())
+		// 	.then((data1) => {
+		// 		console.log(data1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		// 	const Reviews2 = fetch("http://18.139.110.246:3000/creditcards?currentcreditcardnum=0004501", {
+		// 	method: "DELETE",
+		// 	// body: JSON.stringify({
+		// 	// 	username:'johndoe29',
+		// 	// 	password:'password1'
+		// 	// })
+		// })
+		// 	.then((response1) => response1.json())
+		// 	.then((data1) => {
+		// 		console.log(data1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		// const Reviews5 = fetch("http://18.139.110.246:3000/users/changeusername/sammie/IgotSalmonForDinner", {
+		// 	method: "PATCH",
+
+		// })
+		// 	.then((response1) => response1.json())
+		// 	.then((data1) => {
+		// 		console.log(data1);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log("ERROR: " + error);
+		// 	});
+
+		const PetfDays = fetch("https://api.mocki.io/v1/ce5f60e2", {
+			method: "GET",
+		}).then((response) => {
+			// for (let [key, value] of response.headers) {
+			// 	console.log(`${key} = ${value}`);
+			// }
+		});
+	});
 </script>
 
 <style>
@@ -80,8 +217,8 @@
 
 <nav>
 	<ul class="header">
-		<li>Pet Days this Month:</li>
-		<li />
+		<li style="font-weight:bold">Pet Days this Month:</li>
+		<li>{petDaysThisMth}</li>
 		<li>
 			<button class="button" on:click={() => (showAvailabilityModal = true)}>
 				Availability
@@ -137,7 +274,7 @@
 {#if showModal}
 	<Modal on:close={() => (showModal = false)}>
 		<h2 slot="header">Availability : New Availability</h2>
-		<AddAvailabilityForm closeHandler={toggle}/>
+		<AddAvailabilityForm closeHandler={toggle} on:newAvailability={addAvailabilityEntry}/>
 	</Modal>
 {/if}
 
