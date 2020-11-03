@@ -11,7 +11,6 @@ const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, dele
 const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
 
 
-
 const router = new Router();
 
 // dummy routes for testing only
@@ -22,7 +21,7 @@ router.get('/helloes', sayHelloes);
     Routes categorised by controllers (tables)
     
     /:<param> will be used when the api only require 4 or less params.
-    If the apis take in more than 3 params, it will use ? question mark, where each
+    If the apis take in more than 4 params, it will use ? question mark, where each
     variable is separated by an & ampersand symbol.
 
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
