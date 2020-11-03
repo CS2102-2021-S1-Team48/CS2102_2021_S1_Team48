@@ -44,6 +44,13 @@ async function getAllAvailabilities(ctx) {
 // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
 async function getSpecificAvailabilities(ctx) {
     const { usernamect, pettype } = ctx.query;
+
+    let sqlQuery = '';
+
+    if (!usernamect) {
+        sqlQuery = 
+    }
+
     try {
         if (pettype === undefined) {
             const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}'`;
