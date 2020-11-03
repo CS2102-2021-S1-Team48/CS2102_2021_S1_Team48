@@ -2,20 +2,78 @@
   import ChangePasswordForm from "../ChangePasswordForm.svelte";
   import EditCreditCard from "../EditCreditCard.svelte";
   import UpdateAddress from "../UpdateAddress.svelte";
+  import { account, pw } from "../user.js";
+
+  let username;
+  let pass;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
+  const unsubscribe2 = pw.subscribe((value) => {
+    pass = value;
+  });
 
   const handleChangePassword = (e) => {
-    const newPassword = e.detail;
-    console.log(newPassword);
-    alert("Password Changed!");
+    const received = e.detail;
+    const newpw = received.new;
+    const current = received.current;
+    if (pass != current) {
+      alert("Current password Incorrect!");
+    } else {
+      fetch(
+        `http://18.139.110.246:3000/users/changepassword/${username}/${current}/${newpw}`,
+        {
+          method: "PATCH",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => {});
+      alert("Password Changed!");
+    }
   };
 
   const handleEditCreditCard = (e) => {
+    let current;
     const newCreditCard = e.detail;
-    console.log(newCreditCard);
+    const cardnum = newCreditCard.num;
+    const expiry =
+      newCreditCard.expirymonth.toString() +
+      newCreditCard.expiryyear.toString();
+
+    //check current:
+    fetch(`http://18.139.110.246:3000/users/getcreditcard/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (current = data));
+    console.log(current);
+
+    if (current === null) {
+      fetch(
+        `http://18.139.110.246:3000/users/addcreditcard/${username}?cardnum=${cardnum}`,
+        {
+          method: "PATCH",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => console.log(data));
+    } else {
+      fetch(
+        `http://18.139.110.246:3000/users/changecreditcard/${username}?cardnum=${cardnum}`,
+        {
+          method: "PATCH",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => console.log(data));
+    }
+
     alert("Credit Card Saved!");
   };
 
   const handleUpdateAddress = (e) => {
+    // NOT FIXED
     const newAddress = e.detail;
     console.log(newAddress);
     alert("Address Updated!");

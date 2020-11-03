@@ -3,16 +3,31 @@
 
   let dispatch = createEventDispatcher();
 
-  let cardnumber;
-  let cardcvv;
+  let cardnumber = "";
+  let cardexpirymonth = "";
+  let cardexpiryyear = "";
 
   const handleSubmit = () => {
-    const card = {
-      cardnumber,
-      cardcvv,
-    };
-    //console.log(password);
-    dispatch("editCreditCard", card);
+    if (cardnumber === null || cardnumber.toString().length != 16) {
+      alert("Invalid 16 digit Visa/Mastercard Credit Card number");
+    } else if (
+      cardexpirymonth === "" ||
+      cardexpiryyear === "" ||
+      cardexpirymonth.toString().length != 2 ||
+      cardexpirymonth <= 0 ||
+      cardexpirymonth > 12 ||
+      cardexpiryyear.toString().length != 2
+    ) {
+      alert("Invalid Date");
+    } else {
+      const card = {
+        num: cardnumber,
+        expirymonth: cardexpirymonth,
+        expiryyear: cardexpiryyear,
+      };
+      //console.log(password);
+      dispatch("editCreditCard", card);
+    }
   };
 </script>
 
@@ -20,6 +35,9 @@
   .form {
     border-bottom: 1px solid;
     padding: 20px;
+  }
+  .date-input {
+    width: 92px;
   }
 </style>
 
@@ -33,13 +51,23 @@
       placeholder="card number"
       bind:value={cardnumber} />
 
-    <label for="cardcvv">Card CVV number</label>
-    <input
-      type="number"
-      name="cardcvv"
-      id="cardcvv"
-      placeholder="CVV"
-      bind:value={cardcvv} />
+    <label for="cardexpiry">Card Expirydate</label>
+    <div class="date">
+      <input
+        class="date-input"
+        type="number"
+        name="cardexpiry"
+        id="cardexpiry"
+        placeholder="month"
+        bind:value={cardexpirymonth} />
+      <input
+        class="date-input"
+        type="number"
+        name="cardexpiry"
+        id="cardexpiry"
+        placeholder="year"
+        bind:value={cardexpiryyear} />
+    </div>
 
     <button>SUBMIT</button>
   </form>

@@ -7,12 +7,18 @@
   let postal;
 
   const handleSubmit = () => {
-    const newaddress = {
-      address,
-      postal,
-    };
-    //console.log(password);
-    dispatch("updateAddress", newaddress);
+    if (address === null || address.match(/^ *$/) !== null) {
+      alert("Address must be filled!");
+    } else if (postal.toString().length != 6) {
+      alert("Postal is incorrect!");
+    } else {
+      const newaddress = {
+        address,
+        postal,
+      };
+      //console.log(password);
+      dispatch("updateAddress", newaddress);
+    }
   };
 </script>
 
