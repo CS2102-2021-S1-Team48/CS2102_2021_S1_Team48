@@ -63,7 +63,8 @@ async function adminLogin(ctx) {
 
         if (count == 1) {
             ctx.body = {
-                'username': username
+                'username': username,
+                'password': password
             };
         } else {
             ctx.status = 403;
