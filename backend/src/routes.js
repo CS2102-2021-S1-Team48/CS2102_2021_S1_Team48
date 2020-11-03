@@ -45,7 +45,7 @@ router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
-router.post('/admins/login', login);
+router.post('/admins/login/:username/:password', login);
 
 // creditcards
 router.post('/creditcards', addCreditCard); // POST /creditcards?cardnum=123&expiry=20281022
