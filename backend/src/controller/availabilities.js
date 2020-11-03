@@ -54,6 +54,25 @@ async function getAvailabilitiesByPetType(ctx) {
 }
 
 // GET api at router
+async function getAvailabilitiesByUsernameCT(ctx) {
+    const { usernamect } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM availabilities WHERE username_caretaker = '${usernamect}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'availabilities': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+
+
+// GET api at router
 // GET /availabilities/specific?usernamect=john&pettype=cat , getSpecificAvailabilities
 // async function getSpecificAvailabilities(ctx) {
 //     const { usernamect, pettype } = ctx.query;
@@ -292,6 +311,7 @@ module.exports = {
     postAvailability,
     getAllAvailabilities,
     getAvailabilitiesByPetType,
+    getAvailabilitiesByUsernameCT,
     editAvailability,
     deleteAvailability
 };
