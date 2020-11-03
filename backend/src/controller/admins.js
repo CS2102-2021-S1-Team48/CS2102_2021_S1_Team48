@@ -86,7 +86,7 @@ async function adminLogin(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT COUNT(username) FROM users WHERE username = '${username}' AND pw = '${password}'`;
+        const sqlQuery = `SELECT COUNT(username) FROM admins WHERE username = '${username}' AND pw = '${password}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         const onlyRow = rows[0];
