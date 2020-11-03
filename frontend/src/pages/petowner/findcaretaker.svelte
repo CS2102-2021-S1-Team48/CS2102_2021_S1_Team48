@@ -8,6 +8,8 @@
     username = value;
   });
 
+  let yourpaymethod;
+  let yourtransfer;
   let yourbid;
 
   let availability = [
@@ -16,14 +18,24 @@
     { name: "Bimlesh", rating: "3/5", currentbid: 20 },
   ];
 
+  let pmethod = ["Credit Card", "Cash"];
+
+  let tmethod = ["PCS Building", "Delivery", "Pick Up"];
+
   const searchCT = (e) => {
     const request = e.detail;
     console.log(request);
   };
 
-  const handleClick = (yourbid) => {
+  const handleBid = (name) => {
     //delete the pet
-    console.log(yourbid);
+    const bid = {
+      caretakeruser: name,
+      paymentmethod: yourpaymethod,
+      transfermethod: yourtransfer,
+      bid: yourbid,
+    };
+    console.log(bid);
   };
 </script>
 
@@ -39,7 +51,7 @@
   }
   li {
     display: inline-flex;
-    width: 200px;
+    width: 220px;
     padding: 10px;
     font-weight: 500;
     font-size: larger;
@@ -61,11 +73,44 @@
     display: inline-flex;
     padding: 10px;
   }
+  .form-input {
+    width: 100px;
+  }
+  .outer {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .options {
+    padding: 0 20px;
+  }
+  .short-input {
+    width: 200px;
+  }
 </style>
 
 <h1>Find Available Caretaker</h1>
 
 <SearchCaretaker on:SearchCareTaker={searchCT} />
+
+<div class="outer">
+  <div class="options">
+    <label for="paymentmethod">Payment by</label>
+    <select class="short-input" id="paymentmethod" bind:value={yourpaymethod}>
+      {#each pmethod as method}
+        <option value={method}>{method}</option>
+      {/each}
+    </select>
+  </div>
+  <div class="options">
+    <label for="transfermethod">Pet Transfer by</label>
+    <select class="short-input" id="transfermethod" bind:value={yourtransfer}>
+      {#each tmethod as method}
+        <option value={method}>{method}</option>
+      {/each}
+    </select>
+  </div>
+</div>
 
 <nav>
   <ul class="header">
@@ -84,10 +129,10 @@
       <div class="contents">{caretaker.currentbid}</div>
       <div class="form">
         <form on:submit|preventDefault>
-          <input type="number" bind:value={yourbid} />
+          <input type="number" class="form-input" bind:value={yourbid} />
           <button
             on:click={() => {
-              handleClick(yourbid);
+              handleBid(caretaker.name);
             }}>
             BID
           </button>

@@ -1,5 +1,12 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import { petlist } from "./user.js";
+
+  let pettypes;
+
+  const unsubscribe = petlist.subscribe((value) => {
+    pettypes = value;
+  });
 
   let dispatch = createEventDispatcher();
 
@@ -33,11 +40,12 @@
 
 <form on:submit|preventDefault={handleSubmit}>
   <input class="short-input" type="text" placeholder="name" bind:value={name} />
-  <input
-    class="short-input"
-    type="text"
-    placeholder="category"
-    bind:value={category} />
+
+  <select class="short-input" id="paymentmethod" bind:value={category}>
+    {#each pettypes as type}
+      <option value={type}>{type}</option>
+    {/each}
+  </select>
   <input
     class="long-input"
     type="text"

@@ -60,12 +60,6 @@
     max-width: 1024px;
     max-height: 200px;
   }
-  .selection {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-  }
 
   .form-input {
     padding: 0 20px;
@@ -84,7 +78,7 @@
   }
 
   .button-div {
-    padding: 20px 0 0 400px;
+    padding: 20px 0 0 610px;
     margin: 0;
   }
 </style>
@@ -122,13 +116,6 @@
       </div>
     </div>
     <div class="search-form-bottom">
-      <div class="selection">
-        <p>Payment Method:</p>
-        {#each options as value}
-          <label><input type="radio" {value} bind:group={payment} />
-            {value}</label>
-        {/each}
-      </div>
       <div class="button-div"><button class="search"> Search </button></div>
     </div>
   </div>

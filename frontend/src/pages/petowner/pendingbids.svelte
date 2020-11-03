@@ -1,6 +1,4 @@
 <script>
-  import PickTransfer from "../../PickTransfer.svelte";
-  import PickTransferForm from "../../PickTransferForm.svelte";
   import { account } from "../../user.js";
 
   let username;
@@ -30,15 +28,6 @@
       payment: "Credit Card",
       status: "Pending",
     },
-    {
-      caretaker: "Jason",
-      pet: "Rax",
-      start: "2020-11-22",
-      end: "2020-12-31",
-      bid: 70,
-      payment: "Cash",
-      status: "Successful",
-    },
   ];
 
   let selectedentry;
@@ -56,22 +45,9 @@
     bids = bids.filter((bid) => bid.pet != pet);
   };
 
-  const toPickTransfer = (e) => {
-    selectedtransfer = e.details;
+  const handleCancel = (pet) => {
     //delete the bid
-    bids = bids.filter((bid) => bid.pet != selectedpet);
-    const next = {
-      caretaker: selectedentry.caretaker,
-      pet: selectedentry.pet,
-      start: selectedentry.start,
-      end: selectedentry.end,
-      bid: selectedentry.bid,
-      payment: selectedentry.payment,
-      status: "Pending",
-    };
-    bids = [...bids, next];
-
-    showModal = !showModal;
+    bids = bids.filter((bid) => bid.pet != pet);
   };
 </script>
 
@@ -113,11 +89,6 @@
 
 <h1>Pending Bids</h1>
 
-<PickTransfer {showModal} on:click={toggleModal}>
-  <h3>Pick Transfer Method</h3>
-  <PickTransferForm on:pickTransfer={toPickTransfer} />
-</PickTransfer>
-
 <nav>
   <ul class="header">
     <li>Caretaker</li>
@@ -153,9 +124,14 @@
           </button>
         </div>
       {/if}
-      {#if bid.status == 'Successful'}
+      {#if bid.status == 'Pending'}
         <div class="button">
-          <button on:click={toggleModal(bid, bid.pet)}> PICK TRANSFER </button>
+          <button
+            on:click={() => {
+              handleCancel(bid.pet);
+            }}>
+            CANCEL
+          </button>
         </div>
       {/if}
     </div>
