@@ -23,6 +23,10 @@ router.post('/users', createUser);  // POST /users?username=johndoe99&password=p
 router.patch('/users/changeusername/:username/:newusername', changeUsername);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
 router.post('/users/login/:username/:password', login);
+router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
+router.get('/users/getcreditcard/:username', getCreditCard); // GET /users/getcreditcard/:username
+router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
+router.del('/users/removecreditcard/:username', removeCreditCard); // DEL /users/removecreditcard/:username , changeCreditCard
 
 // caretakers
 router.get('/caretakers', getAllCaretakers);

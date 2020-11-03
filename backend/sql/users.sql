@@ -2,7 +2,8 @@
 
 CREATE TABLE users (
     username varchar(20) PRIMARY KEY,
-    pw varchar(20) NOT NULL
+    pw varchar(20) NOT NULL,
+    cardnum	VARCHAR(20)	UNIQUE
 );
 
 /* Drops a user table /*

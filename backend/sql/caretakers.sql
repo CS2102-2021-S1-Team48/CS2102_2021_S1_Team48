@@ -10,7 +10,7 @@ CREATE TABLE caretakers (
 	ON DELETE CASCADE
 	ON UPDATE CASCADE
 );
-
+// TODO a trigger to auto update petlimit?
 /* Drops a user table /*
 
 DROP TABLE IF EXISTS caretakers

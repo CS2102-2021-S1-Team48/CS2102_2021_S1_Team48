@@ -1,5 +1,6 @@
 /* Creates leave_schedules table */
 
+-- TODO cannot apply leave if there is at least one pet under their care on that day
 CREATE TABLE leave_schedules (
     username   VARCHAR(20) REFERENCES fulltimers(username)
 	       ON DELETE CASCADE
