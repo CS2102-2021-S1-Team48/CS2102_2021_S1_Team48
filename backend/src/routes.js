@@ -1,9 +1,9 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createUser, changeUsername, changePassword, adminLogin } = require('./controller/users');
+const { createUser, changeUsername, changePassword, login } = require('./controller/users');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
-const { createAdmin, changeAdminUsername, changeAdminPassword, login } = require('./controller/admins');
+const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin } = require('./controller/admins');
 const { addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/creditcards');
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { postAvailability, getAllAvailabilities, getSpecificAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
