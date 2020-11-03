@@ -1,34 +1,6 @@
 const pool = require('../db');
 
 // POST api at router
-async function createAvailabilitiesTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropAvailabilitiesTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// POST api at router
 // POST /availabilities/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , postAvailability
 async function postAvailability(ctx) {
     const { startdate, enddate, pettype, price } = ctx.query;

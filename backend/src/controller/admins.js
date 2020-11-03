@@ -1,34 +1,6 @@
 const pool = require('../db');
 
 // POST api at router
-async function createAdminsTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success' : 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropAdminsTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success' : 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// POST api at router
 // POST /admins?username=johndoe99&password=password1 , createAdmin
 async function createAdmin(ctx) {
     const { username, password } = ctx.query;

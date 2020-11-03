@@ -1,33 +1,5 @@
 const pool = require('../db');
 
-// POST api at router
-async function createPetsTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropPetsTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
 // POST /pets/petowner1?petname=eva&pettype=cat&requirements=aircon
 // POST api at router
 async function addPet(ctx) {

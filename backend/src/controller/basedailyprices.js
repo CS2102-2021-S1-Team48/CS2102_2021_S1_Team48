@@ -1,33 +1,5 @@
 const pool = require('../db');
 
-// POST api at router
-async function createBaseDailyPricesTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropBaseDailyPricesTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'True!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
 // POST /basedailyprices/:adminusername?amount=123&pettype=dog&minrating=3
 // POST api at router
 // NOTE: to test need to have adminusername. I added a query parameter for it i.e. ?adminusername=123. Remove when using cookies
