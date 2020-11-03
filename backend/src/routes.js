@@ -71,8 +71,8 @@ router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
 
 // bids
 router.post('/bids/:usernamepo', addBid); // POST /bids/:usernamepo?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=20201231&enddate=20210101
-router.get('/bids/accepted', getAcceptedBids); 
-router.get('/bids/unaccepted', getUnacceptedBids);
+router.get('/bids/accepted/:usernamect', getAcceptedBids); 
+router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
 router.get('/bids/reviews/:usernamect', getReviewsOfCaretaker);
 router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate', acceptBid);

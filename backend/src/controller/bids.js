@@ -56,8 +56,9 @@ async function addBid(ctx) {
 
 // GET api at router
 async function getAcceptedBids(ctx) {
+    const usernamect = ctx.params.usernamect;
     try {
-        const sqlQuery = 'SELECT * FROM bids WHERE accepted = True';
+        const sqlQuery = `SELECT * FROM bids WHERE accepted = True AND username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -72,8 +73,9 @@ async function getAcceptedBids(ctx) {
 
 // GET api at router
 async function getUnacceptedBids(ctx) {
+    const usernamect = ctx.params.usernamect;
     try {
-        const sqlQuery = 'SELECT * FROM bids WHERE accepted = False';
+        const sqlQuery = `SELECT * FROM bids WHERE accepted = False AND username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
