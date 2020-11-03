@@ -13,47 +13,17 @@ const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretak
 
 const router = new Router();
 
+// dummy routes for testing only
 router.get('/hello', sayHello);
 router.get('/helloes', sayHelloes);
 
 // routes categorised by controllers
-
-// users
-router.post('/users', createUser);  // POST /users?username=johndoe99&password=password1
-router.patch('/users/changeusername/:username/:newusername', changeUsername);
-router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
-router.post('/users/login/:username/:password', login);
-router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
-router.get('/users/getcreditcard/:username', getCreditCard); // GET /users/getcreditcard/:username
-router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
-router.del('/users/removecreditcard/:username', removeCreditCard); // DEL /users/removecreditcard/:username , changeCreditCard
-
-// caretakers
-router.get('/caretakers', getAllCaretakers);
-router.get('/caretakers/:usernamect', getCaretakerByUsername);
-
-// caretakersft
-router.post('/caretakersft/:usernamect', switchCaretakerPtToFt); // POST /caretakersft/duc99?startdate1=20200101&enddate1=20200531&startdate2=20200601&enddate2=20201231
-router.get('/caretakersft', getCaretakerFtInfo);
-router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
-router.patch('/caretakersft/startdate1/:startdate1/:usernamect', editStartDate1);
-router.patch('/caretakersft/enddate1/:enddate1/:usernamect', editEndDate1);
-router.patch('/caretakersft/startdate2/:startdate2/:usernamect', editStartDate2);
-router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
 
 // admins
 router.post('/admins', createAdmin);  // POST /admins?username=johndoe99&password=password1
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 router.post('/admins/login/:username/:password', adminLogin);
-
-// pets
-router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
-router.get('/pets', getPets);
-router.get('/pets/:usernamepo', getPetByUsername);
-router.get('/pets/:petname/:usernamepo', getPetByPetname);
-router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
-router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // availabilities
 router.post('/availabilities/:usernamect', postAvailability); // POST /availabilities?startdate=20200701&enddate=20200319&pettype=dog&price=100
@@ -79,5 +49,36 @@ router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate'
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating
 router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate', deleteBid);
+
+// caretakers
+router.get('/caretakers', getAllCaretakers);
+router.get('/caretakers/:usernamect', getCaretakerByUsername);
+
+// caretakersft
+router.post('/caretakersft/:usernamect', switchCaretakerPtToFt); // POST /caretakersft/duc99?startdate1=20200101&enddate1=20200531&startdate2=20200601&enddate2=20201231
+router.get('/caretakersft', getCaretakerFtInfo);
+router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
+router.patch('/caretakersft/startdate1/:startdate1/:usernamect', editStartDate1);
+router.patch('/caretakersft/enddate1/:enddate1/:usernamect', editEndDate1);
+router.patch('/caretakersft/startdate2/:startdate2/:usernamect', editStartDate2);
+router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
+
+// pets
+router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
+router.get('/pets', getPets);
+router.get('/pets/:usernamepo', getPetByUsername);
+router.get('/pets/:petname/:usernamepo', getPetByPetname);
+router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
+router.del('/pets/:petname/:usernamepo', deletePetByPetname);
+
+// users
+router.post('/users', createUser);  // POST /users?username=johndoe99&password=password1
+router.patch('/users/changeusername/:username/:newusername', changeUsername);
+router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
+router.post('/users/login/:username/:password', login);
+router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
+router.get('/users/getcreditcard/:username', getCreditCard); // GET /users/getcreditcard/:username
+router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
+router.del('/users/removecreditcard/:username', removeCreditCard); // DEL /users/removecreditcard/:username , changeCreditCard
 
 module.exports = router;
