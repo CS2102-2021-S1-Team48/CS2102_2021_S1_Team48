@@ -7,6 +7,7 @@ const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretak
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
+const {  } = require('./controller/parttimeschedule');
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
 
@@ -88,6 +89,9 @@ router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
 router.post('/leaves/:usernamect/:startdate/:enddate', addLeave);
 router.get('/leaves/:usernamect', getLeaves);
 router.del('/leaves/:usernamect/:startdate', deleteLeaves);
+
+// parttimeschedule
+
 
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
