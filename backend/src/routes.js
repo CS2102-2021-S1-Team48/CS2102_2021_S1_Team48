@@ -7,7 +7,7 @@ const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretak
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
-const {  } = require('./controller/parttimeschedule');
+const { addSchedule, getSchedule, updateSchedule, deleteSchedule } = require('./controller/parttimeschedule');
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
 
@@ -92,7 +92,10 @@ router.get('/leaves/:usernamect', getLeaves);
 router.del('/leaves/:usernamect/:startdate', deleteLeaves);
 
 // parttimeschedule
-
+router.post('/parttimeschedule/:usernamect/:availdate', addSchedule);
+router.get('/partimeschedule/:usernamect', getSchedule);
+router.patch('/partimeschedule/:usernamect/:availdate/:newdate', updateSchedule);
+router.del('/partimeschedule/:usernamect/:availdate', deleteSchedule);
 
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
