@@ -1,7 +1,7 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
 const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin } = require('./controller/admins');
-const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability } = require('./controller/availabilities');
+const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice } = require('./controller/basedailyprices');
 const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker } = require('./controller/bids');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
@@ -10,7 +10,6 @@ const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedul
 const {  } = require('./controller/parttimeschedule');
 const { addPet, getPets, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
-
 
 
 const router = new Router();
@@ -23,7 +22,7 @@ router.get('/helloes', sayHelloes);
     Routes categorised by controllers (tables)
     
     /:<param> will be used when the api only require 4 or less params.
-    If the apis take in more than 3 params, it will use ? question mark, where each
+    If the apis take in more than 4 params, it will use ? question mark, where each
     variable is separated by an & ampersand symbol.
 
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
@@ -48,7 +47,9 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 // availabilities
 router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities);
-router.get('/availabilities/:pettype', getAvailabilitiesByPetType);
+router.get('/availabilities/pettype/:pettype', getAvailabilitiesByPetType);
+router.get('/availabilities/usernamect/:usernamect', getAvailabilitiesByUsernameCT);
+router.get('/availabilities/uctandpt/:usernamect/:pettype', getAvailabilitiesByUCTandPT);
 router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=20201031&enddate=20201101&pettype=dog&price=100
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
