@@ -90,10 +90,10 @@ async function getAvailabilitiesByUCTandPT(ctx) {
 // PATCH api at router
 // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
 async function editAvailability(ctx) {
-    const currStartDate = ctx.params.startdate;
-    const currEndDate = ctx.params.enddate;
-    const currPetType = ctx.params.pettype;
-    const usernamect = ctx.params.usernamect;
+    var currStartDate = ctx.params.startdate;
+    var currEndDate = ctx.params.enddate;
+    var currPetType = ctx.params.pettype;
+    var usernamect = ctx.params.usernamect;
 
     const { startdate, enddate, pettype, price } = ctx.query;
     try {
@@ -101,22 +101,24 @@ async function editAvailability(ctx) {
             const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             console.log(sqlQuery);
             await pool.query(sqlQuery);
+            currStartDate = startdate;
 
         } if (enddate !== undefined) {
             const sqlQuery = `UPDATE availabilities SET enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             console.log(sqlQuery);
             await pool.query(sqlQuery);
+            currEndDate = enddate;
 
         } if (pettype !== undefined) {
             const sqlQuery = `UPDATE availabilities SET pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             console.log(sqlQuery);
             await pool.query(sqlQuery);
+            currPetType = pettype;
 
         } if (price !== undefined) {
             const sqlQuery = `UPDATE availabilities SET price = ${price} WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
             console.log(sqlQuery);
             await pool.query(sqlQuery);
-
         }
         ctx.body = {
             'success': 'True!',
