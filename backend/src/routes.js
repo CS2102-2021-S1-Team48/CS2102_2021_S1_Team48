@@ -28,8 +28,7 @@ router.get('/helloes', sayHelloes);
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
 
     In the case of ? question mark, order of variables do not matter. They are still compulsory to
-    fill in though. Apart for a few exceptions, such as editAvailability, where variables after
-    the question mark are not compulsory, it just determines the specificity of your UPDATE.
+    fill in, though.
 */
 
 // admins
@@ -54,7 +53,7 @@ router.get('/availabilities', getAllAvailabilities);
 router.get('/availabilities/pettype/:pettype', getAvailabilitiesByPetType);
 router.get('/availabilities/usernamect/:usernamect', getAvailabilitiesByUsernameCT);
 router.get('/availabilities/uctandpt/:usernamect/:pettype', getAvailabilitiesByUCTandPT);
-router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=20201031&enddate=20201101&pettype=dog&price=100
+router.patch('/availabilities', editAvailability); // PATCH /availabilities?startdate=20201025&enddate=20201025&pettype=dog&price=99999&usernamect=johndoe98&newstartdate=20201025&newenddate=20201026&newpettype=cat&newprice=13939495
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
 // basedailyprices

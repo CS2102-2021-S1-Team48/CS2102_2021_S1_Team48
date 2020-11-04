@@ -17,9 +17,6 @@ async function postAvailability(ctx) {
         };
     } catch (e) {
         console.log(e);
-        ctx.body = {
-            'error': e
-        };
         ctx.status = 403;
     }
 }
@@ -90,45 +87,22 @@ async function getAvailabilitiesByUCTandPT(ctx) {
     }
 }
 
+// Buggy, to fix
 // PATCH api at router
-// PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
+// PATCH /availabilities?startdate=20201025&enddate=20201025&pettype=dog&price=99999&usernamect=johndoe98&newstartdate=20201025&newenddate=20201026&newpettype=cat&newprice=13939495
 async function editAvailability(ctx) {
-    var currStartDate = ctx.params.startdate;
-    var currEndDate = ctx.params.enddate;
-    var currPetType = ctx.params.pettype;
-    var usernamect = ctx.params.usernamect;
-
-    const { startdate, enddate, pettype, price } = ctx.query;
+    const { startdate, enddate, pettype, price, usernamect, newstartdate, newenddate, newpettype, newprice } = ctx.query;
+    
     try {
-        if (startdate !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-            currStartDate = startdate;
-
-        } if (enddate !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-            currEndDate = enddate;
-
-        } if (pettype !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-            currPetType = pettype;
-
-        } if (price !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET price = ${price} WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-        }
+        const whereClause = `WHERE startdate = '${startdate}' AND enddate = '${enddate}' AND pettype = '${pettype}' AND price = '${price}' AND username_caretaker = '${usernamect}'`;
+        const sqlQuery = `UPDATE availabilities SET startdate = '${newstartdate}', enddate = '${newenddate}', pettype = '${newpettype}', price = '${newprice}' ` + whereClause;
+        console.log(sqlQuery);
+        await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
-            'startdate': startdate,
-            'enddate': enddate,
-            'pettype': pettype,
-            'price': price,
+            'newstartdate': newstartdate,
+            'newenddate': newenddate,
+            'newpettype': newpettype,
+            'newprice': newprice,
         };
     } catch (e) {
         console.log(e);
