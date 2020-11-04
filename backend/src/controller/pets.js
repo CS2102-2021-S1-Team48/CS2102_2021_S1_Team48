@@ -6,6 +6,7 @@ async function addPet(ctx) {
     const { petname, pettype, requirements, usernamepo } = ctx.query;
 
     let sqlQuery = '';
+
     if (requirements) {
         sqlQuery = `INSERT INTO pets (petname, pettype, requirements, username_petowner) VALUES ('${petname}', '${pettype}', '${requirements}', '${usernamepo}')`;
     } else {
