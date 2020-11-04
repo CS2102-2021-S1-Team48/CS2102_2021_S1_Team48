@@ -23,7 +23,7 @@ const pool = new Pool({
     host: 'petdb.cluuodrt5y8f.ap-southeast-1.rds.amazonaws.com',
     database: 'postgres',
     password: 'petdbrds123',
-    port: 5432,
+    port: 4215,
 });
 
 module.exports = pool;
