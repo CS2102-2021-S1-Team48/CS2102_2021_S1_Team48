@@ -3,6 +3,9 @@ import {writable} from 'svelte/store'
 export const account = writable(
     "Petownername");
 
+export const pw = writable(
+    "pass");
+
 export const petlist = writable(
     [
         "Husky",
@@ -14,3 +17,6 @@ export const petlist = writable(
     "Ant",
     ]
 )
+export const pricelist = writable (
+    ["Hello"]
+    )
