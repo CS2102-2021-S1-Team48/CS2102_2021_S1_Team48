@@ -60,43 +60,19 @@ async function getPetByPetname(ctx) {
 }
 
 // PATCH api at router
-// PATCH /pets/:petname/:usernamepo?petname=evaline&requirements=coldaircon , editPetDetails
-
-// UPDATE pets SET petname = 'evaline' WHERE petname = 'emma' AND username_petowner = 'johndoe99';
-// UPDATE pets SET requirements = 'hugs daily' WHERE petname = 'emma2' AND username_petowner = 'johndoe99';
-// UPDATE pets SET petname = 'evaline', requirements = 'carnivore' WHERE petname = 'emma' AND username_petowner = 'johndoe999';
+// PATCH /pets?petname=eva&pettype=cat&usernamepo=johndoe98&newpetname=emma&newpettype=dog&newrequirements=aircon
 async function editPetDetails(ctx) {
-    const currentpetname = ctx.params.petname;
-    const usernamepo = ctx.params.usernamepo;
-
-    const { petname, requirements } = ctx.query;
+    const { petname, pettype, usernamepo, newpetname, newpettype, newrequirements } = ctx.query;
+    
     try {
-        if (requirements === undefined) {
-            const sqlQuery = `UPDATE pets SET petname = '${petname}' WHERE petname = '${currentpetname}' AND username_petowner = '${usernamepo}'`;
-            await pool.query(sqlQuery);
-            ctx.body = {
-                'success': 'True!',
-                'petname': petname
-            };
-            
-        } else if (petname === undefined) {
-            const sqlQuery = `UPDATE pets SET requirements = '${requirements}' WHERE petname = '${currentpetname}' AND username_petowner = '${usernamepo}'`;
-            await pool.query(sqlQuery);
-            ctx.body = {
-                'success': 'True!',
-                'requirements': requirements
-            };
-
-        } else {
-            const sqlQuery = `UPDATE pets SET petname = '${petname}', requirements = '${requirements}' WHERE petname = '${currentpetname}' AND username_petowner = '${usernamepo}'`;
-            await pool.query(sqlQuery);
-            ctx.body = {
-                'success': 'True!',
-                'requirements': requirements,
-                'petname': petname
-            };
-
-        }
+        const whereClause = `WHERE petname = '${petname}' AND pettype = '${pettype}' AND username_petowner = '${usernamepo}'`;
+        const sqlQuery = `UPDATE pets SET petname = '${newpetname}', pettype = '${newpettype}', requirements = '${newrequirements}' ` + whereClause;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'newpetname': petname,
+            'newpettype': pettype,
+            'newrequirements': newrequirements
+        };
     } catch (e) {
         console.log(e);
         ctx.status = 403;
