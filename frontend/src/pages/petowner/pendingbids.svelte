@@ -1,53 +1,50 @@
 <script>
+  import { onMount } from "svelte";
+
   import { account } from "../../user.js";
 
   let username;
+
+  let bids = [];
 
   const unsubscribe = account.subscribe((value) => {
     username = value;
   });
 
-  let showModal = false;
-
-  let bids = [
-    {
-      caretaker: "Justin",
-      pet: "Maple",
-      start: "2020-11-29",
-      end: "2020-12-29",
-      bid: 24,
-      payment: "Credit Card",
-      status: "Unsuccessful",
-    },
-    {
-      caretaker: "Justin",
-      pet: "Morty",
-      start: "2020-11-29",
-      end: "2020-12-29",
-      bid: 26,
-      payment: "Credit Card",
-      status: "Pending",
-    },
-  ];
+  onMount(async () => {
+    await fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (bids = data.acceptedbids));
+  });
 
   let selectedentry;
   let selectedpet;
   let selectedtransfer;
 
-  const toggleModal = (entry, pet) => {
-    selectedentry = entry;
-    selectedpet = pet;
-    showModal = !showModal;
+  const handleClear = (bid) => {
+    // request Clear bid
+    console.log(bid);
+
+    // reload
+    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (bids = data.acceptedbids));
   };
 
-  const handleClear = (pet) => {
-    //delete the bid
-    bids = bids.filter((bid) => bid.pet != pet);
-  };
+  const handleCancel = (bid) => {
+    // request cancel bid (remove from bid)
+    console.log(bid);
 
-  const handleCancel = (pet) => {
-    //delete the bid
-    bids = bids.filter((bid) => bid.pet != pet);
+    // reload
+    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (bids = data.acceptedbids));
   };
 </script>
 
@@ -68,7 +65,7 @@
     font-size: larger;
   }
   .contents {
-    width: 100px;
+    width: 103px;
     text-align: center;
     display: inline-flex;
     padding: 9px;
@@ -95,10 +92,8 @@
     <li>Pet</li>
     <li>Startdate</li>
     <li>Enddate</li>
-    <li>Your bid</li>
-
+    <li>Price</li>
     <li>Payment Method</li>
-
     <li>Status</li>
     <li>Action</li>
   </ul>
@@ -107,18 +102,18 @@
 <div>
   {#each bids as bid}
     <div class="bid">
-      <div class="contents">{bid.caretaker}</div>
-      <div class="contents">{bid.pet}</div>
-      <div class="contents">{bid.start}</div>
-      <div class="contents">{bid.end}</div>
-      <div class="contents">{bid.bid}</div>
-      <div class="contents">{bid.payment}</div>
-      <div class="contents">{bid.status}</div>
-      {#if bid.status == 'Unsuccessful'}
+      <div class="contents">{bid.username_caretaker}</div>
+      <div class="contents">{bid.petname}</div>
+      <div class="contents">{bid.startdate}</div>
+      <div class="contents">{bid.enddate}</div>
+      <div class="contents">PRICE</div>
+      <div class="contents">{bid.paymentmethod}</div>
+      <div class="contents">{bid.transfermethod}</div>
+      {#if bid.transfermethod == 'deliver'}
         <div class="button">
           <button
             on:click={() => {
-              handleClear(bid.pet);
+              handleClear(bid);
             }}>
             CLEAR
           </button>
@@ -128,7 +123,7 @@
         <div class="button">
           <button
             on:click={() => {
-              handleCancel(bid.pet);
+              handleCancel(bid);
             }}>
             CANCEL
           </button>
