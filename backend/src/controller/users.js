@@ -210,6 +210,22 @@ async function editAddress(ctx) {
     }
 }
 
+// DEL api at router
+// DEL /users/deleteaddress/:username , deleteAddress
+async function deleteAddress(ctx) {
+    const { username } = ctx.params;
+    try {
+        const sqlQuery = `UPDATE users SET address = NULL WHERE username = '${username}'`;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'success': 'true!'
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createUser,
     login,
@@ -221,5 +237,6 @@ module.exports = {
     removeCreditCard,
     addAddress,
     getAddress,
-    editAddress
+    editAddress,
+    deleteAddress
 };
