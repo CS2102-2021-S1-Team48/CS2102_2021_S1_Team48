@@ -27,7 +27,9 @@ router.get('/helloes', sayHelloes);
 
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
 
-    In the case of ? question mark, order of variables do not matter. They are still compulsory to fill in, though.
+    In the case of ? question mark, order of variables do not matter. They are still compulsory to
+    fill in though. Apart for a few exceptions, such as editAvailability, where variables after
+    the question mark are not compulsory, it just determines the specificity of your UPDATE.
 */
 
 // admins
