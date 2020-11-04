@@ -100,7 +100,7 @@ router.patch('/partimeschedule/:usernamect/:availdate/:newdate', updateSchedule)
 router.del('/partimeschedule/:usernamect/:availdate', deleteSchedule);
 
 // pets
-router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
+router.post('/pets', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon&usernamepo=johndoe98
 router.get('/pets/:usernamepo', getPetsByUsername);
 router.get('/pets/:usernamepo/:petname', getPetByPetname);
 router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon

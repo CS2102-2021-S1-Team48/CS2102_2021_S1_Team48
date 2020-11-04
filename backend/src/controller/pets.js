@@ -1,19 +1,20 @@
 const pool = require('../db');
 
-// POST /pets/petowner1?petname=eva&pettype=cat&requirements=aircon
 // POST api at router
+// POST /pets?petname=eva&pettype=cat&requirements=aircon&usernamepo=johndoe98
 async function addPet(ctx) {
-    const { petname, pettype } = ctx.query;
-    var requirements = ctx.query.requirements;
+    const { petname, pettype, requirements, usernamepo } = ctx.query;
 
-    const usernamepo = ctx.params.usernamepo;
+    let sqlQuery = '';
+    if (requirements) {
+        sqlQuery = `INSERT INTO pets (petname, pettype, requirements, username_petowner) VALUES ('${petname}', '${pettype}', '${requirements}', '${usernamepo}')`;
+    } else {
+        sqlQuery = `INSERT INTO pets (petname, pettype, username_petowner) VALUES ('${petname}', '${pettype}', '${usernamepo}')`;
+    }
 
-    requirements = (requirements === undefined) ? 'NIL' : requirements;
     try {
-        const sqlQuery = `INSERT INTO pets VALUES ('${petname}', '${pettype}', '${requirements}', '${usernamepo}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'requirements': requirements,
             'petname': petname,
             'pettype': pettype
