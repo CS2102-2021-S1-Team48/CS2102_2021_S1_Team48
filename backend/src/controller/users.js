@@ -25,6 +25,32 @@ async function createUser(ctx) {
     }
 }
 
+// POST api at router
+async function login(ctx) {
+    const { username, password } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT COUNT(username) FROM users WHERE username = '${username}' AND pw = '${password}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        const onlyRow = rows[0];
+
+        const count = onlyRow.count;
+
+        if (count == 1) {
+            ctx.body = {
+                'username': username
+            };
+        } else {
+            ctx.status = 403;
+        }
+
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 // PATCH api at router
 async function changeUsername(ctx) {
     const { username, newusername } = ctx.params;
@@ -52,30 +78,6 @@ async function changePassword(ctx) {
         ctx.body = {
             'newpassword': newpassword
         };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// POST api at router
-async function login(ctx) {
-    const { username, password } = ctx.params;
-
-    try {
-        const sqlQuery = `SELECT COUNT(username) FROM users WHERE username = '${username}' AND pw = '${password}'`;
-        const resultObject = await pool.query(sqlQuery);
-        const rows = resultObject.rows;
-        const onlyRow = rows[0];
-
-        const count = onlyRow.count;
-
-        if (count == 1) {
-            ctx.status = 204;
-        } else {
-            ctx.status = 403;
-        }
-
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -157,9 +159,9 @@ async function removeCreditCard(ctx) {
 
 module.exports = {
     createUser,
+    login,
     changeUsername,
     changePassword,
-    login,
     addCreditCard,
     getCreditCard,
     changeCreditCard,
