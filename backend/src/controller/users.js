@@ -1,24 +1,23 @@
 const pool = require('../db');
 
-// POST /users?username=johndoe99&password=password1
 // POST api at router
 async function createUser(ctx) {
-    const { username, password } = ctx.query;
+    const { username, password } = ctx.params;
     try {
-        const sqlQuery = `INSERT INTO users VALUES ('${username}', '${password}')`;
+        const sqlQuery = `INSERT INTO users (username, pw) VALUES ('${username}', '${password}')`;
         await pool.query(sqlQuery);
 
-        const insertIntoPetowners = `INSERT INTO petowners VALUES ('${username}')`;
+        const insertIntoPetowners = `INSERT INTO petowners (username) VALUES ('${username}')`;
         await pool.query(insertIntoPetowners);
 
-        const insertIntoCaretakers = `INSERT INTO caretakers VALUES ('${username}')`;
+        const insertIntoCaretakers = `INSERT INTO caretakers (username) VALUES ('${username}')`;
         await pool.query(insertIntoCaretakers);
 
-        const insertIntoCaretakersPt = `INSERT INTO caretakers_pt VALUES ('${username}')`;
+        const insertIntoCaretakersPt = `INSERT INTO caretakers_pt (username) VALUES ('${username}')`;
         await pool.query(insertIntoCaretakersPt);
 
         ctx.body = {
-            'success': 'true!'
+            'username': username
         };
     } catch (e) {
         console.log(e);

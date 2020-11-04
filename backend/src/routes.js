@@ -107,7 +107,7 @@ router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petn
 router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // users
-router.post('/users', createUser);  // POST /users?username=johndoe99&password=password1
+router.post('/users/register/:username/:password', createUser);
 router.patch('/users/changeusername/:username/:newusername', changeUsername);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
 router.post('/users/login/:username/:password', login);
