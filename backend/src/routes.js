@@ -34,9 +34,9 @@ router.get('/helloes', sayHelloes);
 
 // admins
 router.post('/admins/register/:username/:password', createAdmin);
+router.post('/admins/login/:username/:password', adminLogin);
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
-router.post('/admins/login/:username/:password', adminLogin);
 
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
@@ -108,9 +108,9 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // users
 router.post('/users/register/:username/:password', createUser);
+router.post('/users/login/:username/:password', login);
 router.patch('/users/changeusername/:username/:newusername', changeUsername);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
-router.post('/users/login/:username/:password', login);
 router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
 router.get('/users/getcreditcard/:username', getCreditCard); // GET /users/getcreditcard/:username
 router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
