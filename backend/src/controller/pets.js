@@ -42,9 +42,8 @@ async function getPetsByUsername(ctx) {
 }
 
 // GET api at router
-// GET /pets/:petname/:usernamepo , getPetByPetname
 async function getPetByPetname(ctx) {
-    const { petname, usernamepo } = ctx.params;
+    const { usernamepo, petname } = ctx.params;
     try {
         const sqlQuery = `SELECT * FROM pets WHERE petname = '${petname}' AND username_petowner = '${usernamepo}'`;
         const resultObject = await pool.query(sqlQuery);
@@ -52,7 +51,6 @@ async function getPetByPetname(ctx) {
         ctx.body = {
             'pets': row
         };
-        console.table(row);
     } catch (e) {
         console.log(e);
         ctx.status = 403;

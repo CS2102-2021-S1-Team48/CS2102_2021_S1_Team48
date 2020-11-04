@@ -102,7 +102,7 @@ router.del('/partimeschedule/:usernamect/:availdate', deleteSchedule);
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
 router.get('/pets/:usernamepo', getPetsByUsername);
-router.get('/pets/:petname/:usernamepo', getPetByPetname);
+router.get('/pets/:usernamepo/:petname', getPetByPetname);
 router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
 router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
