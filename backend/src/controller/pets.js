@@ -35,7 +35,6 @@ async function getPetsByUsername(ctx) {
         ctx.body = {
             'pets': row
         };
-        console.table(row);
     } catch (e) {
         console.log(e);
         ctx.status = 403;
