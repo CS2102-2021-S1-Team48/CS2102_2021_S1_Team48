@@ -17,6 +17,9 @@ async function postAvailability(ctx) {
         };
     } catch (e) {
         console.log(e);
+        ctx.body = {
+            'error': e
+        };
         ctx.status = 403;
     }
 }
