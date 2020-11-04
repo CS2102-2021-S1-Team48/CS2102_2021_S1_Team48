@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin } = require('./controller/admins');
+const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin, getUniquePetsCared, getCareTakerTotalDaysWorked } = require('./controller/admins');
 const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice, getPetTypes } = require('./controller/basedailyprices');
 const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker } = require('./controller/bids');
@@ -35,8 +35,11 @@ router.get('/helloes', sayHelloes);
 // admins
 router.post('/admins/register/:username/:password', createAdmin);
 router.post('/admins/login/:username/:password', adminLogin);
+router.get('/admins/getuniquepetscared/:startdate/:enddate', getUniquePetsCared);
+router.get('/admins/getcaretakertotaldaysworked/:startdate/:enddate', getCareTakerTotalDaysWorked);
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
+
 
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
