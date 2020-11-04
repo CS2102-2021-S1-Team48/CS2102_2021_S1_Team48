@@ -25,24 +25,8 @@ async function addPet(ctx) {
 }
 
 // GET api at router
-async function getPets(ctx) {
-    try {
-        const sqlQuery = 'SELECT * FROM pets';
-        const resultObject = await pool.query(sqlQuery);
-        const row = resultObject.rows;
-        ctx.body = {
-            'pets': row
-        };
-        console.table(row);
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// GET api at router
 // Newly added
-async function getPetByUsername(ctx) {
+async function getPetsByUsername(ctx) {
     const usernamepo = ctx.params.usernamepo;
     try {
         const sqlQuery = `SELECT * FROM pets WHERE username_petowner = ${usernamepo}`;
@@ -140,8 +124,7 @@ async function deletePetByPetname(ctx) {
 
 module.exports = {
     addPet,
-    getPetByUsername,
-    getPets,
+    getPetsByUsername,
     getPetByPetname,
     editPetDetails,
     deletePetByPetname
