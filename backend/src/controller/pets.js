@@ -29,7 +29,7 @@ async function getPetsByUsername(ctx) {
     const { usernamepo } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT * FROM pets WHERE username_petowner = ${usernamepo}`;
+        const sqlQuery = `SELECT * FROM pets WHERE username_petowner = '${usernamepo}'`;
         const resultObject = await pool.query(sqlQuery);
         const row = resultObject.rows;
         ctx.body = {
