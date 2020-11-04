@@ -119,11 +119,31 @@ async function getCareTakerTotalDaysWorked(ctx) {
     }
 }
 
+// GET API at router
+// GET /admins/gettotalsalarytobepaid/:startdate/:enddate
+// Had to do a stored procedure here, for some reason they dont let me send a CTE over.
+async function getTotalSalaryToBePaid(ctx) {
+    const { startdate, enddate } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM getTotalSalaryToBePaid('${startdate}', '${enddate}')`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'totalsalary': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     createAdmin,
     changeAdminUsername,
     changeAdminPassword,
     adminLogin,
     getUniquePetsCared,
-    getCareTakerTotalDaysWorked
+    getCareTakerTotalDaysWorked,
+    getTotalSalaryToBePaid
 };
