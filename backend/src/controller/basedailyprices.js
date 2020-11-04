@@ -103,7 +103,6 @@ async function editBaseDailyPrice(ctx) {
     }
 }
 
-// DEL /basedailyprices/:pettype/:minrating , deleteBaseDailyPrice
 // DEL api at router
 async function deleteBaseDailyPrice(ctx) {
     const { pettype, minrating } = ctx.params;
@@ -119,10 +118,27 @@ async function deleteBaseDailyPrice(ctx) {
     }
 }
 
+// GET api at router
+async function getPetTypes(ctx) {
+
+    try {
+        const sqlQuery = 'SELECT DISTINCT pettype FROM basedailyprices';
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        console.table(rows);
+        ctx.body = {
+            'pettypes': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
 
 module.exports = {
     addBaseDailyPrice,
     getBaseDailyPrices,
     editBaseDailyPrice,
-    deleteBaseDailyPrice
+    deleteBaseDailyPrice,
+    getPetTypes
 };
