@@ -142,11 +142,64 @@ async function changeCreditCard(ctx) {
 }
 
 // DEL api at router
-// DEL /users/removecreditcard/:username , changeCreditCard
+// DEL /users/removecreditcard/:username , removeCreditCard
 async function removeCreditCard(ctx) {
     const username = ctx.params.username;
     try {
         const sqlQuery = `UPDATE users SET cardnum = NULL WHERE username = '${username}'`;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'success': 'true!'
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+
+// PATCH api at router
+// PATCH /users/addaddress/:username/:address , addAddress
+async function addAddress(ctx) {
+    const address = ctx.params.address;
+    const username = ctx.params.username;
+
+    try {
+        const sqlQuery = `UPDATE users SET address = '${address}' WHERE username = '${username}'`;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'success': 'true!'
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+
+// GET api at router
+// GET /users/getaddress/:username , getAddress
+async function getAddress(ctx) {
+    const username = ctx.params.username;
+    try {
+        const sqlQuery = `SELECT username, address FROM users WHERE username = '${username}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'address': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+// PATCH api at router
+// PATCH /users/editaddress/:username/:newaddress , editAddress
+async function editAddress(ctx) {
+    const { username, newaddress } = ctx.params;
+    try {
+        const sqlQuery = `UPDATE users SET address = '${newaddress}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
@@ -165,5 +218,8 @@ module.exports = {
     addCreditCard,
     getCreditCard,
     changeCreditCard,
-    removeCreditCard
+    removeCreditCard,
+    addAddress,
+    getAddress,
+    editAddress
 };

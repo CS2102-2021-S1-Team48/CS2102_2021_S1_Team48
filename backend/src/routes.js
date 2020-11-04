@@ -9,7 +9,7 @@ const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, e
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
 const { addSchedule, getSchedule, updateSchedule, deleteSchedule } = require('./controller/parttimeschedule');
 const { addPet, getPetsByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
-const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
+const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard, getAddress, editAddress, addAddress } = require('./controller/users');
 
 
 const router = new Router();
@@ -114,6 +114,9 @@ router.patch('/users/changepassword/:username/:password/:newpassword', changePas
 router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
 router.get('/users/getcreditcard/:username', getCreditCard); // GET /users/getcreditcard/:username
 router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
-router.del('/users/removecreditcard/:username', removeCreditCard); // DEL /users/removecreditcard/:username , changeCreditCard
+router.del('/users/removecreditcard/:username', removeCreditCard);
+router.patch('/users/addaddress/:username/:address', addAddress); // PATCH /users/addaddress/:username/:address , addAddress
+router.get('/users/getaddress/:username', getAddress);
+router.patch('/users/editaddress/:username/:newaddress', editAddress);
 
 module.exports = router;
