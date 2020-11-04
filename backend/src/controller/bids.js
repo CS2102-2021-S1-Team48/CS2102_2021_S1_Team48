@@ -134,7 +134,7 @@ async function getAmountOwedToCaretaker(ctx) {
         const rows = resultobject.rows;
         console.table(rows);
         ctx.body = {
-            'total owned': rows
+            'totalowned': rows
         };
     } catch (e) {
         console.log(e);
@@ -152,7 +152,7 @@ async function getTotalOwedToCaretaker(ctx) {
         const rows = resultobject.rows;
         console.table(rows);
         ctx.body = {
-            'total owned': rows
+            'totalowned': rows
         };
     } catch (e) {
         console.log(e);
