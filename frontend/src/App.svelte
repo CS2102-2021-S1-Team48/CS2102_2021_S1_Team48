@@ -62,6 +62,7 @@
         .then((resp) => resp.json())
         .then((data) => {
           userObject = data;
+          //console.log(data);
         })
         .catch((e) => alert("Invalid Username/Password!"));
 
@@ -81,6 +82,14 @@
           userObject = data;
         })
         .catch((e) => alert("Invalid Username/Password!"));
+
+      fetch("http://18.139.110.246:3000/basedailyprices?", {
+        method: "GET",
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          pricelist.set(data);
+        });
     }
     account.set(username);
     pw.set(password);

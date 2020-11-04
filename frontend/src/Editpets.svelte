@@ -1,5 +1,5 @@
 <script>
-  export let showModalAddPets = false;
+  export let showModalEditPets = false;
 </script>
 
 <style>
@@ -22,7 +22,7 @@
   }
 </style>
 
-{#if showModalAddPets}
+{#if showModalEditPets}
   <div class="backdrop" on:click|self>
     <div class="modal">
       <slot />
