@@ -9,6 +9,10 @@
 	let showPriceModal = false;
 	let showModal = false;
 	let petDaysThisMth = 0;
+	let limit = 0;
+	let name = "";
+	let rating = "";
+	let reviewMsg = "";
 	let reviewers = [
 		{
 			name: "Alex Koh",
@@ -29,7 +33,13 @@
 	const unsubscribe = account.subscribe((value) => {
 		username = value;
 	});
-	
+	function create(event) {
+		name = event.username_petowner;
+		rating = event.rating;
+		reviewMsg = event.review;
+		reviewers.push({ name, rating, reviewMsg });
+		reviewers = reviewers;
+	}
 	function toggle() {
 		showAvailabilityModal = !showAvailabilityModal;
 		showModal = !showModal;
@@ -46,7 +56,7 @@
 		let price = event.detail.price;
 		//console.log(price);
 		const postAvailabilityCall = await fetch(
-			`http://18.139.110.246:3000/availabilities/alexkoh?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
+			`http://18.139.110.246:3000/availabilities?usernamect=johndoe69&startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
 			{
 				method: "POST",
 			}
@@ -59,22 +69,22 @@
 				console.log("ERROR: " + error);
 			});
 		// console.log(price);
-
 	}
 	onMount(async () => {
-		//where?
-		// const getPetDaysCall = fetch("https://api.mocki.io/v1/ce5f60e2", {
-		// 	method: "GET",
-		// })
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		petDaysThisMth = data.city;
-		// 		// console.log(data.city);
-		// 		// console.log(data.name);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
+		const getPetDaysCall = fetch(
+			`http://18.139.110.246:3000/bids/getpetdays/fulltimer?startdate=20200101&enddate=20200201`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data);
+				// petDaysThisMth = data.city;
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 
 		// 	const postAvailabilityCall = fetch(
 		// 	`http://18.139.110.246:3000/availabilities?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
@@ -89,17 +99,34 @@
 		// 	.catch((error) => {
 		// 		console.log("ERROR: " + error);
 		// 	});
+		const getPetLimitCall = fetch(
+			`http://18.139.110.246:3000/caretakers/alexkoh`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				data.caretakers.map((obj) => {
+					limit = obj.petlimit;
+				});
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 
-		// const Reviews = fetch("http://18.139.110.246:3000/helloes", {
-		// 	method: "GET",
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
+		const Reviews = fetch(`http://18.139.110.246:3000/bids/reviews/fulltimer`, {
+			method: "GET",
+		})
+			.then((response1) => response1.json())
+			.then((data1) => {
+				data1.reviews.map((obj) => {
+					create(obj);
+				});
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 
 		// 	const Reviews1 = fetch("http://18.139.110.246:3000/users?username=wooohoooo&password=password1", {
 		// 	method: "POST",
@@ -154,14 +181,6 @@
 		// 	.catch((error) => {
 		// 		console.log("ERROR: " + error);
 		// 	});
-
-		const PetfDays = fetch("https://api.mocki.io/v1/ce5f60e2", {
-			method: "GET",
-		}).then((response) => {
-			// for (let [key, value] of response.headers) {
-			// 	console.log(`${key} = ${value}`);
-			// }
-		});
 	});
 </script>
 
@@ -212,6 +231,7 @@
 		width: 200px;
 		text-align: left;
 		padding: 25px;
+		font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 	}
 </style>
 
@@ -234,7 +254,7 @@
 
 <div>
 	<div class="profile">
-		<Box />
+		<Box {limit} />
 	</div>
 	<div class="review">
 		<div class="review-header">Reviews</div>
@@ -243,7 +263,7 @@
 			<div class="entry">
 				<div class="contents">{reviewer.name}</div>
 				<div class="contents">{reviewer.rating}</div>
-				<div class="contents">{reviewer.reviewMsg}</div>
+				<div class="contents"><h8>"</h8>{reviewer.reviewMsg}<h8>"</h8></div>
 			</div>
 		{/each}
 	</div>
@@ -274,7 +294,9 @@
 {#if showModal}
 	<Modal on:close={() => (showModal = false)}>
 		<h2 slot="header">Availability : New Availability</h2>
-		<AddAvailabilityForm closeHandler={toggle} on:newAvailability={addAvailabilityEntry}/>
+		<AddAvailabilityForm
+			closeHandler={toggle}
+			on:newAvailability={addAvailabilityEntry} />
 	</Modal>
 {/if}
 

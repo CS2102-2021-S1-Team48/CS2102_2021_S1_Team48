@@ -1,3 +1,7 @@
+<script>
+	export let limit = () => {};
+</script>
+
 <style>
 	.box {
 		width: 250px;
@@ -49,12 +53,14 @@
 	<div class="CaretakerSince">
 		<slot name="CaretakerSince">
 			<span class="CaretakerProfile">Caretaker Since</span>
+			<span style="float:right">-</span>
 		</slot>
 	</div>
 
 	<div class="PetLimit">
 		<slot name="Pet Limit description">
 			<span class="CaretakerProfile">Pet Limit</span>
+			<span style="float:right">{limit}</span>
 		</slot>
 	</div>
 </article>

@@ -1,4 +1,28 @@
 <script>
+  import { onMount } from "svelte";
+  var daysLeft = 0;
+  let owner = "";
+  let caretaker = "";
+  let payment = "";
+  let pet = "";
+  let type = "";
+  let require = "";
+  let from = "";
+  let to = "";
+  let total = "";
+
+  function calculateDaysLeft(year, month, day) {
+    month -= 1;
+    daysLeft = Math.ceil(
+      Math.abs(
+        (new Date().getTime() -
+          new Date(`${year}`, `${month}`, `${day}`).getTime()) /
+          (1000 * 60 * 60 * 24)
+      )
+    );
+    return daysLeft;
+  }
+
   let SuccessfulBids = [
     {
       owner: "Daniel",
@@ -20,7 +44,6 @@
       require: "NIL",
       from: "2020-11-29",
       to: "2020-12-29",
-      bid: 26,
       total: 84,
       daysLeft: 19,
     },
@@ -32,11 +55,75 @@
       require: "bedtime songs",
       from: "2020-11-22",
       to: "2020-12-31",
-      bid: 70,
       total: 456,
       daysLeft: 3,
     },
   ];
+  function createUpcomingEntries(event) {
+    event.acceptedbids.map((obj) => {
+      addUpcomingEntry(obj);
+    });
+  }
+  async function addUpcomingEntry(event) {
+    owner = event.username_petowner;
+    caretaker = event.username_caretaker;
+    payment = event.paymentmethod;
+    pet = event.petname;
+    type = event.pettype;
+    from = event.startdate;
+    to = event.enddate;
+    require = event.requirements;
+    var varDateParts = from.split("-");
+    var dateYearPart = varDateParts[0];
+    var dateMonthPart = varDateParts[1];
+    var dateDayPart = varDateParts[2];
+    daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
+
+    const getTotalPriceOwedCall = await fetch(
+      `http://18.139.110.246:3000/bids/totalowedtocaretaker/fulltimer/${type}/${from}/${to}}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        data.totalowned.map((obj) => {
+          total = obj.sum;
+        });
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+      });
+
+    SuccessfulBids.push({
+      owner,
+      payment,
+      pet,
+      type,
+      require,
+      from,
+      to,
+      caretaker,
+      daysLeft,
+      total,
+    });
+    SuccessfulBids = SuccessfulBids;
+  }
+  onMount(async () => {
+    const getUpcomingEntriesCall = fetch(
+      `http://18.139.110.246:3000/bids/accepted/fulltimer`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        createUpcomingEntries(data);
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+      });
+  });
 </script>
 
 <style>

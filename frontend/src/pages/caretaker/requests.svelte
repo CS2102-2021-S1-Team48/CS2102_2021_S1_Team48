@@ -29,7 +29,7 @@
   function addBidReq(event) {
     owner = event.username_petowner;
     caretaker = event.username_caretaker;
-    console.log(caretaker);
+    require = event.requirements;
     payment = event.paymentmethod;
     pet = event.petname;
     type = event.pettype;
@@ -48,11 +48,6 @@
     bidRequests = bidRequests;
   }
   function handleAccept(petname, petowner, caretaker, from, to) {
-    console.log(`${petname}`);
-    console.log(`${petowner}`);
-    console.log(`${caretaker}`);
-    console.log(`${from}`);
-    console.log(`${to}`);
     const acceptBidCall = fetch(
       `http://18.139.110.246:3000/bids/accept/${petname}/${petowner}/${caretaker}/${from}/${to}`,
       {
@@ -64,17 +59,18 @@
       .catch((error) => {
         console.log("ERROR: " + error);
       });
-    // petowner = from = to = caretaker = petname = "";
+    petowner = from = to = caretaker = petname = "";
   }
   onMount(async () => {
     const getBidRequestsCall = fetch(
-      `http://18.139.110.246:3000/bids/unaccepted/ilovetrump`,
+      `http://18.139.110.246:3000/bids/unaccepted/alexkoh2`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         createRequestEntries(data);
       })
       .catch((error) => {
