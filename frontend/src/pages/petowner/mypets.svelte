@@ -23,7 +23,7 @@
       .then((resp) => resp.json())
       .then((data) => (petsjson = data.pets));
 
-    console.log(petsjson);
+    //console.log(petsjson);
   });
 
   /*
@@ -90,26 +90,26 @@
     showModalAddPets = !showModalAddPets;
   };
 
-  const editPets = (e) => {
+  async function editPets(e) {
     //console.log(e.detail);
     const pet = e.detail;
+    const ogpetcategory = pet.ogpetcategory;
     const petname = pet.petname;
     const petcategory = pet.petcategory;
     const petrequirements = pet.petrequirements;
+
     fetch(
-      `http://18.139.110.246:3000/pets?petname=${petname}&pettype=${petcategory}&requirements=${petrequirements}&usernamepo=${username}`,
+      `http://18.139.110.246:3000/pets?petname=${petname}&pettype=${ogpetcategory}&usernamepo=${username}&newpetname=${petname}&newpettype=${petcategory}&newrequirements=${petrequirements}`,
       {
-        method: "POST",
-        // METHOD NOT ALLOWED
+        method: "PATCH",
       }
     )
       .then((resp) => resp.json())
-      .then((data) => {})
-      .then(() => reload())
-      .catch((e) => alert("Can't use pet name!"));
+      .then((data) => console.log(data))
+      .then(() => reload());
 
-    showModal = !showModal;
-  };
+    showModalEditPets = !showModalEditPets;
+  }
 </script>
 
 <style>
@@ -171,7 +171,7 @@
 
 <Editpets {showModalEditPets} on:click={toggleModalEditPets}>
   <h3>Edit a New Pet</h3>
-  <EditPetsForm on:EditPets={editPet} />
+  <EditPetsForm on:editPets={editPets} />
 </Editpets>
 <div class="title">
   <h1>My Pets</h1>
