@@ -8,7 +8,7 @@ const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caret
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
 const { addSchedule, getSchedule, updateSchedule, deleteSchedule } = require('./controller/parttimeschedule');
-const { addPet, getPetByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
+const { addPet, getPetsByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
 const { createUser, changeUsername, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard } = require('./controller/users');
 
 
@@ -40,7 +40,7 @@ router.post('/admins/login/:username/:password', adminLogin);
 
 // pets
 router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
-router.get('/pets/:usernamepo', getPetByUsername);
+router.get('/pets/:usernamepo', getPetsByUsername);
 router.get('/pets/:petname/:usernamepo', getPetByPetname);
 router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
 router.del('/pets/:petname/:usernamepo', deletePetByPetname);

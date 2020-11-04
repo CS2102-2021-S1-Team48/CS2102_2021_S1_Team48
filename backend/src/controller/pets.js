@@ -26,7 +26,7 @@ async function addPet(ctx) {
 
 // GET api at router
 // Newly added
-async function getPetByUsername(ctx) {
+async function getPetsByUsername(ctx) {
     const usernamepo = ctx.params.usernamepo;
     try {
         const sqlQuery = `SELECT * FROM pets WHERE username_petowner = ${usernamepo}`;
@@ -124,7 +124,7 @@ async function deletePetByPetname(ctx) {
 
 module.exports = {
     addPet,
-    getPetByUsername,
+    getPetsByUsername,
     getPetByPetname,
     editPetDetails,
     deletePetByPetname
