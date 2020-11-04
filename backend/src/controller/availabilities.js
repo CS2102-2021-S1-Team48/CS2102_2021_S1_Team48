@@ -1,12 +1,12 @@
 const pool = require('../db');
 
 // POST api at router
-// POST /availabilities/?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
+// POST /availabilities?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
 async function postAvailability(ctx) {
-    const { usernamect, startdate, enddate, pettype, price } = ctx.query;
+    const { startdate, enddate, pettype, price, usernamect } = ctx.query;
 
     try {
-        const sqlQuery = `INSERT INTO availabilities VALUES ('${startdate}', '${enddate}', '${pettype}', ${price}, '${usernamect}')`;
+        const sqlQuery = `INSERT INTO availabilities (startdate, enddate, pettype, price, username_caretaker) VALUES ('${startdate}', '${enddate}', '${pettype}', ${price}, '${usernamect}')`;
         await pool.query(sqlQuery);
         ctx.body = {
             'usernamect': usernamect,
