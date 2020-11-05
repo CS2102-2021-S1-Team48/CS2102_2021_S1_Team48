@@ -1,12 +1,12 @@
 const pool = require('../db');
 
 // POST api at router
-// POST /availabilities/?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
+// POST /availabilities?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
 async function postAvailability(ctx) {
-    const { usernamect, startdate, enddate, pettype, price } = ctx.query;
+    const { startdate, enddate, pettype, price, usernamect } = ctx.query;
 
     try {
-        const sqlQuery = `INSERT INTO availabilities VALUES ('${startdate}', '${enddate}', '${pettype}', ${price}, '${usernamect}')`;
+        const sqlQuery = `INSERT INTO availabilities (startdate, enddate, pettype, price, username_caretaker) VALUES ('${startdate}', '${enddate}', '${pettype}', ${price}, '${usernamect}')`;
         await pool.query(sqlQuery);
         ctx.body = {
             'usernamect': usernamect,
@@ -87,45 +87,40 @@ async function getAvailabilitiesByUCTandPT(ctx) {
     }
 }
 
-// PATCH api at router
-// PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=01072020&enddate=19032020&pettype=dog&price=100 , editAvailability
-async function editAvailability(ctx) {
-    var currStartDate = ctx.params.startdate;
-    var currEndDate = ctx.params.enddate;
-    var currPetType = ctx.params.pettype;
-    var usernamect = ctx.params.usernamect;
+// GET api at router
+async function getAvailabilitiesByMinDateRangeAndPT(ctx) {
+    const { startdate, enddate, pettype } = ctx.params;
 
-    const { startdate, enddate, pettype, price } = ctx.query;
     try {
-        if (startdate !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET startdate = '${startdate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-            currStartDate = startdate;
-
-        } if (enddate !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET enddate = '${enddate}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-            currEndDate = enddate;
-
-        } if (pettype !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET pettype = '${pettype}' WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-            currPetType = pettype;
-
-        } if (price !== undefined) {
-            const sqlQuery = `UPDATE availabilities SET price = ${price} WHERE username_caretaker = '${usernamect}' AND startdate = '${currStartDate}' AND enddate = '${currEndDate}' AND pettype = '${currPetType}'`;
-            console.log(sqlQuery);
-            await pool.query(sqlQuery);
-        }
+        const sqlQuery = `SELECT * FROM availabilities WHERE pettype = '${pettype}' AND startdate <= '${startdate}' AND enddate >= '${enddate}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
         ctx.body = {
-            'success': 'True!',
-            'startdate': startdate,
-            'enddate': enddate,
-            'pettype': pettype,
-            'price': price,
+            'availabilities': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+
+// Buggy, to fix
+// PATCH api at router
+// PATCH /availabilities?startdate=20201025&enddate=20201025&pettype=dog&price=99999&usernamect=johndoe98&newstartdate=20201025&newenddate=20201026&newpettype=cat&newprice=13939495
+async function editAvailability(ctx) {
+    const { startdate, enddate, pettype, price, usernamect, newstartdate, newenddate, newpettype, newprice } = ctx.query;
+    
+    try {
+        const whereClause = `WHERE startdate = '${startdate}' AND enddate = '${enddate}' AND pettype = '${pettype}' AND price = '${price}' AND username_caretaker = '${usernamect}'`;
+        const sqlQuery = `UPDATE availabilities SET startdate = '${newstartdate}', enddate = '${newenddate}', pettype = '${newpettype}', price = '${newprice}' ` + whereClause;
+        console.log(sqlQuery);
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'newstartdate': newstartdate,
+            'newenddate': newenddate,
+            'newpettype': newpettype,
+            'newprice': newprice,
         };
     } catch (e) {
         console.log(e);
@@ -156,6 +151,7 @@ async function deleteAvailability(ctx) {
 module.exports = {
     postAvailability,
     getAllAvailabilities,
+    getAvailabilitiesByMinDateRangeAndPT,
     getAvailabilitiesByPetType,
     getAvailabilitiesByUsernameCT,
     getAvailabilitiesByUCTandPT,
