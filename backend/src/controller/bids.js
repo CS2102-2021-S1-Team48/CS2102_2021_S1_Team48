@@ -1,7 +1,66 @@
 const pool = require('../db');
+const moment = require('moment');
 
 // POST api at router
-// POST /bids?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
+// POST /bids/test?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
+async function testAddBid(ctx) {
+    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
+
+    try {
+        const petLimitQuery = `SELECT petlimit from caretakers WHERE username = '${usernamect}'`;
+        const petLimitResult = await pool.query(petLimitQuery);
+        const petLimitResultRows = petLimitResult.rows;
+        const petlimit = petLimitResultRows[0].petlimit;
+
+        let canInsert = true;
+
+        const sd = moment(startdate);
+        const ed = moment(enddate);
+        const edPlusOne = ed.add(1, 'days');
+
+        for (let m = moment(sd); m.isBefore(edPlusOne); m.add(1,'days')) {
+            const d = m.format('YYYY-MM-DD');
+            const countQuery = `SELECT count(*) FROM bids WHERE '${d}' BETWEEN startdate AND enddate AND accepted = 'true' AND username_caretaker = '${usernamect}'`;
+            const countResult = await pool.query(countQuery);
+            const countResultRows = countResult.rows;
+            const countStr = countResultRows[0].count;
+            const count = parseInt(countStr);
+
+            if (count + 1 > petlimit) {
+                canInsert = false;
+                break;
+            }
+        }
+
+        if (canInsert) {
+            const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}')`;
+            const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
+            await pool.query(sqlQuery);
+            ctx.body = {
+                'transfermethod': transfermethod,
+                'paymentmethod': paymentmethod,
+                'petname': petname,
+                'usernamepo': usernamepo,
+                'usernamect': usernamect,
+                'startdate': startdate,
+                'enddate': enddate,
+                'pettype': pettype
+            };
+        } else {
+            ctx.body = {
+                'errormessage': 'caretaker already hit his/her petlimit!'
+            };
+            ctx.status = 403;
+        }
+
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+// POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
+// POST api at router
 async function addBid(ctx) {
     const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
 
@@ -10,12 +69,11 @@ async function addBid(ctx) {
         const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
         await pool.query(sqlQuery);
         ctx.body = {
-            '': usernamepo,
+            'usernamepo': usernamepo,
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
             'petname': petname,
-            'usernamepo': usernamepo,
-            'usernamect': usernamect,
+            'username_caretaker': usernamect,
             'startdate': startdate,
             'enddate': enddate,
             'pettype': pettype
@@ -28,9 +86,9 @@ async function addBid(ctx) {
 
 // GET api at router
 async function getAcceptedBids(ctx) {
-    const usernamect = ctx.params.usernamect;
+    const usernamepo = ctx.params.usernamepo;
     try {
-        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_petowner = '${usernamect}'`;
+        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -205,7 +263,7 @@ async function acceptBid(ctx) {
         const sqlQuery = `UPDATE bids SET accepted = True WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
@@ -221,7 +279,7 @@ async function undoAcceptBid(ctx) {
         const sqlQuery = `UPDATE bids SET accepted = False WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
@@ -256,7 +314,7 @@ async function deleteBid(ctx) {
         const sqlQuery = `DELETE FROM bids WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
@@ -316,5 +374,6 @@ module.exports = {
     submitReviewAndRating,
     deleteBid,
     getRatingByUsernameCT,
-    getBidsByUsernamePO
+    getBidsByUsernamePO,
+    testAddBid
 };

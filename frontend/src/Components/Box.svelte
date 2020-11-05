@@ -1,5 +1,56 @@
 <script>
+	import { onMount } from "svelte";
+	import { account } from "../user";
+	import AddSchedule from "./AddSchedule.svelte";
+	import AddScheduleForm from "./AddScheduleForm.svelte";
 	export let limit = () => {};
+	let username;
+	$: isFT = 0;
+
+	const unsubscribe = account.subscribe((value) => {
+		username = value;
+	});
+
+	let showModalAddSchedule = false;
+
+	const toggleModalAddSchedule = () => {
+		showModalAddSchedule = !showModalAddSchedule;
+	};
+	const addNewSchedule = (e) => {
+		let schedule = e.detail;
+		let scheduleStartDate = schedule.startDate;
+		let scheduleEndDate = schedule.endDate;
+		console.log(scheduleEndDate);
+		const postLeaveScheduleCall = fetch(
+			`http://18.139.110.246:3000/leaves/${username}/${scheduleStartDate}/${scheduleEndDate}`,
+			{
+				method: "POST",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				alert("You have submitted your leave schedule successfully!");
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
+	};
+	onMount(async () => {
+		const getCaretakerTypeCall = fetch(
+			`http://18.139.110.246:3000/caretakersft/${username}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				isFT = data.caretakerftinfo.length;
+				console.log(isFT);
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
+	});
 </script>
 
 <style>
@@ -35,7 +86,7 @@
 	.PetLimit {
 		background-image: url(./pawprint.svg);
 	}
-	
+
 	.CaretakerProfile {
 		color: #999;
 	}
@@ -44,11 +95,19 @@
 	}
 </style>
 
-<article class="box">
+<AddSchedule {showModalAddSchedule} on:click={toggleModalAddSchedule}>
+	<h3>Add a New Leave Schedule</h3>
+	<AddScheduleForm on:addSchedule={addNewSchedule} />
+</AddSchedule>
 
+<article class="box">
 	<h2>
 		<slot class="CaretakerProfilePic" />
-		<slot name="name"><span class="ProfileName">Caretaker</span></slot>
+		<slot name="name">
+			{#if (isFT = 1)}
+				<span class="ProfileName">Fulltime Caretaker</span>
+			{:else}<span class="ProfileName">Parttime Caretaker</span>{/if}
+		</slot>
 	</h2>
 
 	<div class="CaretakerSince">
@@ -64,4 +123,5 @@
 			<span style="float:right">{limit}</span>
 		</slot>
 	</div>
+	<div><button on:click={toggleModalAddSchedule}>Add FT Leave Schedule</button></div>
 </article>

@@ -4,9 +4,10 @@
 	import { account } from "../../user";
 	import Modal from "../../Components/Modal.svelte";
 	import CaretakerAvailability from "../../Components/CaretakerAvailability.svelte";
+	import AddWorkPeriod from "../../Components/AddWorkPeriod.svelte";
+	import AddWorkPeriodForm from "../../Components/AddWorkPeriodForm.svelte";
 	// import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
 	let showAvailabilityModal = false;
-	let showPriceModal = false;
 	let showModal = false;
 	let petDaysThisMth = 0;
 	export let limit = 0;
@@ -16,6 +17,35 @@
 	var date = new Date();
 	var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 	var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+	let showModalAddWorkPeriod = false;
+
+	const toggleModalAddWorkPeriod = () => {
+		showModalAddWorkPeriod = !showModalAddWorkPeriod;
+	};
+
+	const addNewWorkPeriod = (e) => {
+		let workperiod = e.detail;
+		console.log(workperiod);
+		let workperiodStartDate1 = workperiod.startDate1;
+		let workperiodEndDate1 = workperiod.endDate1;
+		let workperiodStartDate2 = workperiod.startDate2;
+		let workperiodEndDate2 = workperiod.endDate2;
+		console.log(workperiodStartDate1, workperiodEndDate1);
+		const postChangectFTCall = fetch(
+			`http://18.139.110.246:3000/caretakersft/${username}?startdate1=${workperiodStartDate1}&enddate1=${workperiodEndDate1}&startdate2=${ workperiodStartDate2}&enddate2=${workperiodEndDate2}`,
+			{
+				method: "POST",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				alert("You just switched to full time!");
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
+	};
 
 	function convertDate(date) {
 		var yyyy = date.getFullYear().toString();
@@ -50,25 +80,7 @@
 		reviewers.push({ name, rating, reviewMsg });
 		reviewers = reviewers;
 	}
-	// function toggle() {
-	// 	showAvailabilityModal = !showAvailabilityModal;
-	// 	showModal = !showModal;
-	// }
-	function changeToFulltimeCt() {
-		const getPetDaysCall = fetch(
-			`http://18.139.110.246:3000/caretakersft/${username}`,
-			{
-				method: "GET",
-			}
-		)
-			.then((response) => response.json())
-			.then((data) => {
-				alert("You just switched to full time!");
-			})
-			.catch((error) => {
-				console.log("ERROR: " + error);
-			});
-	}
+
 	onMount(async () => {
 		const getPetDaysCall = fetch(
 			`http://18.139.110.246:3000/bids/getpetdays/${username}?startdate=${fday}&enddate=${lday}`,
@@ -80,7 +92,6 @@
 			.then((data) => {
 				data.caretakers.map((obj) => {
 					petDaysThisMth = obj.sum;
-					// console.log(petDaysThisMth);
 				});
 			})
 			.catch((error) => {
@@ -177,13 +188,13 @@
 		<li style="font-weight:bold">Pet Days this Month:</li>
 		<li>{petDaysThisMth}</li>
 		<li>
-			<button class="button" on:click={changeToFulltimeCt}>
+			<button class="button" on:click={toggleModalAddWorkPeriod}>
 				Switch to FullTime
 			</button>
 		</li>
 		<li>
-			<button class="button" on:click={() => (showPriceModal = true)}>
-				Price List $
+			<button class="button" on:click={() => (showAvailabilityModal = true)}>
+				Availability
 			</button>
 		</li>
 	</ul>
@@ -211,39 +222,13 @@
 	</div>
 </div>
 
-<!-- {#if showAvailabilityModal}
+<AddWorkPeriod {showModalAddWorkPeriod} on:click={toggleModalAddWorkPeriod}>
+	<h3>Fill in your work period</h3>
+	<AddWorkPeriodForm on:addWorkPeriod={addNewWorkPeriod} />
+</AddWorkPeriod>
+
+{#if showAvailabilityModal}
 	<Modal on:close={() => (showAvailabilityModal = false)}>
-		<h2 slot="header">Availability</h2>
-		<div style="position: inline">
-			<div style="float:left; margin: 20px">
-				<li>Pet Types:</li>
-				<div style="font-size: small">
-					Welsh Corgi, Husky, Golden Retriever, Poodle, Chihuahua
-				</div>
-				<button
-					style="color: black; background-color: cornflowerblue; width: 180px; margin-top: 20px"
-					on:click={toggle}>
-					Add New Availability
-				</button>
-			</div>
-			<div style="float:right; margin: 20px">
-				<li>Insert Calendar</li>
-			</div>
-		</div>
-	</Modal>
-{/if} -->
-
-<!-- {#if showModal}
-	<Modal on:close={() => (showModal = false)}>
-		<h2 slot="header">Availability : New Availability</h2>
-		<AddAvailabilityForm
-			closeHandler={toggle}
-			on:newAvailability={addAvailabilityEntry} />
-	</Modal>
-{/if} -->
-
-{#if showPriceModal}
-	<Modal on:close={() => (showPriceModal = false)}>
 		<h2 slot="header">Price List</h2>
 		<CaretakerAvailability />
 	</Modal>

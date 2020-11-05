@@ -15,7 +15,6 @@ async function switchCaretakerPtToFt(ctx) {
         const updatePetLimit = `UPDATE caretakers SET petlimit = 5 WHERE username = '${usernamect}'`;
         await pool.query(updatePetLimit);
         ctx.body = {
-            'success': 'True!',
             'usernamect': usernamect,
             'startdate1': startdate1,
             'enddate1': enddate1,
@@ -70,7 +69,6 @@ async function editStartDate1(ctx) {
         const sqlQuery = `UPDATE caretakers_ft SET startdate1 = '${startdate1}' WHERE username = '${usernamect}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'startdate1': startdate1,
             'usernamect': usernamect
         };
@@ -89,7 +87,6 @@ async function editEndDate1(ctx) {
         const sqlQuery = `UPDATE caretakers_ft SET enddate1 = '${enddate1}' WHERE username = '${usernamect}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'enddate1': enddate1,
             'usernamect': usernamect
         };
@@ -108,7 +105,6 @@ async function editStartDate2(ctx) {
         const sqlQuery = `UPDATE caretakers_ft SET startdate2 = '${startdate2}' WHERE username = '${usernamect}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'startdate2': startdate2,
             'usernamect': usernamect     
         };
@@ -127,7 +123,6 @@ async function editEndDate2(ctx) {
         const sqlQuery = `UPDATE caretakers_ft SET enddate2 = '${enddate2}' WHERE username = '${usernamect}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'enddate2': enddate2,
             'usernamect': usernamect
         };
