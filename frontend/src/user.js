@@ -1,7 +1,7 @@
 import {writable} from 'svelte/store'
 
 export const account = writable(
-    "Petownername");
+    "");
 
 export const pw = writable(
     "pass");
@@ -9,7 +9,7 @@ export const pw = writable(
 export const petlist = writable(
     [
         "Husky",
-    "Corgi",
+    "Dog",
     "Dinosaur",
     "Duck",
     "Swine",

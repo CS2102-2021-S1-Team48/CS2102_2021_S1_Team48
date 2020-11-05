@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import { account } from "../../user.js";
 
   let username;
@@ -7,41 +8,50 @@
     username = value;
   });
 
-  let leaving = [
-    {
-      caretaker: "Jamus",
-      pet: "Cheddar",
-      start: "2020-11-29",
-      end: "2020-12-29",
-      price: 480,
-      payment: "Credit Card",
-      remaining: 14,
-      transfer: "Delivery",
-    },
-    {
-      caretaker: "Hillary",
-      pet: "Crumpet",
-      start: "2020-11-25",
-      end: "2020-12-01",
-      price: 370,
-      payment: "Cash",
-      remaining: 10,
-      transfer: "PCS Building",
-    },
-  ];
+  let bids = [];
 
-  let returning = [
-    {
-      caretaker: "Adi",
-      pet: "Po-Po",
-      start: "2020-10-19",
-      end: "2020-11-25",
-      price: 380,
-      payment: "Credit Card",
-      remaining: 10,
-      transfer: "Delivery",
-    },
-  ];
+  let leavingflag = false;
+  let returningflag = false;
+
+  onMount(async () => {
+    await fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (bids = data.acceptedbids));
+  });
+
+  const remaining = (date) => {
+    // today
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    var currdate = new Date(date);
+
+    // calc diff
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    const utc1 = Date.UTC(
+      currdate.getFullYear(),
+      currdate.getMonth(),
+      currdate.getDate()
+    );
+    const utc2 = Date.UTC(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  };
 </script>
 
 <style>
@@ -62,7 +72,7 @@
     font-size: larger;
   }
   .contents {
-    width: 100px;
+    width: 103px;
     text-align: center;
     display: inline-flex;
     padding: 9px;
@@ -90,17 +100,19 @@
 </nav>
 
 <div>
-  {#each leaving as leave}
-    <div class="entry">
-      <div class="contents">{leave.caretaker}</div>
-      <div class="contents">{leave.pet}</div>
-      <div class="contents">{leave.start}</div>
-      <div class="contents">{leave.end}</div>
-      <div class="contents">{leave.price}</div>
-      <div class="contents">{leave.payment}</div>
-      <div class="contents">{leave.remaining}</div>
-      <div class="contents">{leave.transfer}</div>
-    </div>
+  {#each bids as leave}
+    {#if remaining(leave.startdate) <= 0}
+      <div class="entry">
+        <div class="contents">{leave.username_caretaker}</div>
+        <div class="contents">{leave.petname}</div>
+        <div class="contents">{leave.startdate}</div>
+        <div class="contents">{leave.enddate}</div>
+        <div class="contents">Price</div>
+        <div class="contents">{leave.paymentmethod}</div>
+        <div class="contents">{remaining(leave.startdate)}</div>
+        <div class="contents">{leave.transfermethod}</div>
+      </div>
+    {/if}
   {:else}
     <p>You have no Pets leaving</p>
   {/each}
@@ -121,17 +133,19 @@
 </nav>
 
 <div>
-  {#each returning as comeback}
-    <div class="entry">
-      <div class="contents">{comeback.caretaker}</div>
-      <div class="contents">{comeback.pet}</div>
-      <div class="contents">{comeback.start}</div>
-      <div class="contents">{comeback.end}</div>
-      <div class="contents">{comeback.price}</div>
-      <div class="contents">{comeback.payment}</div>
-      <div class="contents">{comeback.remaining}</div>
-      <div class="contents">{comeback.transfer}</div>
-    </div>
+  {#each bids as comeback}
+    {#if remaining(comeback.startdate) > 0 && remaining(comeback.enddate) <= 0}
+      <div class="entry">
+        <div class="contents">{comeback.username_caretaker}</div>
+        <div class="contents">{comeback.petname}</div>
+        <div class="contents">{comeback.startdate}</div>
+        <div class="contents">{comeback.enddate}</div>
+        <div class="contents">Price</div>
+        <div class="contents">{comeback.paymentmethod}</div>
+        <div class="contents">{remaining(comeback.enddate)}</div>
+        <div class="contents">{comeback.transfermethod}</div>
+      </div>
+    {/if}
   {:else}
     <p>You have no Pets returning.</p>
   {/each}

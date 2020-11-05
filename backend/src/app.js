@@ -1,7 +1,9 @@
 const Koa = require('koa');
+const cors = require('@koa/cors');
 const router = require('./routes');
 
 const app = new Koa();
+app.use(cors());
 
 console.log('Koa server is up on localhost:3000\n');
 console.log('Try hitting localhost:3000/hello on your browser');

@@ -1,53 +1,115 @@
 <script>
+  import { onMount } from "svelte/internal";
   import Addpets from "../../Addpets.svelte";
+  import Editpets from "../../Editpets.svelte";
   import AddPetsForm from "../../AddPetsForm.svelte";
+  import EditPetsForm from "../../EditPetsForm.svelte";
   import { account } from "../../user.js";
 
   let username;
+  let petsjson = [];
 
   const unsubscribe = account.subscribe((value) => {
     username = value;
   });
 
-  let showModal = false;
+  let showModalAddPets = false;
+  let showModalEditPets = false;
 
-  let pets = [
-    { name: "Maple", category: "Corgi", requirements: "NIL", id: 1 },
-    {
-      name: "Rax",
-      category: "T-Rex",
-      requirements: "Daily teeth brushing",
-      id: 2,
-    },
-    {
-      name: "Morty",
-      category: "Corgi",
-      requirements: "Daily walks",
-      id: 3,
-    },
-    {
-      name: "Geordi",
-      category: "Golden Retriever",
-      requirements: "Potty in the evening",
-      id: 3,
-    },
-  ];
+  onMount(async () => {
+    await fetch(`http://18.139.110.246:3000/pets/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (petsjson = data.pets));
 
-  const handleClick = (name) => {
+    //console.log(petsjson);
+  });
+
+  /*
+  function genPets(petarr1, petarr2) {
+    petarr1.forEach((element) => {
+      const currelem = {
+        name: element.petname,
+        category: element.pettype,
+        requirements: element.requirements,
+      };
+      petarr2.push(currelem);
+    });
+  }
+*/
+
+  const delPet = (name) => {
     //delete the pet
-    pets = pets.filter((pet) => pet.name != name);
+    fetch(`http://18.139.110.246:3000/pets/${name}/${username}`, {
+      method: "DELETE",
+    })
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      .then(() => reload());
+    //reload petsjson
   };
 
-  const toggleModal = () => {
-    showModal = !showModal;
+  const editPet = () => {
+    console.log("Edited");
+  };
+
+  function reload() {
+    fetch(`http://18.139.110.246:3000/pets/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (petsjson = data.pets));
+  }
+
+  const toggleModalAddPets = () => {
+    showModalAddPets = !showModalAddPets;
+  };
+  const toggleModalEditPets = () => {
+    showModalEditPets = !showModalEditPets;
   };
 
   const addNewPet = (e) => {
     //console.log(e.detail);
     const pet = e.detail;
-    pets = [...pets, pet];
-    showModal = !showModal;
+    const petname = pet.petname;
+    const petcategory = pet.petcategory;
+    const petrequirements = pet.petrequirements;
+    fetch(
+      `http://18.139.110.246:3000/pets?petname=${petname}&pettype=${petcategory}&requirements=${petrequirements}&usernamepo=${username}`,
+      {
+        method: "POST",
+        // METHOD NOT ALLOWED
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => {})
+      .then(() => reload())
+      .catch((e) => alert("Can't use pet name!"));
+
+    showModalAddPets = !showModalAddPets;
   };
+
+  async function editPets(e) {
+    //console.log(e.detail);
+    const pet = e.detail;
+    const ogpetcategory = pet.ogpetcategory;
+    const petname = pet.petname;
+    const petcategory = pet.petcategory;
+    const petrequirements = pet.petrequirements;
+
+    fetch(
+      `http://18.139.110.246:3000/pets?petname=${petname}&pettype=${ogpetcategory}&usernamepo=${username}&newpetname=${petname}&newpettype=${petcategory}&newrequirements=${petrequirements}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      .then(() => reload());
+
+    showModalEditPets = !showModalEditPets;
+  }
 </script>
 
 <style>
@@ -102,10 +164,15 @@
   }
 </style>
 
-<Addpets {showModal} on:click={toggleModal}>
+<Addpets {showModalAddPets} on:click={toggleModalAddPets}>
   <h3>Add a New Pet</h3>
-  <AddPetsForm on:addPet={addNewPet} />
+  <AddPetsForm on:addPets={addNewPet} />
 </Addpets>
+
+<Editpets {showModalEditPets} on:click={toggleModalEditPets}>
+  <h3>Edit a New Pet</h3>
+  <EditPetsForm on:editPets={editPets} />
+</Editpets>
 <div class="title">
   <h1>My Pets</h1>
 </div>
@@ -119,15 +186,15 @@
 </nav>
 
 <div>
-  {#each pets as pet}
+  {#each petsjson as pet}
     <div class="pet">
-      <div class="contents">{pet.name}</div>
-      <div class="contents">{pet.category}</div>
+      <div class="contents">{pet.petname}</div>
+      <div class="contents">{pet.pettype}</div>
       <div class="contentsplus">{pet.requirements}</div>
       <div class="button">
         <button
           on:click={() => {
-            handleClick(pet.name);
+            delPet(pet.petname);
           }}>
           delete
         </button>
@@ -137,4 +204,5 @@
     <p>You have no pets.</p>
   {/each}
 </div>
-<button on:click={toggleModal}> New Pet</button>
+<button on:click={toggleModalAddPets}> New Pet</button>
+<button on:click={toggleModalEditPets}>Edit Pets</button>

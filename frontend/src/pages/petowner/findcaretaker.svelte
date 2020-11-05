@@ -8,15 +8,15 @@
     username = value;
   });
 
+  let availability = [];
+
   let yourpaymethod;
   let yourtransfer;
   let yourbid;
-
-  let availability = [
-    { name: "Alex Koh", rating: "5/5", currentbid: 26 },
-    { name: "Ash Ketchum", rating: "4/5", currentbid: 25 },
-    { name: "Bimlesh", rating: "3/5", currentbid: 20 },
-  ];
+  let yourpetname;
+  let yourpettype;
+  let startdate;
+  let enddate;
 
   let pmethod = ["Credit Card", "Cash"];
 
@@ -24,18 +24,55 @@
 
   const searchCT = (e) => {
     const request = e.detail;
-    console.log(request);
+    const petname = request.name;
+    const pettype = request.category;
+    const start = request.start;
+    const end = request.end;
+    console.log(pettype);
+
+    yourpetname = petname;
+    yourpettype = pettype;
+    startdate = start;
+    enddate = end;
+
+    // GET AVAILABILITIES - TO BE ADDED: RATINGS
+    fetch(`http://18.139.110.246:3000/availabilities/pettype/${pettype}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (availability = data.availabilities));
+
+    //console.log(request);
   };
 
   const handleBid = (name) => {
-    //delete the pet
-    const bid = {
-      caretakeruser: name,
-      paymentmethod: yourpaymethod,
-      transfermethod: yourtransfer,
-      bid: yourbid,
-    };
-    console.log(bid);
+    if (yourpaymethod === "none") {
+      alert("Please select a payment method");
+    } else if (yourtransfer === "none") {
+      alert("Please select a transfer method");
+    } else {
+      const bid = {
+        petownerusername: username,
+        caretakeruser: name,
+        petname: yourpetname,
+        paymentmethod: yourpaymethod,
+        transfermethod: yourtransfer,
+        bid: yourbid,
+        start: startdate,
+        end: enddate,
+      };
+      console.log(bid);
+
+      // POST BID TO BE FIXED
+      fetch(
+        `http://18.139.110.246:3000/bids/${username}?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&username_caretake=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
+        {
+          method: "POST",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => console.log(data));
+    }
   };
 </script>
 
@@ -58,7 +95,7 @@
   }
 
   .contents {
-    width: 200px;
+    width: 220px;
     text-align: center;
     display: inline-flex;
     padding: 20px;
@@ -73,9 +110,7 @@
     display: inline-flex;
     padding: 10px;
   }
-  .form-input {
-    width: 100px;
-  }
+
   .outer {
     padding: 20px;
     display: flex;
@@ -97,6 +132,7 @@
   <div class="options">
     <label for="paymentmethod">Payment by</label>
     <select class="short-input" id="paymentmethod" bind:value={yourpaymethod}>
+      <option value="none" selected disable hidden>Select a method</option>
       {#each pmethod as method}
         <option value={method}>{method}</option>
       {/each}
@@ -105,6 +141,7 @@
   <div class="options">
     <label for="transfermethod">Pet Transfer by</label>
     <select class="short-input" id="transfermethod" bind:value={yourtransfer}>
+      <option value="none" selected disable hidden>Select a method</option>
       {#each tmethod as method}
         <option value={method}>{method}</option>
       {/each}
@@ -124,19 +161,16 @@
 <div>
   {#each availability as caretaker}
     <div class="bid">
-      <div class="contents">{caretaker.name}</div>
-      <div class="contents">{caretaker.rating}</div>
-      <div class="contents">{caretaker.currentbid}</div>
+      <div class="contents">{caretaker.username_caretaker}</div>
+      <div class="contents">rating to be added</div>
+      <div class="contents">{caretaker.price}</div>
       <div class="form">
-        <form on:submit|preventDefault>
-          <input type="number" class="form-input" bind:value={yourbid} />
-          <button
-            on:click={() => {
-              handleBid(caretaker.name);
-            }}>
-            BID
-          </button>
-        </form>
+        <button
+          on:click={() => {
+            handleBid(caretaker.username_caretaker);
+          }}>
+          BID
+        </button>
       </div>
     </div>
   {/each}
