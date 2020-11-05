@@ -1,21 +1,21 @@
 const pool = require('../db');
 
-// POST /bids/:usernamepo?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
 // POST api at router
+// POST /bids?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
 async function addBid(ctx) {
-    const { transfermethod, paymentmethod, petname, username_caretaker, startdate, enddate, pettype } = ctx.query;
+    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
 
-    const usernamepo = ctx.params.usernamepo;
     try {
-        const sqlQuery = `INSERT INTO bids VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${username_caretaker}', '${startdate}', '${enddate}', '${pettype}')`;
+        const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}')`;
+        const sqlQuery = `INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) `;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
-            'usernamepo': usernamepo,
+            '': usernamepo,
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
             'petname': petname,
-            'username_caretaker': username_caretaker,
+            'usernamepo': usernamepo,
+            'usernamect': usernamect,
             'startdate': startdate,
             'enddate': enddate,
             'pettype': pettype
