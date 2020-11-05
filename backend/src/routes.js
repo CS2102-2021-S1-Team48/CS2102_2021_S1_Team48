@@ -59,7 +59,7 @@ router.get('/basedailyprices/pettypes', getPetTypes);
 
 // bids
 router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
-router.get('/bids/accepted/:usernamect', getAcceptedBids); 
+router.get('/bids/accepted/:usernamepo', getAcceptedBids);
 router.get('/bids/accepteddaterange/:usernamect/:startdate/:enddate', getAcceptedBidsForDateRange);
 router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
 router.get('/bids/unaccepteddaterange/:usernamect/:startdate/:enddate', getUnacceptedBidsForDateRange); 

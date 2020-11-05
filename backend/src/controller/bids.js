@@ -59,8 +59,8 @@ async function testAddBid(ctx) {
     }
 }
 
+// POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
 // POST api at router
-// POST /bids?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
 async function addBid(ctx) {
     const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
 
@@ -69,11 +69,12 @@ async function addBid(ctx) {
         const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
         await pool.query(sqlQuery);
         ctx.body = {
+            'success': 'True!',
+            'usernamepo': usernamepo,
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
             'petname': petname,
-            'usernamepo': usernamepo,
-            'usernamect': usernamect,
+            'username_caretaker': usernamect,
             'startdate': startdate,
             'enddate': enddate,
             'pettype': pettype
@@ -86,9 +87,9 @@ async function addBid(ctx) {
 
 // GET api at router
 async function getAcceptedBids(ctx) {
-    const usernamect = ctx.params.usernamect;
+    const usernamepo = ctx.params.usernamepo;
     try {
-        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_petowner = '${usernamect}'`;
+        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
