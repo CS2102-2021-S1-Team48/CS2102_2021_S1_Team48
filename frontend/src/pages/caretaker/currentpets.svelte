@@ -127,7 +127,6 @@
         console.log("ERROR: " + error);
       });
   });
-  console.log(currentCaringFor);
 </script>
 
 <style>

@@ -17,7 +17,6 @@
 	h2 {
 		padding: 0 0 0.2em 0;
 		margin: 0 0 1em 0;
-		margin-top: 200px;
 		border-bottom: 3px solid cornflowerblue;
 	}
 
@@ -36,7 +35,7 @@
 	.PetLimit {
 		background-image: url(./pawprint.svg);
 	}
-
+	
 	.CaretakerProfile {
 		color: #999;
 	}
@@ -46,7 +45,9 @@
 </style>
 
 <article class="box">
+
 	<h2>
+		<slot class="CaretakerProfilePic" />
 		<slot name="name"><span class="ProfileName">Caretaker</span></slot>
 	</h2>
 

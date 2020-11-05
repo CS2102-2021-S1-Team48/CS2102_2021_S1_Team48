@@ -43,7 +43,6 @@
   }
   var nextTenYearsDate = convertDate(add_years(todayDate, 10));
   var tmrDate = convertDate(tmrdate);
-  console.log(tmrDate);
   function calculateDaysLeft(year, month, day) {
     month -= 1;
     daysLeft = Math.ceil(

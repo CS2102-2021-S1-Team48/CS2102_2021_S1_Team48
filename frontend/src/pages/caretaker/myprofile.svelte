@@ -205,6 +205,8 @@
 					<h8>"</h8>
 				</div>
 			</div>
+		{:else}
+			<p style="margin-left: 400px; padding:10px">You have no reviews yet.</p>
 		{/each}
 	</div>
 </div>
