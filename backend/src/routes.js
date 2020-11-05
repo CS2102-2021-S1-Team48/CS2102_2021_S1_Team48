@@ -3,7 +3,7 @@ const { sayHello, sayHelloes} = require('./controller/hello');
 const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin, getUniquePetsCared, getCareTakerTotalDaysWorked, getTotalSalaryToBePaid } = require('./controller/admins');
 const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT, getAvailabilitiesByMinDateRangeAndPT } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice, getPetTypes } = require('./controller/basedailyprices');
-const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO } = require('./controller/bids');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO, testAddBid } = require('./controller/bids');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
@@ -74,6 +74,7 @@ router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:star
 router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate', deleteBid);
 router.get('/bids/rating/:usernamect', getRatingByUsernameCT);
 router.get('/bids/usernamepo/:usernamepo', getBidsByUsernamePO);
+router.post('/bids/test', testAddBid);
 
 // caretakers
 router.get('/caretakers', getAllCaretakers);
