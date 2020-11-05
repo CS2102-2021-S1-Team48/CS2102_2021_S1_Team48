@@ -90,7 +90,6 @@
     <li>Pet</li>
     <li>Startdate</li>
     <li>Enddate</li>
-    <li>Price</li>
     <li>Payment Method</li>
     <li>Days Left</li>
     <li>transfer Method</li>
@@ -105,7 +104,6 @@
         <div class="contents">{leave.petname}</div>
         <div class="contents">{leave.startdate}</div>
         <div class="contents">{leave.enddate}</div>
-        <div class="contents">Price</div>
         <div class="contents">{leave.paymentmethod}</div>
         <div class="contents">{remaining(leave.startdate)}</div>
         <div class="contents">{leave.transfermethod}</div>

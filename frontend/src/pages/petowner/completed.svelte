@@ -112,14 +112,14 @@
   }
   li {
     display: inline-flex;
-    width: 120px;
+    width: 170px;
     padding: 9px;
     font-weight: 500;
     font-size: larger;
   }
   .contents {
     max-width: 180px;
-    width: 128px;
+    width: 180px;
     text-align: center;
     display: inline-flex;
     padding: 9px;

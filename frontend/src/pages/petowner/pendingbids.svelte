@@ -94,6 +94,7 @@
     <li>Startdate</li>
     <li>Enddate</li>
     <li>Payment Method</li>
+    <li>Transfer Method</li>
     <li>Status</li>
     <li>Action</li>
   </ul>
@@ -109,6 +110,7 @@
         <div class="contents">{bid.enddate}</div>
         <div class="contents">{bid.paymentmethod}</div>
         <div class="contents">{bid.transfermethod}</div>
+        <div class="contents">Pending</div>
 
         <div class="button">
           <button
@@ -123,4 +125,5 @@
   {:else}
     <p>You have no bids.</p>
   {/each}
+  <button on:click={reload}>Refresh</button>
 </div>
