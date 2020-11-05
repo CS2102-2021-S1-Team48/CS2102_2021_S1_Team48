@@ -1,13 +1,13 @@
 const pool = require('../db');
 
-// POST /bids/:usernamepo?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
+// POST /bids?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=27102020&enddate=28102020&pettype=dog
 // POST api at router
 async function addBid(ctx) {
-    const { transfermethod, paymentmethod, petname, username_caretaker, startdate, enddate, pettype } = ctx.query;
+    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
 
-    const usernamepo = ctx.params.usernamepo;
     try {
-        const sqlQuery = `INSERT INTO bids VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${username_caretaker}', '${startdate}', '${enddate}', '${pettype}')`;
+        const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}')`;
+        const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'True!',
@@ -15,7 +15,7 @@ async function addBid(ctx) {
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
             'petname': petname,
-            'username_caretaker': username_caretaker,
+            'username_caretaker': usernamect,
             'startdate': startdate,
             'enddate': enddate,
             'pettype': pettype
@@ -282,6 +282,22 @@ async function getRatingByUsernameCT(ctx) {
     }
 }
 
+// GET api at router
+async function getBidsByUsernamePO(ctx) {
+    const { usernamepo } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM bids WHERE username_petowner = '${usernamepo}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const bids = resultObject.rows;
+        ctx.body = {
+            'bids': bids
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
 
 
 module.exports = {
@@ -299,5 +315,6 @@ module.exports = {
     undoAcceptBid,
     submitReviewAndRating,
     deleteBid,
-    getRatingByUsernameCT
+    getRatingByUsernameCT,
+    getBidsByUsernamePO
 };
