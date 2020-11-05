@@ -1,9 +1,9 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin } = require('./controller/admins');
-const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT } = require('./controller/availabilities');
+const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin, getUniquePetsCared, getCareTakerTotalDaysWorked, getTotalSalaryToBePaid } = require('./controller/admins');
+const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT, getAvailabilitiesByMinDateRangeAndPT } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice, getPetTypes } = require('./controller/basedailyprices');
-const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker } = require('./controller/bids');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO } = require('./controller/bids');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
@@ -28,30 +28,26 @@ router.get('/helloes', sayHelloes);
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
 
     In the case of ? question mark, order of variables do not matter. They are still compulsory to
-    fill in though. Apart for a few exceptions, such as editAvailability, where variables after
-    the question mark are not compulsory, it just determines the specificity of your UPDATE.
+    fill in, though.
 */
 
 // admins
 router.post('/admins/register/:username/:password', createAdmin);
 router.post('/admins/login/:username/:password', adminLogin);
+router.get('/admins/getuniquepetscared/:startdate/:enddate', getUniquePetsCared);
+router.get('/admins/getcaretakertotaldaysworked/:startdate/:enddate', getCareTakerTotalDaysWorked);
+router.get('/admins/gettotalsalarytobepaid/:startdate/:enddate', getTotalSalaryToBePaid); 
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
-
-// pets
-router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
-router.get('/pets/:usernamepo', getPetsByUsername);
-router.get('/pets/:petname/:usernamepo', getPetByPetname);
-router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
-router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // availabilities
 router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities);
+router.get('/availabilities/:startdate/:enddate/:pettype', getAvailabilitiesByMinDateRangeAndPT);
 router.get('/availabilities/pettype/:pettype', getAvailabilitiesByPetType);
 router.get('/availabilities/usernamect/:usernamect', getAvailabilitiesByUsernameCT);
 router.get('/availabilities/uctandpt/:usernamect/:pettype', getAvailabilitiesByUCTandPT);
-router.patch('/availabilities/:startdate/:enddate/:pettype/:usernamect', editAvailability); // PATCH /availabilities/:startdate/:enddate/:pettype/:usernamect?startdate=20201031&enddate=20201101&pettype=dog&price=100
+router.patch('/availabilities', editAvailability); // PATCH /availabilities?startdate=20201025&enddate=20201025&pettype=dog&price=99999&usernamect=johndoe98&newstartdate=20201025&newenddate=20201026&newpettype=cat&newprice=13939495
 router.del('/availabilities/:startdate/:enddate/:pettype/:usernamect', deleteAvailability); 
 
 // basedailyprices
@@ -62,9 +58,11 @@ router.del('/basedailyprices/:pettype/:minrating', deleteBaseDailyPrice);
 router.get('/basedailyprices/pettypes', getPetTypes);
 
 // bids
-router.post('/bids/:usernamepo', addBid); // POST /bids/:usernamepo?transfermethod=deliver&paymentmethod=123&petname=emma&username_caretake=Duc&startdate=20201231&enddate=20210101
+router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
 router.get('/bids/accepted/:usernamect', getAcceptedBids); 
+router.get('/bids/accepteddaterange/:usernamect/:startdate/:enddate', getAcceptedBidsForDateRange);
 router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
+router.get('/bids/unaccepteddaterange/:usernamect/:startdate/:enddate', getUnacceptedBidsForDateRange); 
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids
 router.get('/bids/reviews/:usernamect', getReviewsOfCaretaker);
 router.get('/bids/getpetdays/:usernamect', getPetDaysForThePeriod); // GET bids/getpetdays/:usernamect?startdate=20200101&enddate=20200201
@@ -74,6 +72,8 @@ router.patch('/bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate'
 router.patch('/bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate', undoAcceptBid);
 router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate', submitReviewAndRating); // PATCH /bids/submitreviewandrating?rating=5&review=good , submitReviewAndRating
 router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate', deleteBid);
+router.get('/bids/rating/:usernamect', getRatingByUsernameCT);
+router.get('/bids/usernamepo/:usernamepo', getBidsByUsernamePO);
 
 // caretakers
 router.get('/caretakers', getAllCaretakers);
@@ -103,7 +103,7 @@ router.del('/partimeschedule/:usernamect/:availdate', deleteSchedule);
 router.post('/pets', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon&usernamepo=johndoe98
 router.get('/pets/:usernamepo', getPetsByUsername);
 router.get('/pets/:usernamepo/:petname', getPetByPetname);
-router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
+router.patch('/pets', editPetDetails); // PATCH /pets?petname=eva&pettype=cat&usernamepo=johndoe98&newpetname=emma&newpettype=dog&newrequirements=aircon
 router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 
 // users
