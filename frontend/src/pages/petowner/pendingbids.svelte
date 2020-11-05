@@ -12,16 +12,12 @@
   });
 
   onMount(async () => {
-    await fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+    await fetch(`http://18.139.110.246:3000/bids/usernamepo/${username}`, {
       method: "GET",
     })
       .then((resp) => resp.json())
-      .then((data) => (bids = data.acceptedbids));
+      .then((data) => (bids = data.bids));
   });
-
-  let selectedentry;
-  let selectedpet;
-  let selectedtransfer;
 
   const handleClear = (bid) => {
     // request Clear bid
@@ -45,11 +41,11 @@
   };
 
   function reload() {
-    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+    fetch(`http://18.139.110.246:3000/bids/usernamepo/${username}`, {
       method: "GET",
     })
       .then((resp) => resp.json())
-      .then((data) => (bids = data.acceptedbids));
+      .then((data) => (bids = data.bids));
   }
 </script>
 
@@ -97,8 +93,8 @@
     <li>Pet</li>
     <li>Startdate</li>
     <li>Enddate</li>
-    <li>Price</li>
     <li>Payment Method</li>
+    <li>Transfer Method</li>
     <li>Status</li>
     <li>Action</li>
   </ul>
@@ -106,25 +102,16 @@
 
 <div>
   {#each bids as bid}
-    <div class="bid">
-      <div class="contents">{bid.username_caretaker}</div>
-      <div class="contents">{bid.petname}</div>
-      <div class="contents">{bid.startdate}</div>
-      <div class="contents">{bid.enddate}</div>
-      <div class="contents">PRICE</div>
-      <div class="contents">{bid.paymentmethod}</div>
-      <div class="contents">{bid.transfermethod}</div>
-      {#if bid.transfermethod == 'deliver'}
-        <div class="button">
-          <button
-            on:click={() => {
-              handleClear(bid);
-            }}>
-            CLEAR
-          </button>
-        </div>
-      {/if}
-      {#if bid.transfermethod == 'pickup'}
+    {#if bid.accepted == false}
+      <div class="bid">
+        <div class="contents">{bid.username_caretaker}</div>
+        <div class="contents">{bid.petname}</div>
+        <div class="contents">{bid.startdate}</div>
+        <div class="contents">{bid.enddate}</div>
+        <div class="contents">{bid.paymentmethod}</div>
+        <div class="contents">{bid.transfermethod}</div>
+        <div class="contents">Pending</div>
+
         <div class="button">
           <button
             on:click={() => {
@@ -133,9 +120,10 @@
             CANCEL
           </button>
         </div>
-      {/if}
-    </div>
+      </div>
+    {/if}
   {:else}
     <p>You have no bids.</p>
   {/each}
+  <button on:click={reload}>Refresh</button>
 </div>

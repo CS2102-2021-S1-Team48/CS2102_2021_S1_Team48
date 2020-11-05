@@ -6,6 +6,7 @@
     ["./findcaretaker", "Find Caretaker"],
     ["./pendingbids", "Pending Bids"],
     ["./upcoming", "Upcoming"],
+    ["./ongoing", "Ongoing"],
     ["./completed", "Completed"],
   ];
 </script>

@@ -26,6 +26,14 @@
       .then((data) => (completed = data.acceptedbids));
   });
 
+  function reload() {
+    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (completed = data.acceptedbids));
+  }
+
   function selectUser(bid) {
     caretaker = bid.username_caretaker;
     petname = bid.petname;
@@ -53,10 +61,43 @@
       }
     )
       .then((resp) => resp.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log(data))
+      .then(() => reload());
 
     toggleModal();
   }
+
+  const remaining = (date) => {
+    // today
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    var currdate = new Date(date);
+
+    // calc diff
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    const utc1 = Date.UTC(
+      currdate.getFullYear(),
+      currdate.getMonth(),
+      currdate.getDate()
+    );
+    const utc2 = Date.UTC(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+  };
 </script>
 
 <style>
@@ -71,14 +112,14 @@
   }
   li {
     display: inline-flex;
-    width: 120px;
+    width: 170px;
     padding: 9px;
     font-weight: 500;
     font-size: larger;
   }
   .contents {
     max-width: 180px;
-    width: 128px;
+    width: 180px;
     text-align: center;
     display: inline-flex;
     padding: 9px;
@@ -102,25 +143,27 @@
     <li>Pet</li>
     <li>Startdate</li>
     <li>Enddate</li>
-    <li>Price</li>
-    <li>Leave review</li>
+    <li>Rating</li>
   </ul>
 </nav>
 
 <div>
   {#each completed as entry}
-    <div class="entry">
-      <div class="contents">{entry.username_caretaker}</div>
-      <div class="contents">{entry.petname}</div>
-      <div class="contents">{entry.startdate}</div>
-      <div class="contents">{entry.enddate}</div>
-      <div class="contents">Price</div>
-      {#if entry.rating === null}
-        <div class="contents">
-          <button on:click={selectUser(entry)}> Leave Review </button>
-        </div>
-      {/if}
-    </div>
+    {#if remaining(entry.enddate) <= 0}
+      <div class="entry">
+        <div class="contents">{entry.username_caretaker}</div>
+        <div class="contents">{entry.petname}</div>
+        <div class="contents">{entry.startdate}</div>
+        <div class="contents">{entry.enddate}</div>
+        {#if entry.rating === null}
+          <div class="contents">
+            <button on:click={selectUser(entry)}> Leave Rating </button>
+          </div>
+        {:else}
+          <div class="contents">{entry.rating}</div>
+        {/if}
+      </div>
+    {/if}
   {:else}
     <p>You have no Pets leaving</p>
   {/each}
