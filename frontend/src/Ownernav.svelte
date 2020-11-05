@@ -22,7 +22,7 @@
     display: flex;
     margin: 0 auto;
     padding: 0;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   ul::after {
@@ -34,6 +34,7 @@
   li {
     display: block;
     float: left;
+    padding: 5px 30px;
   }
 
   .selected {

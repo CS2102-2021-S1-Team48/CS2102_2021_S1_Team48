@@ -19,7 +19,7 @@
     display: flex;
     margin: 0 auto;
     padding: 0;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   ul::after {
@@ -30,7 +30,7 @@
 
   li {
     display: inline-flex;
-    padding: 10px 20px;
+    padding: 10px 175px;
   }
 
   .selected {

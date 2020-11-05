@@ -1,13 +1,12 @@
 <script>
   import { Router } from "@sveltech/routify";
   import { routes } from "@sveltech/routify/tmp/routes";
-  import { account, pricelist, pw } from "./user.js";
+  import { account, acctype, pricelist, pw } from "./user.js";
 
   // init
   let userObject = null;
 
   //auth
-  let priceObject = null;
   let username = "";
   let password = "";
   let usertype = null;
@@ -15,6 +14,8 @@
 
   function signOut() {
     userObject = null;
+    window.open("/index", "_self");
+    console.log("username");
   }
 
   function signUp() {
@@ -93,9 +94,10 @@
     }
     account.set(username);
     pw.set(password);
+    acctype.set(usertype);
   }
 
-  $: console.log(userObject);
+  $: console.log(userObject, usertype);
 </script>
 
 <style>

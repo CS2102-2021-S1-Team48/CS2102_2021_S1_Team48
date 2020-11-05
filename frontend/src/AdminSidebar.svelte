@@ -2,25 +2,26 @@
   import { url, isActive } from "@sveltech/routify";
 
   const links = [
-    ["./myprofile", "My Profile"],
-    ["./requests", "Requests"],
-    ["./upcoming", "Upcoming"],
-    ["./currentpets", "Current Pets"],
+    ["/index", "Home"],
+    ["/settings", "Settings"],
   ];
 </script>
 
 <style>
   nav {
-    border-bottom: 1px solid rgba(255, 62, 0, 0.1);
+    left: 0px;
+    top: 0px;
     font-weight: 300;
-    padding: 0 1em;
+    padding: 0 5em;
+    position: absolute;
+    float: left;
+    background-color: orange;
+    height: 100%;
   }
 
   ul {
-    display: flex;
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
-    justify-content: center;
   }
 
   ul::after {
@@ -32,7 +33,7 @@
   li {
     display: block;
     float: left;
-    padding: 5px 55px;
+    clear: both;
   }
 
   .selected {
@@ -58,11 +59,13 @@
 </style>
 
 <nav>
-  <ul>
-    {#each links as [path, name]}
-      <li>
-        <a href={$url(path)} class:selected={$isActive(path)}> {name} </a>
-      </li>
-    {/each}
-  </ul>
+  <div class="middle">
+    <ul>
+      {#each links as [path, name]}
+        <li>
+          <a href={$url(path)} class:selected={$isActive(path)}> {name} </a>
+        </li>
+      {/each}
+    </ul>
+  </div>
 </nav>

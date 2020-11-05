@@ -2,16 +2,20 @@
   import ChangePasswordForm from "../ChangePasswordForm.svelte";
   import EditCreditCard from "../EditCreditCard.svelte";
   import UpdateAddress from "../UpdateAddress.svelte";
-  import { account, pw } from "../user.js";
+  import { account, pw, acctype } from "../user.js";
 
   let username;
   let pass;
+  let usertype;
 
   const unsubscribe = account.subscribe((value) => {
     username = value;
   });
   const unsubscribe2 = pw.subscribe((value) => {
     pass = value;
+  });
+  const unsubscribe3 = acctype.subscribe((value) => {
+    usertype = value;
   });
 
   const handleChangePassword = (e) => {
@@ -29,6 +33,27 @@
       )
         .then((resp) => resp.json())
         .then((data) => {});
+      alert("Password Changed!");
+    }
+  };
+
+  const handleChangePasswordAdmin = (e) => {
+    const received = e.detail;
+    const newpw = received.new;
+    const current = received.current;
+    if (pass != current) {
+      alert("Current password Incorrect!");
+    } else {
+      fetch(
+        `http://18.139.110.246:3000/admins/changepassword/${username}/${current}/${newpw}`,
+        {
+          method: "PATCH",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+        });
       alert("Password Changed!");
     }
   };
@@ -87,9 +112,14 @@
 </style>
 
 <h1>Settings</h1>
-<h3>Update Password</h3>
-<ChangePasswordForm on:changePassword={handleChangePassword} />
-<h3>Update Credit Card</h3>
-<EditCreditCard on:editCreditCard={handleEditCreditCard} />
-<h3>Update Address</h3>
-<UpdateAddress on:updateAddress={handleUpdateAddress} />
+{#if usertype === 'Admin'}
+  <h3>Update Password</h3>
+  <ChangePasswordForm on:changePassword={handleChangePasswordAdmin} />
+{:else}
+  <h3>Update Password</h3>
+  <ChangePasswordForm on:changePassword={handleChangePassword} />
+  <h3>Update Credit Card</h3>
+  <EditCreditCard on:editCreditCard={handleEditCreditCard} />
+  <h3>Update Address</h3>
+  <UpdateAddress on:updateAddress={handleUpdateAddress} />
+{/if}
