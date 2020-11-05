@@ -239,7 +239,6 @@ async function submitReviewAndRating(ctx) {
         const sqlQuery = `UPDATE bids SET rating = ${rating}, review = '${review}' WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'rating': rating,
             'review': review
         };
@@ -265,6 +264,24 @@ async function deleteBid(ctx) {
     }
 }
 
+// GET api at router
+async function getRatingByUsernameCT(ctx) {
+    const { usernamect } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT AVG(rating) FROM bids WHERE username_caretaker = '${usernamect}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        const rating = rows[0];
+        ctx.body = {
+            'rating': rating
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 
 
 module.exports = {
@@ -281,5 +298,6 @@ module.exports = {
     acceptBid,
     undoAcceptBid,
     submitReviewAndRating,
-    deleteBid
+    deleteBid,
+    getRatingByUsernameCT
 };
