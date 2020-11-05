@@ -30,7 +30,7 @@ async function addBid(ctx) {
 async function getAcceptedBids(ctx) {
     const usernamect = ctx.params.usernamect;
     try {
-        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}'`;
+        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_petowner = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
