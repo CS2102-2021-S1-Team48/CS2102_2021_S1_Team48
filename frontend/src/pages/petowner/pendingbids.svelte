@@ -28,24 +28,29 @@
     console.log(bid);
 
     // reload
-    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
-      method: "GET",
-    })
-      .then((resp) => resp.json())
-      .then((data) => (bids = data.acceptedbids));
   };
 
   const handleCancel = (bid) => {
     // request cancel bid (remove from bid)
-    console.log(bid);
-
+    fetch(
+      `http://18.139.110.246:3000/bids/${bid.petname}/${bid.username_petowner}/${bid.username_caretaker}/${bid.startdate}/${bid.enddate}`,
+      {
+        method: "DELETE",
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      .then(() => reload());
     // reload
+  };
+
+  function reload() {
     fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
       method: "GET",
     })
       .then((resp) => resp.json())
       .then((data) => (bids = data.acceptedbids));
-  };
+  }
 </script>
 
 <style>
@@ -119,7 +124,7 @@
           </button>
         </div>
       {/if}
-      {#if bid.status == 'Pending'}
+      {#if bid.transfermethod == 'pickup'}
         <div class="button">
           <button
             on:click={() => {
