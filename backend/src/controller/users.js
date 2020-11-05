@@ -134,7 +134,6 @@ async function changeCreditCard(ctx) {
         ctx.body = {
             'success': 'true!'
         };
-
     } catch (e) {
         console.log(e);
         ctx.status = 403;

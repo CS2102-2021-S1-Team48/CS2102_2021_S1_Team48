@@ -69,7 +69,6 @@ async function addBid(ctx) {
         const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'usernamepo': usernamepo,
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
@@ -264,7 +263,7 @@ async function acceptBid(ctx) {
         const sqlQuery = `UPDATE bids SET accepted = True WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
@@ -280,7 +279,7 @@ async function undoAcceptBid(ctx) {
         const sqlQuery = `UPDATE bids SET accepted = False WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
@@ -315,7 +314,7 @@ async function deleteBid(ctx) {
         const sqlQuery = `DELETE FROM bids WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!'
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
