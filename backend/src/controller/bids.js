@@ -14,11 +14,11 @@ async function testAddBid(ctx) {
 
         let canInsert = true;
 
-        const a = moment('2020-11-04');
-        const b = moment('2020-11-20');
-        const c = b.add(1, 'days');
+        const sd = moment(startdate);
+        const ed = moment(enddate);
+        const edPlusOne = ed.add(1, 'days');
 
-        for (let m = moment(a); m.isBefore(c); m.add(1,'days')) {
+        for (let m = moment(sd); m.isBefore(edPlusOne); m.add(1,'days')) {
             const d = m.format('YYYY-MM-DD');
             const countQuery = `SELECT count(*) FROM bids WHERE '${d}' BETWEEN startdate AND enddate AND accepted = 'true' AND username_caretaker = '${usernamect}'`;
             const countResult = await pool.query(countQuery);
@@ -49,7 +49,7 @@ async function testAddBid(ctx) {
         } else {
             ctx.body = {
                 'errormessage': 'caretaker already hit his/her petlimit!'
-            }
+            };
             ctx.status = 403;
         }
 
