@@ -41,7 +41,7 @@ router.patch('/admins/changeusername/:username/:newusername', changeAdminUsernam
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 
 // availabilities
-router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
+router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=20200701&enddate=20200319&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities);
 router.get('/availabilities/pettype/:pettype', getAvailabilitiesByPetType);
 router.get('/availabilities/usernamect/:usernamect', getAvailabilitiesByUsernameCT);
