@@ -11,7 +11,6 @@ async function addBaseDailyPrice(ctx) {
         const sqlQuery = `INSERT INTO basedailyprices VALUES (${amount}, '${pettype}', ${minrating}, '${adminusername}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'amount': amount,
             'pettype' : pettype,
             'minrating': minrating,
@@ -94,7 +93,6 @@ async function editBaseDailyPrice(ctx) {
         const sqlQuery = `UPDATE basedailyprices SET amount = ${amount}, username_admin = '${adminusername}' WHERE pettype = '${pettype}' AND minrating = ${minrating}`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'amount': amount 
         };
     } catch (e) {
@@ -110,7 +108,7 @@ async function deleteBaseDailyPrice(ctx) {
         const sqlQuery = `DELETE FROM basedailyprices WHERE pettype = '${pettype}' AND minrating = ${minrating}`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'Success': 'True!' 
+            'success': 'true!' 
         };
     } catch (e) {
         console.log(e);

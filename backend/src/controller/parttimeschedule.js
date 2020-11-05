@@ -8,7 +8,6 @@ async function addSchedule(ctx) {
         const sqlQuery = `INSERT INTO parttime_schedules VALUES ('${usernamect}', '${availdate}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'username_caretaker': usernamect,
             'availdate': availdate
         };

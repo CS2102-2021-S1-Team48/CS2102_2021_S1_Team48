@@ -8,7 +8,6 @@ async function addLeave(ctx) {
         const sqlQuery = `INSERT INTO leaveschedule VALUES ('${usernamect}', '${startdate}', '${enddate}')`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'username_caretaker': usernamect,
             'startdate': startdate,
             'enddate': enddate,
@@ -44,7 +43,7 @@ async function deleteLeaves(ctx) {
         const sqlQuery = `DELETE FROM leaveschedule WHERE username = '${usernamect}' AND startdate = '${startdate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
+            'success': 'true!',
         };
     } catch (e) {
         console.log(e);

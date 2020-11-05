@@ -87,7 +87,6 @@ async function deletePetByPetname(ctx) {
         const sqlQuery = `DELETE FROM pets WHERE username_petowner = '${usernamepo}' AND petname = '${petname}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
             'petname': petname,
             'usernamepo': usernamepo
         };
