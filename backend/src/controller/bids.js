@@ -282,6 +282,22 @@ async function getRatingByUsernameCT(ctx) {
     }
 }
 
+// GET api at router
+async function getBidsByUsernamePO(ctx) {
+    const { usernamepo } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM bids WHERE username_petowner = '${usernamepo}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const bids = resultObject.rows;
+        ctx.body = {
+            'bids': bids
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
 
 
 module.exports = {
@@ -299,5 +315,6 @@ module.exports = {
     undoAcceptBid,
     submitReviewAndRating,
     deleteBid,
-    getRatingByUsernameCT
+    getRatingByUsernameCT,
+    getBidsByUsernamePO
 };
