@@ -51,6 +51,10 @@
 	}
 
 	function addEntry() {
+		if (petType.match(/[0-9]/) !== null || price.match(/^[^a-zA-Z0-9]+$/) !== true) {
+			alert("Please ensure pet names contain no numerals and prices contain no special characters!");
+			return;
+    }
 		pets = pets.concat({ startDate, endDate, petType, price, usernameCt });
 		i = pets.length - 1;
 
@@ -85,6 +89,10 @@
 		selected.petType = petType;
 		selected.price = price;
 		pets = pets;
+		if (petType.match(/[0-9]/) !== null || price.match(/^[^a-zA-Z0-9]+$/) !== true) {
+			alert("Please ensure pet names contain no numerals and prices contain no special characters!");
+			return;
+    }
 		console.log(
 			oldStartDate,
 			oldEndDate,
@@ -220,7 +228,7 @@
 			{/each}
 		</select>
 
-		<label><input
+		<label><input required
 				class="short-input"
 				type="date"
 				id="start"
@@ -229,7 +237,7 @@
 				bind:value={startDate}
 				placeholder="start date" />
 		</label>
-		<label><input
+		<label><input required
 				class="short-input"
 				type="date"
 				id="start"
@@ -238,9 +246,9 @@
 				bind:value={endDate}
 				placeholder="end date" />
 		</label>
-		<label><input bind:value={petType} placeholder="pet type" /></label>
-		<label><input bind:value={price} placeholder="price" /></label>
-		<label><input
+		<label><input required bind:value={petType} placeholder="pet type" /></label>
+		<label><input required bind:value={price} placeholder="price" /></label>
+		<label><input 
 				bind:value={usernameCt}
 				placeholder="caretaker type" /></label>
 	</div>
