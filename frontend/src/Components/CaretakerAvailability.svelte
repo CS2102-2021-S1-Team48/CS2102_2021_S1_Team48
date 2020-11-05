@@ -18,6 +18,7 @@
 	let oldStartDate = "";
 	let oldEndDate = "";
 	let oldPetType = "";
+	let oldPrice = "";
 	let i = 0;
 
 	function createEntries(event) {
@@ -39,11 +40,8 @@
 
 	function createFromDb(event) {
 		startDate = event.startdate;
-		oldStartDate = startDate;
 		endDate = event.enddate;
-		oldEndDate = endDate;
 		petType = event.pettype;
-		oldPetType = petType;
 		price = event.price;
 		usernameCt = event.username_caretaker;
 		pets.push({ startDate, endDate, petType, price, usernameCt });
@@ -67,7 +65,7 @@
 				alert(`Success! Your availability has been posted!`);
 			})
 			.catch((error) => {
-				if (error = 403) {
+				if ((error = 403)) {
 					alert("Blank fields and repeated entries are not allowed.");
 				}
 				console.log("ERROR: " + error);
@@ -77,20 +75,37 @@
 	}
 
 	function update() {
+		const index = pets.indexOf(selected);
+		oldStartDate = pets[index].startDate;
+		oldEndDate = pets[index].endDate;
+		oldPetType = pets[index].petType;
+		oldPrice = pets[index].price;
 		selected.startDate = startDate;
 		selected.endDate = endDate;
 		selected.petType = petType;
 		selected.price = price;
 		pets = pets;
-
+		console.log(
+			oldStartDate,
+			oldEndDate,
+			oldPetType,
+			price,
+			usernameCt,
+			startDate,
+			endDate,
+			selected.petType,
+			selected.price
+		);
 		const patchAvailabiityCall = fetch(
-			`http://18.139.110.246:3000/availabilities/${oldStartDate}/${oldEndDate}/${oldPetType}/${usernameCt}?startdate=${startDate}&enddate=${endDate}&pettype=${selected.petType}&price=${selected.price}`,
+			`http://18.139.110.246:3000/availabilities?startdate=${oldStartDate}&enddate=${oldEndDate}&pettype=${oldPetType}&price=${oldPrice}&usernamect=${usernameCt}&newstartdate=${selected.startDate}&newenddate=${selected.endDate}&newpettype=${selected.petType}&newprice=${selected.price}`,
 			{
 				method: "PATCH",
 			}
 		)
 			.then((response) => response.json())
-			.then((data) => {})
+			.then((data) => {
+				alert("Your availability is successfully updated!");
+			})
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
