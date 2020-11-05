@@ -36,9 +36,12 @@
     enddate = end;
 
     // GET AVAILABILITIES - TO BE ADDED: RATINGS
-    fetch(`http://18.139.110.246:3000/availabilities/pettype/${pettype}`, {
-      method: "GET",
-    })
+    fetch(
+      `http://18.139.110.246:3000/availabilities/${startdate}/${enddate}/${pettype}`,
+      {
+        method: "GET",
+      }
+    )
       .then((resp) => resp.json())
       .then((data) => (availability = data.availabilities));
 
@@ -65,7 +68,7 @@
 
       // POST BID TO BE FIXED
       fetch(
-        `http://18.139.110.246:3000/bids/${username}?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&username_caretaker=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
+        `http://18.139.110.246:3000/bids?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&usernamepo=${username}&usernamect=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
         {
           method: "POST",
         }

@@ -21,6 +21,14 @@
       .then((data) => (bids = data.acceptedbids));
   });
 
+  function reload() {
+    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (bids = data.acceptedbids));
+  }
+
   const remaining = (date) => {
     // today
     var today = new Date();
@@ -55,7 +63,8 @@
 </script>
 
 <style>
-  h1 {
+  h1,
+  h3 {
     text-align: center;
   }
   nav {
@@ -83,14 +92,14 @@
   }
 </style>
 
-<h1>Upcoming Events</h1>
+<h1>Ongoing</h1>
+
 <nav>
   <ul class="header">
     <li>Caretaker</li>
     <li>Pet</li>
     <li>Startdate</li>
     <li>Enddate</li>
-    <li>Price</li>
     <li>Payment Method</li>
     <li>Days Left</li>
     <li>transfer Method</li>
@@ -98,20 +107,19 @@
 </nav>
 
 <div>
-  {#each bids as leave}
-    {#if remaining(leave.startdate) > 0}
+  {#each bids as comeback}
+    {#if remaining(comeback.startdate) <= 0 && remaining(comeback.enddate) > 0}
       <div class="entry">
-        <div class="contents">{leave.username_caretaker}</div>
-        <div class="contents">{leave.petname}</div>
-        <div class="contents">{leave.startdate}</div>
-        <div class="contents">{leave.enddate}</div>
-        <div class="contents">Price</div>
-        <div class="contents">{leave.paymentmethod}</div>
-        <div class="contents">{remaining(leave.startdate)}</div>
-        <div class="contents">{leave.transfermethod}</div>
+        <div class="contents">{comeback.username_caretaker}</div>
+        <div class="contents">{comeback.petname}</div>
+        <div class="contents">{comeback.startdate}</div>
+        <div class="contents">{comeback.enddate}</div>
+        <div class="contents">{comeback.paymentmethod}</div>
+        <div class="contents">{remaining(comeback.enddate)}</div>
+        <div class="contents">{comeback.transfermethod}</div>
       </div>
     {/if}
   {:else}
-    <p>You have no Pets leaving</p>
+    <p>You have no Pets returning.</p>
   {/each}
 </div>
