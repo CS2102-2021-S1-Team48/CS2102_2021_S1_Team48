@@ -10,7 +10,6 @@ async function addBid(ctx) {
         const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
         await pool.query(sqlQuery);
         ctx.body = {
-            '': usernamepo,
             'transfermethod': transfermethod,
             'paymentmethod': paymentmethod,
             'petname': petname,
