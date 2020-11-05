@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import Modal from "../../Modal.svelte";
   import ReviewForm from "../../ReviewForm.svelte";
   import { account } from "../../user.js";
@@ -10,49 +11,52 @@
   });
 
   let showModal = false;
+  let caretaker;
+  let petname;
+  let startdate;
+  let enddate;
 
-  let completed = [
-    {
-      caretaker: "Mr Lim",
-      pet: "Cheddar",
-      start: "2020-09-19",
-      end: "2020-09-25",
-      price: 300,
-    },
-  ];
+  let completed = [];
+
+  onMount(async () => {
+    await fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (completed = data.acceptedbids));
+  });
+
+  function selectUser(bid) {
+    caretaker = bid.username_caretaker;
+    petname = bid.petname;
+    startdate = bid.startdate;
+    enddate = bid.enddate;
+    toggleModal();
+  }
 
   function toggleModal() {
     showModal = !showModal;
   }
 
-  function handleRating() {
-    //dummy
-    toggleModal();
-  }
+  function handleRating(e) {
+    //console.log(e.detail);
+    const values = e.detail;
+    const rating = values.rating;
+    const review = values.review;
+    //console.log(values);
 
-  //api tests
-
-  /*
-  function handleClick() {
-    fetch("http://18.139.110.246:3000/hello")
-      .then((resp) => resp.json())
-      .then((data) => console.log(data));
-  }
-
-  let dummy = "alexkohNEWNEW";
-  let dummypw = "sveltemaster";
-
-  function doPost() {
+    // PATCH REVIEW
     fetch(
-      `http://18.139.110.246:3000/users/changeusername/${dummy}/${dummypw}`,
+      `http://18.139.110.246:3000/bids/submitreviewandrating/${petname}/${username}/${caretaker}/${startdate}/${enddate}?rating=${rating}&review=${review}`,
       {
         method: "PATCH",
       }
     )
       .then((resp) => resp.json())
       .then((data) => console.log(data));
+
+    toggleModal();
   }
-  */
 </script>
 
 <style>
@@ -74,7 +78,7 @@
   }
   .contents {
     max-width: 180px;
-    width: 120px;
+    width: 128px;
     text-align: center;
     display: inline-flex;
     padding: 9px;
@@ -106,15 +110,16 @@
 <div>
   {#each completed as entry}
     <div class="entry">
-      <div class="contents">{entry.caretaker}</div>
-      <div class="contents">{entry.pet}</div>
-      <div class="contents">{entry.start}</div>
-      <div class="contents">{entry.end}</div>
-      <div class="contents">{entry.price}</div>
-      <div class="contents">
-        <button on:click={toggleModal}> Leave Review </button>
-      </div>
-      <div class="contents"><button>CLEAR</button></div>
+      <div class="contents">{entry.username_caretaker}</div>
+      <div class="contents">{entry.petname}</div>
+      <div class="contents">{entry.startdate}</div>
+      <div class="contents">{entry.enddate}</div>
+      <div class="contents">Price</div>
+      {#if entry.rating === null}
+        <div class="contents">
+          <button on:click={selectUser(entry)}> Leave Review </button>
+        </div>
+      {/if}
     </div>
   {:else}
     <p>You have no Pets leaving</p>

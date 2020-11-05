@@ -9,15 +9,18 @@
   let ratings = [1, 2, 3, 4, 5];
 
   const handleSubmit = () => {
-    //creates review;
+    if (userrating === null) {
+      alert("Please Select a rating from 1-5!");
+    } else {
+      //creates review;
+      const rating = {
+        rating: userrating,
+        review: userreview,
+      };
+      //console.log(rating);
 
-    const rating = {
-      rating: userrating,
-      review: userreview,
-    };
-    console.log(rating);
-
-    dispatch("leaveRating", rating);
+      dispatch("leaveRating", rating);
+    }
   };
 </script>
 
