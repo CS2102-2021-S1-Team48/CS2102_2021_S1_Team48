@@ -40,14 +40,6 @@ router.get('/admins/gettotalsalarytobepaid/:startdate/:enddate', getTotalSalaryT
 router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 
-
-// pets
-router.post('/pets/:usernamepo', addPet); // POST /pets?petname=eva&pettype=cat&requirements=aircon
-router.get('/pets/:usernamepo', getPetsByUsername);
-router.get('/pets/:petname/:usernamepo', getPetByPetname);
-router.patch('/pets/:petname/:usernamepo', editPetDetails); // PATCH /pets/:petname?petname=evaline&requirements=coldaircon
-router.del('/pets/:petname/:usernamepo', deletePetByPetname);
-
 // availabilities
 router.post('/availabilities', postAvailability); // POST /availabilities?usernamect=johndoe98&startdate=01072020&enddate=19032020&pettype=dog&price=100
 router.get('/availabilities', getAllAvailabilities);
