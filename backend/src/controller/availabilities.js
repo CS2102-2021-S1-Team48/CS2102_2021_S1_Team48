@@ -87,6 +87,24 @@ async function getAvailabilitiesByUCTandPT(ctx) {
     }
 }
 
+// GET api at router
+async function getAvailabilitiesByMinDateRangeAndPT(ctx) {
+    const { startdate, enddate, pettype } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM availabilities WHERE pettype = '${pettype}' AND startdate <= '${startdate}' AND enddate >= '${enddate}'`;
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        ctx.body = {
+            'availabilities': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+
 // Buggy, to fix
 // PATCH api at router
 // PATCH /availabilities?startdate=20201025&enddate=20201025&pettype=dog&price=99999&usernamect=johndoe98&newstartdate=20201025&newenddate=20201026&newpettype=cat&newprice=13939495
@@ -133,6 +151,7 @@ async function deleteAvailability(ctx) {
 module.exports = {
     postAvailability,
     getAllAvailabilities,
+    getAvailabilitiesByMinDateRangeAndPT,
     getAvailabilitiesByPetType,
     getAvailabilitiesByUsernameCT,
     getAvailabilitiesByUCTandPT,
