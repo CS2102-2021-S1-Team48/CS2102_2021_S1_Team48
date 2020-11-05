@@ -1,4 +1,5 @@
 <script>
+  import { account } from "../../user";
   import { onMount } from "svelte";
   let owner = "";
   let caretaker = "";
@@ -8,18 +9,11 @@
   let require = "";
   let from = "";
   let to = "";
-  let bidRequests = [
-    {
-      owner: "Daniel",
-      payment: "cash",
-      pet: "Maple",
-      type: "Cat",
-      require: "brush daily",
-      from: "2020-11-29",
-      to: "2020-12-29",
-      caretaker: "",
-    },
-  ];
+  let username;
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
+  let bidRequests = [];
   function createRequestEntries(event) {
     // console.log(event);
     event.unacceptedbids.map((obj) => {
@@ -56,21 +50,26 @@
     )
       .then((response) => response.json())
       .then((data) => {})
-      .catch((error) => {
-        console.log("ERROR: " + error);
-      });
-    petowner = from = to = caretaker = petname = "";
+      .then(() => reload());
   }
+
+  function reload() {
+    fetch(`http://18.139.110.246:3000/bids/unaccepted/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (bidRequests = data.unacceptedbids));
+  }
+
   onMount(async () => {
     const getBidRequestsCall = fetch(
-      `http://18.139.110.246:3000/bids/unaccepted/fulltimer`,
+      `http://18.139.110.246:3000/bids/unaccepted/${username}`,
       {
         method: "GET",
       }
     )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         createRequestEntries(data);
       })
       .catch((error) => {
@@ -170,5 +169,7 @@
         </div>
       </div>
     </div>
+  {:else}
+    <p>You have no bid requests.</p>
   {/each}
 </div>

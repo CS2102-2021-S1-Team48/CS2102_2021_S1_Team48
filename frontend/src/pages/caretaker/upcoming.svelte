@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { account } from "../../user";
   var daysLeft = 0;
   let owner = "";
   let caretaker = "";
@@ -10,7 +11,39 @@
   let from = "";
   let to = "";
   let total = "";
+  let username;
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
+  var todayDate = new Date();
+  var tmrdate = new Date(
+    todayDate.getFullYear(),
+    todayDate.getMonth(),
+    todayDate.getDate() + 1
+  );
 
+  function add_years(dt, n) {
+    return new Date(dt.setFullYear(dt.getFullYear() + n));
+  }
+  function convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString();
+    var dd = date.getDate().toString();
+
+    var mmChars = mm.split("");
+    var ddChars = dd.split("");
+
+    return (
+      yyyy +
+      "-" +
+      (mmChars[1] ? mm : "0" + mmChars[0]) +
+      "-" +
+      (ddChars[1] ? dd : "0" + ddChars[0])
+    );
+  }
+  var nextTenYearsDate = convertDate(add_years(todayDate, 10));
+  var tmrDate = convertDate(tmrdate);
+  console.log(tmrDate);
   function calculateDaysLeft(year, month, day) {
     month -= 1;
     daysLeft = Math.ceil(
@@ -23,42 +56,7 @@
     return daysLeft;
   }
 
-  let SuccessfulBids = [
-    // {
-    //   owner: "Daniel",
-    //   payment: "cash",
-    //   pet: "Maple",
-    //   type: "Cat",
-    //   require: "brush daily",
-    //   from: "2020-11-29",
-    //   to: "2020-12-29",
-    //   bid: 24,
-    //   total: 224,
-    //   daysLeft: 8,
-    // },
-    // {
-    //   owner: "Jenny",
-    //   payment: "credit card",
-    //   pet: "Morty",
-    //   type: "Dinosaur",
-    //   require: "NIL",
-    //   from: "2020-11-29",
-    //   to: "2020-12-29",
-    //   total: 84,
-    //   daysLeft: 19,
-    // },
-    // {
-    //   owner: "Xiao Kai",
-    //   payment: "cash",
-    //   pet: "Rax",
-    //   type: "Rat",
-    //   require: "bedtime songs",
-    //   from: "2020-11-22",
-    //   to: "2020-12-31",
-    //   total: 456,
-    //   daysLeft: 3,
-    // },
-  ];
+  let SuccessfulBids = [];
   function createUpcomingEntries(event) {
     event.acceptedbids.map((obj) => {
       addUpcomingEntry(obj);
@@ -80,7 +78,7 @@
     daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
 
     const getTotalPriceOwedCall = await fetch(
-      `http://18.139.110.246:3000/bids/totalowedtocaretaker/fulltimer/${type}/${from}/${to}}`,
+      `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
       {
         method: "GET",
       }
@@ -111,7 +109,7 @@
   }
   onMount(async () => {
     const getUpcomingEntriesCall = fetch(
-      `http://18.139.110.246:3000/bids/accepted/fulltimer`,
+      `http://18.139.110.246:3000/bids/accepteddaterange/${username}/${tmrDate}/${nextTenYearsDate}`,
       {
         method: "GET",
       }
@@ -210,5 +208,7 @@
         <div style="margin:auto">{bid.daysLeft}</div>
       </div>
     </div>
+  {:else}
+    <p>You have no upcoming pets to petsit.</p>
   {/each}
 </div>

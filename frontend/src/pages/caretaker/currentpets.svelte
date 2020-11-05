@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { account } from "../../user";
   let maxCanCareFor;
-  $: emptySlots = maxCanCareFor - currentCaringFor;
+  let currentCaringFor = 0;
   let owner = "";
   let caretaker = "";
   let payment = "";
@@ -14,11 +14,33 @@
   var daysLeft = 0;
   let username;
 
+  var date = new Date();
+
+  function convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString();
+    var dd = date.getDate().toString();
+
+    var mmChars = mm.split("");
+    var ddChars = dd.split("");
+
+    return (
+      yyyy +
+      "-" +
+      (mmChars[1] ? mm : "0" + mmChars[0]) +
+      "-" +
+      (ddChars[1] ? dd : "0" + ddChars[0])
+    );
+  }
+
+  var todayDate = convertDate(date);
+
   const unsubscribe = account.subscribe((value) => {
     username = value;
   });
 
   let currentBids = [];
+
   function calculateDaysLeft(year, month, day) {
     month -= 1;
     daysLeft = Math.ceil(
@@ -31,12 +53,21 @@
     return daysLeft;
   }
 
+  function add_years(dt, n) {
+    return new Date(dt.setFullYear(dt.getFullYear() + n));
+  }
+
+  var nextTenYearsDate = convertDate(add_years(date, 10));
+
   function createCurrentEntries(event) {
     event.acceptedbids.map((obj) => {
       addCurrentEntry(obj);
     });
   }
-
+  function plusOne() {
+    currentCaringFor += 1;
+    return currentCaringFor;
+  }
   async function addCurrentEntry(event) {
     owner = event.username_petowner;
     caretaker = event.username_caretaker;
@@ -79,10 +110,11 @@
     });
     currentBids = currentBids;
   }
-  let currentCaringFor = currentBids.length;
+  currentCaringFor = currentBids.length;
+  $: emptySlots = maxCanCareFor - currentCaringFor;
   onMount(async () => {
     const getCurrentPetsCall = fetch(
-      `http://18.139.110.246:3000/bids/accepteddaterange/parttimer/2020-01-01/2020-01-03`,
+      `http://18.139.110.246:3000/bids/accepteddaterange/${username}/${todayDate}/${todayDate}`,
       {
         method: "GET",
       }
@@ -95,6 +127,7 @@
         console.log("ERROR: " + error);
       });
   });
+  console.log(currentCaringFor);
 </script>
 
 <style>
@@ -132,7 +165,7 @@
 
 <nav>
   {#each currentBids as slots}
-    <div class="FilledSlot">
+    <div use={plusOne()} class="FilledSlot">
       <div class="contents">
         <div class="subDescription">
           <div>{slots.pet}</div>
@@ -168,8 +201,17 @@
         </div>
       </div>
     </div>
+  {:else}
+    <p>You are not currently taking care of any pets.</p>
   {/each}
-  {#if emptySlots}
+  {#if (currentCaringFor = 0)}
+    {#each Array(maxCanCareFor) as i}
+      <div class="EmptySlot">
+        <slot />
+      </div>
+    {/each}
+  {/if}
+  {#if emptySlots > 0}
     {#each Array(emptySlots) as i}
       <div class="EmptySlot">
         <slot />

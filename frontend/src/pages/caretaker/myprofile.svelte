@@ -4,7 +4,7 @@
 	import { account } from "../../user";
 	import Modal from "../../Components/Modal.svelte";
 	import CaretakerAvailability from "../../Components/CaretakerAvailability.svelte";
-	import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
+	// import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
 	let showAvailabilityModal = false;
 	let showPriceModal = false;
 	let showModal = false;
@@ -36,21 +36,7 @@
 	var fday = convertDate(firstDay);
 	var lday = convertDate(lastDay);
 
-	let reviewers = [
-		{
-			name: "Alex Koh",
-			rating: "5/5",
-			reviewMsg:
-				"Amazing service from start to finish. From picking up of pets to returning of pets, Donald Trump has been easy to communicate. I’m sure my pets are happy with his care.",
-		},
-		{
-			name: "Ash Ketchum",
-			rating: "4/5",
-			reviewMsg:
-				"Wonderful to work with! Great communication! I had a very tedious workload and he was very gracious for taking on the pet caring for me. Also did a great job! Thank you for a wonderful experience and will be doing business with him again!",
-		},
-		{ name: "Bimlesh", rating: "3/5", reviewMsg: "shit" },
-	];
+	let reviewers = [];
 	let username;
 
 	const unsubscribe = account.subscribe((value) => {
@@ -64,35 +50,24 @@
 		reviewers.push({ name, rating, reviewMsg });
 		reviewers = reviewers;
 	}
-	function toggle() {
-		showAvailabilityModal = !showAvailabilityModal;
-		showModal = !showModal;
-	}
-	async function addAvailabilityEntry(event) {
-		//console.log(`Notify fired! Detail: ${event.detail.startDate, event.detail.endDate}`)
-
-		let startdate = event.detail.startDate.replaceAll("-", "");
-		// console.log(startdate);
-		let enddate = event.detail.endDate.replaceAll("-", "");
-		//console.log(enddate);
-		let pettype = event.detail.petType;
-		//console.log(pettype);
-		let price = event.detail.price;
-		//console.log(price);
-		const postAvailabilityCall = await fetch(
-			`http://18.139.110.246:3000/availabilities?usernamect=${username}&startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
+	// function toggle() {
+	// 	showAvailabilityModal = !showAvailabilityModal;
+	// 	showModal = !showModal;
+	// }
+	function changeToFulltimeCt() {
+		const getPetDaysCall = fetch(
+			`http://18.139.110.246:3000/caretakersft/${username}`,
 			{
-				method: "POST",
+				method: "GET",
 			}
 		)
-			.then((response1) => response1.json())
-			.then((data1) => {
-				alert(`Success! Your availability has been posted!`);
+			.then((response) => response.json())
+			.then((data) => {
+				alert("You just switched to full time!");
 			})
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
-		// console.log(price);
 	}
 	onMount(async () => {
 		const getPetDaysCall = fetch(
@@ -103,8 +78,10 @@
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
-				// petDaysThisMth = data.city;
+				data.caretakers.map((obj) => {
+					petDaysThisMth = obj.sum;
+					// console.log(petDaysThisMth);
+				});
 			})
 			.catch((error) => {
 				console.log("ERROR: " + error);
@@ -200,8 +177,8 @@
 		<li style="font-weight:bold">Pet Days this Month:</li>
 		<li>{petDaysThisMth}</li>
 		<li>
-			<button class="button" on:click={() => (showAvailabilityModal = true)}>
-				Availability
+			<button class="button" on:click={changeToFulltimeCt}>
+				Switch to FullTime
 			</button>
 		</li>
 		<li>
@@ -232,7 +209,7 @@
 	</div>
 </div>
 
-{#if showAvailabilityModal}
+<!-- {#if showAvailabilityModal}
 	<Modal on:close={() => (showAvailabilityModal = false)}>
 		<h2 slot="header">Availability</h2>
 		<div style="position: inline">
@@ -252,16 +229,16 @@
 			</div>
 		</div>
 	</Modal>
-{/if}
+{/if} -->
 
-{#if showModal}
+<!-- {#if showModal}
 	<Modal on:close={() => (showModal = false)}>
 		<h2 slot="header">Availability : New Availability</h2>
 		<AddAvailabilityForm
 			closeHandler={toggle}
 			on:newAvailability={addAvailabilityEntry} />
 	</Modal>
-{/if}
+{/if} -->
 
 {#if showPriceModal}
 	<Modal on:close={() => (showPriceModal = false)}>

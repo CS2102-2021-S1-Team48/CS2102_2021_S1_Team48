@@ -65,7 +65,7 @@
 
       // POST BID TO BE FIXED
       fetch(
-        `http://18.139.110.246:3000/bids/${username}?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&username_caretake=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
+        `http://18.139.110.246:3000/bids/${username}?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&username_caretaker=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
         {
           method: "POST",
         }
