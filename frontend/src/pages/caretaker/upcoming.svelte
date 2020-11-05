@@ -1,42 +1,126 @@
 <script>
-  let SuccessfulBids = [
-    {
-      owner: "Daniel",
-      payment: "cash",
-      pet: "Maple",
-      type: "Cat",
-      require: "brush daily",
-      from: "2020-11-29",
-      to: "2020-12-29",
-      bid: 24,
-      total: 224,
-      daysLeft: 8,
-    },
-    {
-      owner: "Jenny",
-      payment: "credit card",
-      pet: "Morty",
-      type: "Dinosaur",
-      require: "NIL",
-      from: "2020-11-29",
-      to: "2020-12-29",
-      bid: 26,
-      total: 84,
-      daysLeft: 19,
-    },
-    {
-      owner: "Xiao Kai",
-      payment: "cash",
-      pet: "Rax",
-      type: "Rat",
-      require: "bedtime songs",
-      from: "2020-11-22",
-      to: "2020-12-31",
-      bid: 70,
-      total: 456,
-      daysLeft: 3,
-    },
-  ];
+  import { onMount } from "svelte";
+  import { account } from "../../user";
+  var daysLeft = 0;
+  let owner = "";
+  let caretaker = "";
+  let payment = "";
+  let pet = "";
+  let type = "";
+  let require = "";
+  let from = "";
+  let to = "";
+  let total = "";
+  let username;
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
+  var todayDate = new Date();
+  var tmrdate = new Date(
+    todayDate.getFullYear(),
+    todayDate.getMonth(),
+    todayDate.getDate() + 1
+  );
+
+  function add_years(dt, n) {
+    return new Date(dt.setFullYear(dt.getFullYear() + n));
+  }
+  function convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString();
+    var dd = date.getDate().toString();
+
+    var mmChars = mm.split("");
+    var ddChars = dd.split("");
+
+    return (
+      yyyy +
+      "-" +
+      (mmChars[1] ? mm : "0" + mmChars[0]) +
+      "-" +
+      (ddChars[1] ? dd : "0" + ddChars[0])
+    );
+  }
+  var nextTenYearsDate = convertDate(add_years(todayDate, 10));
+  var tmrDate = convertDate(tmrdate);
+  function calculateDaysLeft(year, month, day) {
+    month -= 1;
+    daysLeft = Math.ceil(
+      Math.abs(
+        (new Date().getTime() -
+          new Date(`${year}`, `${month}`, `${day}`).getTime()) /
+          (1000 * 60 * 60 * 24)
+      )
+    );
+    return daysLeft;
+  }
+
+  let SuccessfulBids = [];
+  function createUpcomingEntries(event) {
+    event.acceptedbids.map((obj) => {
+      addUpcomingEntry(obj);
+    });
+  }
+  async function addUpcomingEntry(event) {
+    owner = event.username_petowner;
+    caretaker = event.username_caretaker;
+    payment = event.paymentmethod;
+    pet = event.petname;
+    type = event.pettype;
+    from = event.startdate;
+    to = event.enddate;
+    require = event.requirements;
+    var varDateParts = from.split("-");
+    var dateYearPart = varDateParts[0];
+    var dateMonthPart = varDateParts[1];
+    var dateDayPart = varDateParts[2];
+    daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
+
+    const getTotalPriceOwedCall = await fetch(
+      `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        data.totalowned.map((obj) => {
+          total = obj.sum;
+        });
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+      });
+
+    SuccessfulBids.push({
+      owner,
+      payment,
+      pet,
+      type,
+      require,
+      from,
+      to,
+      caretaker,
+      daysLeft,
+      total,
+    });
+    SuccessfulBids = SuccessfulBids;
+  }
+  onMount(async () => {
+    const getUpcomingEntriesCall = fetch(
+      `http://18.139.110.246:3000/bids/accepteddaterange/${username}/${tmrDate}/${nextTenYearsDate}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        createUpcomingEntries(data);
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+      });
+  });
 </script>
 
 <style>
@@ -123,5 +207,7 @@
         <div style="margin:auto">{bid.daysLeft}</div>
       </div>
     </div>
+  {:else}
+    <p>You have no upcoming pets to petsit.</p>
   {/each}
 </div>

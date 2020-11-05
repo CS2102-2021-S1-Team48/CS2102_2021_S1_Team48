@@ -2,7 +2,8 @@
 	import { onMount } from "svelte";
 	import HeaderBox from "../Components/Header/HeaderBox.svelte";
 	import { account } from "../../src/user";
-
+	import { createEventDispatcher } from "svelte";
+	let dispatch = createEventDispatcher();
 	let username;
 	const unsubscribe = account.subscribe((value) => {
 		username = value;
@@ -20,9 +21,8 @@
 	let i = 0;
 
 	function createEntries(event) {
-		// console.log(event);
 		event.availabilities.map((obj) => {
-			create(obj);
+			createFromDb(obj);
 		});
 	}
 
@@ -37,7 +37,7 @@
 
 	$: reset_inputs(selected);
 
-	function create(event) {
+	function createFromDb(event) {
 		startDate = event.startdate;
 		oldStartDate = startDate;
 		endDate = event.enddate;
@@ -51,20 +51,46 @@
 		i = pets.length - 1;
 		startDate = endDate = petType = price = usernameCt = "";
 	}
-	
+
+	function addEntry() {
+		pets = pets.concat({ startDate, endDate, petType, price, usernameCt });
+		i = pets.length - 1;
+
+		const postAvailabilityCall = fetch(
+			`http://18.139.110.246:3000/availabilities?usernamect=${username}&startdate=${startDate}&enddate=${endDate}&pettype=${petType}&price=${price}`,
+			{
+				method: "POST",
+			}
+		)
+			.then((response1) => response1.json())
+			.then((data1) => {
+				alert(`Success! Your availability has been posted!`);
+			})
+			.catch((error) => {
+				if (error = 403) {
+					alert("Blank fields and repeated entries are not allowed.");
+				}
+				console.log("ERROR: " + error);
+			});
+
+		startDate = endDate = petType = price = usernameCt = "";
+	}
+
 	function update() {
 		selected.startDate = startDate;
 		selected.endDate = endDate;
 		selected.petType = petType;
 		selected.price = price;
 		pets = pets;
-		
-		const patchAvailabiityCall = fetch(`http://18.139.110.246:3000/availabilities/${oldStartDate}/${oldEndDate}/${oldPetType}/${usernameCt}?startdate=${startDate}&enddate=${endDate}&pettype=${selected.petType}&price=${selected.price}`, {
-			method: "PATCH",
-		})
+
+		const patchAvailabiityCall = fetch(
+			`http://18.139.110.246:3000/availabilities/${oldStartDate}/${oldEndDate}/${oldPetType}/${usernameCt}?startdate=${startDate}&enddate=${endDate}&pettype=${selected.petType}&price=${selected.price}`,
+			{
+				method: "PATCH",
+			}
+		)
 			.then((response) => response.json())
-			.then((data) => {
-			})
+			.then((data) => {})
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
@@ -73,21 +99,21 @@
 	function remove() {
 		const index = pets.indexOf(selected);
 		pets = [...pets.slice(0, index), ...pets.slice(index + 1)];
-		
-		const delAvailabilityCall = fetch(`http://18.139.110.246:3000/availabilities/${selected.startDate}/${selected.endDate}/${selected.petType}/${usernameCt}`, {
-			method: "DELETE",
-		})
+
+		const delAvailabilityCall = fetch(
+			`http://18.139.110.246:3000/availabilities/${selected.startDate}/${selected.endDate}/${selected.petType}/${usernameCt}`,
+			{
+				method: "DELETE",
+			}
+		)
 			.then((response) => response.json())
-			.then((data) => {
-			})
+			.then((data) => {})
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
-		
-			startDate = endDate = petType = price = "";
-		i = Math.min(i, filteredPets.length - 2);
 
-		
+		startDate = endDate = petType = price = "";
+		i = Math.min(i, filteredPets.length - 2);
 	}
 
 	function reset_inputs(pet) {
@@ -98,10 +124,12 @@
 		usernameCt = pet ? pet.usernameCt : "";
 	}
 	onMount(async () => {
-		//`http://18.139.110.246:3000/availabilities/specific?usernamect=$(username)`
-		const getPetDaysCall = fetch(`http://18.139.110.246:3000/availabilities/specific?usernamect=alexkoh`, {
-			method: "GET",
-		})
+		const getUsersAvailabilitiesCall = fetch(
+			`http://18.139.110.246:3000/availabilities/usernamect/${username}`,
+			{
+				method: "GET",
+			}
+		)
 			.then((response) => response.json())
 			.then((data) => {
 				createEntries(data);
@@ -203,10 +231,10 @@
 	</div>
 	<div class="float-container">
 		<div class="buttons">
-			<!-- <button
+			<button
 				style="color: black; background-color:cornflowerblue"
-				on:click={create}
-				disabled={!petType || !price || !startDate || !endDate || !usernameCt}>Add</button> -->
+				on:click={addEntry}
+				disabled={!petType || !price || !selected}>Add</button>
 			<button
 				style="color: black; background-color:cornflowerblue"
 				on:click={update}

@@ -4,164 +4,119 @@
 	import { account } from "../../user";
 	import Modal from "../../Components/Modal.svelte";
 	import CaretakerAvailability from "../../Components/CaretakerAvailability.svelte";
-	import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
+	// import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
 	let showAvailabilityModal = false;
 	let showPriceModal = false;
 	let showModal = false;
 	let petDaysThisMth = 0;
-	let reviewers = [
-		{
-			name: "Alex Koh",
-			rating: "5/5",
-			reviewMsg:
-				"Amazing service from start to finish. From picking up of pets to returning of pets, Donald Trump has been easy to communicate. I’m sure my pets are happy with his care.",
-		},
-		{
-			name: "Ash Ketchum",
-			rating: "4/5",
-			reviewMsg:
-				"Wonderful to work with! Great communication! I had a very tedious workload and he was very gracious for taking on the pet caring for me. Also did a great job! Thank you for a wonderful experience and will be doing business with him again!",
-		},
-		{ name: "Bimlesh", rating: "3/5", reviewMsg: "shit" },
-	];
+	export let limit = 0;
+	let name = "";
+	let rating = "";
+	let reviewMsg = "";
+	var date = new Date();
+	var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+	var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+	function convertDate(date) {
+		var yyyy = date.getFullYear().toString();
+		var mm = (date.getMonth() + 1).toString();
+		var dd = date.getDate().toString();
+
+		var mmChars = mm.split("");
+		var ddChars = dd.split("");
+
+		return (
+			yyyy +
+			"-" +
+			(mmChars[1] ? mm : "0" + mmChars[0]) +
+			"-" +
+			(ddChars[1] ? dd : "0" + ddChars[0])
+		);
+	}
+	var fday = convertDate(firstDay);
+	var lday = convertDate(lastDay);
+
+	let reviewers = [];
 	let username;
 
 	const unsubscribe = account.subscribe((value) => {
 		username = value;
 	});
-	
-	function toggle() {
-		showAvailabilityModal = !showAvailabilityModal;
-		showModal = !showModal;
-	}
-	async function addAvailabilityEntry(event) {
-		//console.log(`Notify fired! Detail: ${event.detail.startDate, event.detail.endDate}`)
 
-		let startdate = event.detail.startDate.replaceAll("-", "");
-		// console.log(startdate);
-		let enddate = event.detail.endDate.replaceAll("-", "");
-		//console.log(enddate);
-		let pettype = event.detail.petType;
-		//console.log(pettype);
-		let price = event.detail.price;
-		//console.log(price);
-		const postAvailabilityCall = await fetch(
-			`http://18.139.110.246:3000/availabilities/alexkoh?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
+	function create(event) {
+		name = event.username_petowner;
+		rating = event.rating;
+		reviewMsg = event.review;
+		reviewers.push({ name, rating, reviewMsg });
+		reviewers = reviewers;
+	}
+	// function toggle() {
+	// 	showAvailabilityModal = !showAvailabilityModal;
+	// 	showModal = !showModal;
+	// }
+	function changeToFulltimeCt() {
+		const getPetDaysCall = fetch(
+			`http://18.139.110.246:3000/caretakersft/${username}`,
 			{
-				method: "POST",
+				method: "GET",
 			}
 		)
-			.then((response1) => response1.json())
-			.then((data1) => {
-				console.log(data1);
+			.then((response) => response.json())
+			.then((data) => {
+				alert("You just switched to full time!");
 			})
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
-		// console.log(price);
-
 	}
 	onMount(async () => {
-		//where?
-		// const getPetDaysCall = fetch("https://api.mocki.io/v1/ce5f60e2", {
-		// 	method: "GET",
-		// })
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		petDaysThisMth = data.city;
-		// 		// console.log(data.city);
-		// 		// console.log(data.name);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
+		const getPetDaysCall = fetch(
+			`http://18.139.110.246:3000/bids/getpetdays/${username}?startdate=${fday}&enddate=${lday}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				data.caretakers.map((obj) => {
+					petDaysThisMth = obj.sum;
+					// console.log(petDaysThisMth);
+				});
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 
-		// 	const postAvailabilityCall = fetch(
-		// 	`http://18.139.110.246:3000/availabilities?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
-		// 	{
-		// 		method: "POST",
-		// 	}
-		// )
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// const Reviews = fetch("http://18.139.110.246:3000/helloes", {
-		// 	method: "GET",
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// 	const Reviews1 = fetch("http://18.139.110.246:3000/users?username=wooohoooo&password=password1", {
-		// 	method: "POST",
-
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// 	const Reviews2 = fetch("http://18.139.110.246:3000/creditcards?cardnum=3495959959551235&expiry=20200521", {
-		// 	method: "POST",
-		// 	// body: JSON.stringify({
-		// 	// 	username:'johndoe29',
-		// 	// 	password:'password1'
-		// 	// })
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// 	const Reviews2 = fetch("http://18.139.110.246:3000/creditcards?currentcreditcardnum=0004501", {
-		// 	method: "DELETE",
-		// 	// body: JSON.stringify({
-		// 	// 	username:'johndoe29',
-		// 	// 	password:'password1'
-		// 	// })
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// const Reviews5 = fetch("http://18.139.110.246:3000/users/changeusername/sammie/IgotSalmonForDinner", {
-		// 	method: "PATCH",
-
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		const PetfDays = fetch("https://api.mocki.io/v1/ce5f60e2", {
-			method: "GET",
-		}).then((response) => {
-			// for (let [key, value] of response.headers) {
-			// 	console.log(`${key} = ${value}`);
-			// }
-		});
+		const getPetLimitCall = fetch(
+			`http://18.139.110.246:3000/caretakers/${username}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				data.caretakers.map((obj) => {
+					limit = obj.petlimit;
+				});
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
+		const Reviews = fetch(
+			`http://18.139.110.246:3000/bids/reviews/${username}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response1) => response1.json())
+			.then((data1) => {
+				data1.reviews.map((obj) => {
+					create(obj);
+				});
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 	});
 </script>
 
@@ -185,7 +140,7 @@
 		margin-top: 5px;
 		align-items: center;
 		color: black;
-		background-color: cornflowerblue;
+		background-color: lightgrey;
 	}
 	.profile {
 		float: left;
@@ -212,6 +167,8 @@
 		width: 200px;
 		text-align: left;
 		padding: 25px;
+		font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+			sans-serif;
 	}
 </style>
 
@@ -220,8 +177,8 @@
 		<li style="font-weight:bold">Pet Days this Month:</li>
 		<li>{petDaysThisMth}</li>
 		<li>
-			<button class="button" on:click={() => (showAvailabilityModal = true)}>
-				Availability
+			<button class="button" on:click={changeToFulltimeCt}>
+				Switch to FullTime
 			</button>
 		</li>
 		<li>
@@ -234,7 +191,7 @@
 
 <div>
 	<div class="profile">
-		<Box />
+		<Box {limit} />
 	</div>
 	<div class="review">
 		<div class="review-header">Reviews</div>
@@ -243,13 +200,18 @@
 			<div class="entry">
 				<div class="contents">{reviewer.name}</div>
 				<div class="contents">{reviewer.rating}</div>
-				<div class="contents">{reviewer.reviewMsg}</div>
+				<div class="contents">
+					<h8>"</h8>{reviewer.reviewMsg}
+					<h8>"</h8>
+				</div>
 			</div>
+		{:else}
+			<p style="margin-left: 400px; padding:10px">You have no reviews yet.</p>
 		{/each}
 	</div>
 </div>
 
-{#if showAvailabilityModal}
+<!-- {#if showAvailabilityModal}
 	<Modal on:close={() => (showAvailabilityModal = false)}>
 		<h2 slot="header">Availability</h2>
 		<div style="position: inline">
@@ -269,14 +231,16 @@
 			</div>
 		</div>
 	</Modal>
-{/if}
+{/if} -->
 
-{#if showModal}
+<!-- {#if showModal}
 	<Modal on:close={() => (showModal = false)}>
 		<h2 slot="header">Availability : New Availability</h2>
-		<AddAvailabilityForm closeHandler={toggle} on:newAvailability={addAvailabilityEntry}/>
+		<AddAvailabilityForm
+			closeHandler={toggle}
+			on:newAvailability={addAvailabilityEntry} />
 	</Modal>
-{/if}
+{/if} -->
 
 {#if showPriceModal}
 	<Modal on:close={() => (showPriceModal = false)}>
