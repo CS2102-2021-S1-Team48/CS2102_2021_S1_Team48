@@ -104,8 +104,6 @@ async function getAvailabilitiesByMinDateRangeAndPT(ctx) {
     }
 }
 
-
-// Buggy, to fix
 // PATCH api at router
 // PATCH /availabilities?startdate=20201025&enddate=20201025&pettype=dog&price=99999&usernamect=johndoe98&newstartdate=20201025&newenddate=20201026&newpettype=cat&newprice=13939495
 async function editAvailability(ctx) {
@@ -136,11 +134,7 @@ async function deleteAvailability(ctx) {
         const sqlQuery = `DELETE FROM availabilities WHERE username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}' AND pettype = '${pettype}'`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'success': 'True!',
-            'usernamect': usernamect,
-            'pettype': pettype,
-            'startdate': startdate,
-            'enddate': enddate
+            'success': 'true!'
         };
     } catch (e) {
         console.log(e);
