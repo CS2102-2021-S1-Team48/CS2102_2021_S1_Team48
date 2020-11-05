@@ -74,7 +74,7 @@ router.patch('/bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:star
 router.del('/bids/:petname/:usernamepo/:usernamect/:startdate/:enddate', deleteBid);
 router.get('/bids/rating/:usernamect', getRatingByUsernameCT);
 router.get('/bids/usernamepo/:usernamepo', getBidsByUsernamePO);
-router.post('/bids/test', testAddBid);
+router.post('/bids/test', testAddBid); // POST /bids/test?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
 
 // caretakers
 router.get('/caretakers', getAllCaretakers);
