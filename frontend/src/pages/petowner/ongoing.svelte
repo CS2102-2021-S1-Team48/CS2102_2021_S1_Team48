@@ -63,8 +63,7 @@
 </script>
 
 <style>
-  h1,
-  h3 {
+  h1 {
     text-align: center;
   }
   nav {
