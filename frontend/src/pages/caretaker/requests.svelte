@@ -63,7 +63,7 @@
   }
   onMount(async () => {
     const getBidRequestsCall = fetch(
-      `http://18.139.110.246:3000/bids/unaccepted/alexkoh2`,
+      `http://18.139.110.246:3000/bids/unaccepted/fulltimer`,
       {
         method: "GET",
       }

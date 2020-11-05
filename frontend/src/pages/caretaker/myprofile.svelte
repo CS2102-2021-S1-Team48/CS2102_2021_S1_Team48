@@ -9,10 +9,33 @@
 	let showPriceModal = false;
 	let showModal = false;
 	let petDaysThisMth = 0;
-	let limit = 0;
+	export let limit = 0;
 	let name = "";
 	let rating = "";
 	let reviewMsg = "";
+	var date = new Date();
+	var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+	var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+	function convertDate(date) {
+		var yyyy = date.getFullYear().toString();
+		var mm = (date.getMonth() + 1).toString();
+		var dd = date.getDate().toString();
+
+		var mmChars = mm.split("");
+		var ddChars = dd.split("");
+
+		return (
+			yyyy +
+			"-" +
+			(mmChars[1] ? mm : "0" + mmChars[0]) +
+			"-" +
+			(ddChars[1] ? dd : "0" + ddChars[0])
+		);
+	}
+	var fday = convertDate(firstDay);
+	var lday = convertDate(lastDay);
+
 	let reviewers = [
 		{
 			name: "Alex Koh",
@@ -33,6 +56,7 @@
 	const unsubscribe = account.subscribe((value) => {
 		username = value;
 	});
+
 	function create(event) {
 		name = event.username_petowner;
 		rating = event.rating;
@@ -56,14 +80,14 @@
 		let price = event.detail.price;
 		//console.log(price);
 		const postAvailabilityCall = await fetch(
-			`http://18.139.110.246:3000/availabilities?usernamect=johndoe69&startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
+			`http://18.139.110.246:3000/availabilities?usernamect=${username}&startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
 			{
 				method: "POST",
 			}
 		)
 			.then((response1) => response1.json())
 			.then((data1) => {
-				console.log(data1);
+				alert(`Success! Your availability has been posted!`);
 			})
 			.catch((error) => {
 				console.log("ERROR: " + error);
@@ -72,7 +96,7 @@
 	}
 	onMount(async () => {
 		const getPetDaysCall = fetch(
-			`http://18.139.110.246:3000/bids/getpetdays/fulltimer?startdate=20200101&enddate=20200201`,
+			`http://18.139.110.246:3000/bids/getpetdays/${username}?startdate=${fday}&enddate=${lday}`,
 			{
 				method: "GET",
 			}
@@ -86,21 +110,8 @@
 				console.log("ERROR: " + error);
 			});
 
-		// 	const postAvailabilityCall = fetch(
-		// 	`http://18.139.110.246:3000/availabilities?startdate=${startdate}&enddate=${enddate}&pettype=${pettype}&price=${price}`,
-		// 	{
-		// 		method: "POST",
-		// 	}
-		// )
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
 		const getPetLimitCall = fetch(
-			`http://18.139.110.246:3000/caretakers/alexkoh`,
+			`http://18.139.110.246:3000/caretakers/${username}`,
 			{
 				method: "GET",
 			}
@@ -114,10 +125,12 @@
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
-
-		const Reviews = fetch(`http://18.139.110.246:3000/bids/reviews/fulltimer`, {
-			method: "GET",
-		})
+		const Reviews = fetch(
+			`http://18.139.110.246:3000/bids/reviews/${username}`,
+			{
+				method: "GET",
+			}
+		)
 			.then((response1) => response1.json())
 			.then((data1) => {
 				data1.reviews.map((obj) => {
@@ -127,60 +140,6 @@
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
-
-		// 	const Reviews1 = fetch("http://18.139.110.246:3000/users?username=wooohoooo&password=password1", {
-		// 	method: "POST",
-
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// 	const Reviews2 = fetch("http://18.139.110.246:3000/creditcards?cardnum=3495959959551235&expiry=20200521", {
-		// 	method: "POST",
-		// 	// body: JSON.stringify({
-		// 	// 	username:'johndoe29',
-		// 	// 	password:'password1'
-		// 	// })
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// 	const Reviews2 = fetch("http://18.139.110.246:3000/creditcards?currentcreditcardnum=0004501", {
-		// 	method: "DELETE",
-		// 	// body: JSON.stringify({
-		// 	// 	username:'johndoe29',
-		// 	// 	password:'password1'
-		// 	// })
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
-
-		// const Reviews5 = fetch("http://18.139.110.246:3000/users/changeusername/sammie/IgotSalmonForDinner", {
-		// 	method: "PATCH",
-
-		// })
-		// 	.then((response1) => response1.json())
-		// 	.then((data1) => {
-		// 		console.log(data1);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log("ERROR: " + error);
-		// 	});
 	});
 </script>
 
@@ -231,7 +190,8 @@
 		width: 200px;
 		text-align: left;
 		padding: 25px;
-		font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+		font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+			sans-serif;
 	}
 </style>
 
@@ -263,7 +223,10 @@
 			<div class="entry">
 				<div class="contents">{reviewer.name}</div>
 				<div class="contents">{reviewer.rating}</div>
-				<div class="contents"><h8>"</h8>{reviewer.reviewMsg}<h8>"</h8></div>
+				<div class="contents">
+					<h8>"</h8>{reviewer.reviewMsg}
+					<h8>"</h8>
+				</div>
 			</div>
 		{/each}
 	</div>
