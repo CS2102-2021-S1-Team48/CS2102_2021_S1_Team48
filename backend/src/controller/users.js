@@ -3,9 +3,13 @@ const pool = require('../db');
 // POST api at router
 async function createUser(ctx) {
     const { username, password } = ctx.params;
+
     try {
-        const sqlQuery = `INSERT INTO users (username, pw) VALUES ('${username}', '${password}')`;
-        await pool.query(sqlQuery);
+        const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
+        await pool.query(insertIntoAccounts);
+
+        const insertIntoUsers = `INSERT INTO users (username) VALUES ('${username}')`;
+        await pool.query(insertIntoUsers);
 
         const insertIntoPetowners = `INSERT INTO petowners (username) VALUES ('${username}')`;
         await pool.query(insertIntoPetowners);
@@ -30,7 +34,7 @@ async function login(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT COUNT(username) FROM users WHERE username = '${username}' AND pw = '${password}'`;
+        const sqlQuery = `SELECT COUNT(*) FROM users NATURAL JOIN accounts WHERE username = '${username}' AND pw = '${password}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         const onlyRow = rows[0];
@@ -52,28 +56,11 @@ async function login(ctx) {
 }
 
 // PATCH api at router
-async function changeUsername(ctx) {
-    const { username, newusername } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE users SET username = '${newusername}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'newusername': newusername
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// PATCH api at router
-// TODO: Set trigger such that if WHERE clause password supplied is not the same as the old password, then fail
 async function changePassword(ctx) {
     const { username, password, newpassword } = ctx.params;
 
     try {
-        const sqlQuery = `UPDATE users SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
+        const sqlQuery = `UPDATE accounts SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'newpassword': newpassword
@@ -85,10 +72,8 @@ async function changePassword(ctx) {
 }
 
 // PATCH api at router
-// PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
 async function addCreditCard(ctx) {
-    const cardnum = ctx.query.cardnum;
-    const username = ctx.params.username;
+    const { username, cardnum } = ctx.params;
 
     try {
         const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
@@ -103,17 +88,18 @@ async function addCreditCard(ctx) {
 }
 
 // GET api at router
-// GET /users/getcreditcard/:username
 async function getCreditCard(ctx) {
-    const username = ctx.params.username;
+    const { username } = ctx.params;
+
     try {
-        const sqlQuery = `SELECT * FROM users WHERE username = '${username}'`;
+        const sqlQuery = `SELECT cardnum FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
+        const onlyRow = rows[0];
+        const cardnum = onlyRow.cardnum;
         ctx.body = {
-            'creditcards': rows
+            'cardnum': cardnum
         };
-        console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -121,15 +107,11 @@ async function getCreditCard(ctx) {
 }
 
 // PATCH api at router
-// PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
 async function changeCreditCard(ctx) {
-    const { cardnum } = ctx.query;
+    const { username, newcardnum } = ctx.params;
 
-    const username = ctx.params.username;
-
-    // Assuming that at least 1 must be provided
     try {
-        const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
+        const sqlQuery = `UPDATE users SET cardnum = '${newcardnum}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
@@ -141,9 +123,9 @@ async function changeCreditCard(ctx) {
 }
 
 // DEL api at router
-// DEL /users/removecreditcard/:username , removeCreditCard
 async function removeCreditCard(ctx) {
-    const username = ctx.params.username;
+    const { username } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE users SET cardnum = NULL WHERE username = '${username}'`;
         await pool.query(sqlQuery);
@@ -158,10 +140,8 @@ async function removeCreditCard(ctx) {
 
 
 // PATCH api at router
-// PATCH /users/addaddress/:username/:address , addAddress
 async function addAddress(ctx) {
-    const address = ctx.params.address;
-    const username = ctx.params.username;
+    const { username, address } = ctx.params;
 
     try {
         const sqlQuery = `UPDATE users SET address = '${address}' WHERE username = '${username}'`;
@@ -177,15 +157,17 @@ async function addAddress(ctx) {
 
 
 // GET api at router
-// GET /users/getaddress/:username , getAddress
 async function getAddress(ctx) {
-    const username = ctx.params.username;
+    const { username } = ctx.params;
+
     try {
-        const sqlQuery = `SELECT username, address FROM users WHERE username = '${username}'`;
+        const sqlQuery = `SELECT address FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
+        const onlyRow = rows[0];
+        const address = onlyRow.address;
         ctx.body = {
-            'address': rows
+            'address': address
         };
     } catch (e) {
         console.log(e);
@@ -194,9 +176,9 @@ async function getAddress(ctx) {
 }
 
 // PATCH api at router
-// PATCH /users/editaddress/:username/:newaddress , editAddress
 async function editAddress(ctx) {
     const { username, newaddress } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE users SET address = '${newaddress}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
@@ -210,9 +192,9 @@ async function editAddress(ctx) {
 }
 
 // DEL api at router
-// DEL /users/deleteaddress/:username , deleteAddress
 async function deleteAddress(ctx) {
     const { username } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE users SET address = NULL WHERE username = '${username}'`;
         await pool.query(sqlQuery);
@@ -228,7 +210,6 @@ async function deleteAddress(ctx) {
 module.exports = {
     createUser,
     login,
-    changeUsername,
     changePassword,
     addCreditCard,
     getCreditCard,
