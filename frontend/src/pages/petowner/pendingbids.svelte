@@ -50,9 +50,6 @@
 </script>
 
 <style>
-  h1 {
-    text-align: center;
-  }
   nav {
     border-bottom: 2px solid;
     border-top: 2px solid;
@@ -83,10 +80,13 @@
     display: inline-flex;
     padding: 10px;
   }
+  .top-buttons {
+    margin: 10px;
+  }
 </style>
 
-<h1>Pending Bids</h1>
-<button on:click={reload}>Refresh</button>
+<div class="top-buttons"><button on:click={reload}>Refresh</button></div>
+
 <nav>
   <ul class="header">
     <li>Caretaker</li>
