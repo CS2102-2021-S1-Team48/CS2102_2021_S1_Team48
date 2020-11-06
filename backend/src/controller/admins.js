@@ -50,7 +50,7 @@ async function changeAdminPassword(ctx) {
     const { username, password, newpassword } = ctx.params;
 
     try {
-        const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
+        const sqlQuery = `UPDATE accounts SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'newpassword' : newpassword
