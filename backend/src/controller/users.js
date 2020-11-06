@@ -72,10 +72,8 @@ async function changePassword(ctx) {
 }
 
 // PATCH api at router
-// PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
 async function addCreditCard(ctx) {
-    const cardnum = ctx.query.cardnum;
-    const username = ctx.params.username;
+    const { username, cardnum } = ctx.params;
 
     try {
         const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
@@ -109,15 +107,11 @@ async function getCreditCard(ctx) {
 }
 
 // PATCH api at router
-// PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
 async function changeCreditCard(ctx) {
-    const { cardnum } = ctx.query;
+    const { username, newcardnum } = ctx.params;
 
-    const username = ctx.params.username;
-
-    // Assuming that at least 1 must be provided
     try {
-        const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
+        const sqlQuery = `UPDATE users SET cardnum = '${newcardnum}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
@@ -147,8 +141,7 @@ async function removeCreditCard(ctx) {
 
 // PATCH api at router
 async function addAddress(ctx) {
-    const address = ctx.params.address;
-    const username = ctx.params.username;
+    const { username, address } = ctx.params;
 
     try {
         const sqlQuery = `UPDATE users SET address = '${address}' WHERE username = '${username}'`;

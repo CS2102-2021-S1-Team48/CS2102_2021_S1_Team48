@@ -110,9 +110,9 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 router.post('/users/register/:username/:password', createUser);
 router.post('/users/login/:username/:password', login);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
-router.patch('/users/addcreditcard/:username',addCreditCard); // PATCH /users/addcreditcard/:username?cardnum=123 , addCreditCard
+router.patch('/users/addcreditcard/:username/:cardnum',addCreditCard);
 router.get('/users/getcreditcard/:username', getCreditCard); 
-router.patch('/users/changecreditcard/:username', changeCreditCard); // PATCH /users/changecreditcard/:username?cardnum=456 , changeCreditCard
+router.patch('/users/changecreditcard/:username/:newcardnum', changeCreditCard);
 router.del('/users/removecreditcard/:username', removeCreditCard);
 router.patch('/users/addaddress/:username/:address', addAddress); 
 router.get('/users/getaddress/:username', getAddress);
