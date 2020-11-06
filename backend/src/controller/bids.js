@@ -157,8 +157,8 @@ async function getUnacceptedBidsForDateRange(ctx) {
     }
 }
 
-// GET /bids?petname=eva&usernamect=john&usernamepo=lim , getBids
 // GET api at router
+// GET /bids?petname=eva&usernamect=john&usernamepo=lim , getBids
 async function getBids(ctx) {
     const { petname, usernamect, usernamepo } = ctx.query;
 
@@ -244,6 +244,7 @@ async function getAmountOwedToCaretaker(ctx) {
 // GET api at router
 async function getTotalOwedToCaretaker(ctx) {
     const { usernamect, pettype, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * av.price) FROM bids b INNER JOIN availabilities av ON b.username_caretaker = av.username_caretaker AND b.pettype = av.pettype AND b.startdate = av.startdate AND b.enddate = av.enddate WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True'`;
         const resultobject = await pool.query(sqlQuery);
@@ -261,6 +262,7 @@ async function getTotalOwedToCaretaker(ctx) {
 // PATCH api at router
 async function acceptBid(ctx) {
     const { petname, usernamepo, usernamect, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE bids SET accepted = true WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
@@ -289,7 +291,6 @@ async function undoAcceptBid(ctx) {
     }
 }
 
-// This is not in the api documentation but I added in recently
 // PATCH api at router
 // PATCH /bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate?rating=4&review=good , submitReviewAndRating
 async function submitReviewAndRating(ctx) {
@@ -313,6 +314,7 @@ async function submitReviewAndRating(ctx) {
 // DEL /bids/:petname/:usernamepo/:usernamect/:startdate/:enddate , deleteBid
 async function deleteBid(ctx) {
     const { petname, usernamepo, usernamect, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `DELETE FROM bids WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
