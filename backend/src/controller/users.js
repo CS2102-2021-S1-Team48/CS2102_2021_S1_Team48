@@ -171,8 +171,10 @@ async function getAddress(ctx) {
         const sqlQuery = `SELECT address FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
+        const onlyRow = rows[0];
+        const address = onlyRow.address;
         ctx.body = {
-            'address': rows
+            'address': address
         };
     } catch (e) {
         console.log(e);
