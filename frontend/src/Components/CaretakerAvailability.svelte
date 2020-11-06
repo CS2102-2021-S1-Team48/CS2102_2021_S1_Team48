@@ -58,9 +58,10 @@
     // }
     pets = pets.concat({ startDate, endDate, petType, price, usernameCt });
     i = pets.length - 1;
+    console.log(pets);
 
     const postAvailabilityCall = fetch(
-      `http://18.139.110.246:3000/availabilities?usernamect=${username}&startdate=${startDate}&enddate=${endDate}&pettype=${petType}&price=${price}`,
+      `http://18.139.110.246:3000/availabilities?usernamect=${usernameCt}&startdate=${startDate}&enddate=${endDate}&pettype=${petType}&price=${price}`,
       {
         method: "POST",
       }
@@ -296,10 +297,6 @@
       required
       bind:value={price}
       placeholder="price" />
-    <label for="caretaker type" />Caretaker type<input
-      id="caretaker type"
-      bind:value={usernameCt}
-      placeholder="caretaker type" />
   </div>
   <div class="float-container">
     <div class="buttons">
