@@ -71,22 +71,6 @@ async function changePassword(ctx) {
     }
 }
 
-// PATCH api at router
-async function addCreditCard(ctx) {
-    const { username, cardnum } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'true!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
 // GET api at router
 async function getCreditCard(ctx) {
     const { username } = ctx.params;
@@ -107,7 +91,7 @@ async function getCreditCard(ctx) {
 }
 
 // PATCH api at router
-async function changeCreditCard(ctx) {
+async function updateCreditCard(ctx) {
     const { username, newcardnum } = ctx.params;
 
     try {
@@ -138,24 +122,6 @@ async function removeCreditCard(ctx) {
     }
 }
 
-
-// PATCH api at router
-async function addAddress(ctx) {
-    const { username, address } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE users SET address = '${address}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'true!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-
 // GET api at router
 async function getAddress(ctx) {
     const { username } = ctx.params;
@@ -176,7 +142,7 @@ async function getAddress(ctx) {
 }
 
 // PATCH api at router
-async function editAddress(ctx) {
+async function updateAddress(ctx) {
     const { username, newaddress } = ctx.params;
 
     try {
@@ -211,12 +177,10 @@ module.exports = {
     createUser,
     login,
     changePassword,
-    addCreditCard,
     getCreditCard,
-    changeCreditCard,
+    updateCreditCard,
     removeCreditCard,
-    addAddress,
     getAddress,
-    editAddress,
+    updateAddress,
     deleteAddress
 };
