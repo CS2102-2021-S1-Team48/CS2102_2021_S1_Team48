@@ -94,13 +94,14 @@ async function getCreditCard(ctx) {
     const { username } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT * FROM users WHERE username = '${username}'`;
+        const sqlQuery = `SELECT cardnum FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
+        const onlyRow = rows[0];
+        const cardnum = onlyRow.cardnum;
         ctx.body = {
-            'creditcards': rows
+            'cardnum': cardnum
         };
-        console.table(resultObject.rows);
     } catch (e) {
         console.log(e);
         ctx.status = 403;
@@ -164,7 +165,7 @@ async function addAddress(ctx) {
 
 // GET api at router
 async function getAddress(ctx) {
-    const username = ctx.params.username;
+    const { username } = ctx.params;
 
     try {
         const sqlQuery = `SELECT address FROM users WHERE username = '${username}'`;
