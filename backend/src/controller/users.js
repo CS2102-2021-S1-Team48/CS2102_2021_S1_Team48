@@ -71,22 +71,6 @@ async function changePassword(ctx) {
     }
 }
 
-// PATCH api at router
-async function addCreditCard(ctx) {
-    const { username, cardnum } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE users SET cardnum = '${cardnum}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'success': 'true!'
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
 // GET api at router
 async function getCreditCard(ctx) {
     const { username } = ctx.params;
@@ -193,7 +177,6 @@ module.exports = {
     createUser,
     login,
     changePassword,
-    addCreditCard,
     getCreditCard,
     updateCreditCard,
     removeCreditCard,
