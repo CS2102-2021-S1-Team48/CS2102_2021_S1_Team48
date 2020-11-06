@@ -1,33 +1,6 @@
 const pool = require('../db');
 
-// POST api at router
-async function createCaretakersPtTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = 'success';
-    } catch (e) {
-        console.log(e);
-        ctx.body = 'error';
-        ctx.status = 403;
-    }
-}
-
-// DEL api at router
-async function dropCaretakersPtTable(ctx) {
-    try {
-        const sqlQuery = '';
-        await pool.query(sqlQuery);
-        ctx.body = 'success';
-    } catch (e) {
-        console.log(e);
-        ctx.body = 'error';
-        ctx.status = 403;
-    }
-}
-
 // GET api at router
-// /caretakerpt/getconversioneligibility/:usernamect
 async function getConversionEligibility(ctx) {
     const usernamect = ctx.params.usernamect;
 
@@ -46,7 +19,5 @@ async function getConversionEligibility(ctx) {
 }
 
 module.exports = {
-    createCaretakersPtTable,
-    dropCaretakersPtTable,
     getConversionEligibility
 };
