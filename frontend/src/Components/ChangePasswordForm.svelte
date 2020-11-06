@@ -17,7 +17,7 @@
       newpasswordretyped.match(/^ *$/) !== null
     ) {
       alert("Please fill in the required fields!");
-    } else if (adminpassword != adminpasswordretyped) {
+    } else if (newpassword != newpasswordretyped) {
       alert("New password and retyped password must be the same!");
     } else {
       const password = newpassword;
