@@ -1,5 +1,5 @@
 <script>
-  import SearchCaretaker from "../../SearchCaretaker.svelte";
+  import SearchCaretaker from "../../Components/SearchCaretaker.svelte";
   import { account } from "../../user.js";
 
   let username;

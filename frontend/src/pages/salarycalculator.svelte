@@ -1,6 +1,6 @@
 <script>
-  import Modal from "../Modal.svelte";
-  import CalculateSalaryForm from "../CalculateSalaryForm.svelte";
+  import ModalPO from "../Components/ModalPO.svelte";
+  import CalculateSalaryForm from "../Components/CalculateSalaryForm.svelte";
 
   let showModal = false;
   let totalsalary = [];
@@ -59,10 +59,10 @@
 <h1>Salary</h1>
 <button on:click={toggleModal}>Calculate Salary</button>
 
-<Modal {showModal} on:click={toggleModal}>
+<ModalPO {showModal} on:click={toggleModal}>
   <h3>Get Salary List</h3>
   <CalculateSalaryForm on:getSalary={getSalary} />
-</Modal>
+</ModalPO>
 
 <nav>
   <ul class="header">

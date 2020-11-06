@@ -1,8 +1,8 @@
 <script>
-  import ChangePasswordForm from "../ChangePasswordForm.svelte";
-  import EditCreditCard from "../EditCreditCard.svelte";
-  import UpdateAddress from "../UpdateAddress.svelte";
-  import AddNewAdminForm from "../AddNewAdminForm.svelte";
+  import ChangePasswordForm from "../Components/ChangePasswordForm.svelte";
+  import EditCreditCard from "../Components/EditCreditCard.svelte";
+  import UpdateAddress from "../Components/UpdateAddress.svelte";
+  import AddNewAdminForm from "../Components/AddNewAdminForm.svelte";
   import { account, pw, acctype } from "../user.js";
 
   let username;

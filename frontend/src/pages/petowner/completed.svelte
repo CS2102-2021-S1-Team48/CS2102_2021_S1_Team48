@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
-  import Modal from "../../Modal.svelte";
-  import ReviewForm from "../../ReviewForm.svelte";
+  import ModalPO from "../../Components/ModalPO.svelte";
+  import ReviewForm from "../../Components/ReviewForm.svelte";
   import { account } from "../../user.js";
 
   let username;
@@ -132,10 +132,10 @@
   }
 </style>
 
-<Modal {showModal} on:click={toggleModal}>
+<ModalPO {showModal} on:click={toggleModal}>
   <h3>Leave a Rating</h3>
   <ReviewForm on:leaveRating={handleRating} />
-</Modal>
+</ModalPO>
 
 <h1>Completed</h1>
 <nav>

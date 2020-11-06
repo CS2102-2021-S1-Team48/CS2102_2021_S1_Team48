@@ -1,8 +1,8 @@
 <script>
-  import Nav from "../Nav.svelte";
-  import AdminNav from "../AdminNav.svelte";
-  import Sidebar from "../Sidebar.svelte";
-  import AdminSidebar from "../AdminSidebar.svelte";
+  import Nav from "../Components/Nav.svelte";
+  import AdminNav from "../Components/AdminNav.svelte";
+  import Sidebar from "../Components/Sidebar.svelte";
+  import AdminSidebar from "../Components/AdminSidebar.svelte";
   import { acctype } from "../user.js";
 
   let usertype;

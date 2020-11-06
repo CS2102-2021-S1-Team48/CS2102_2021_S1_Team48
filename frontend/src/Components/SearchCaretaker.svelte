@@ -1,6 +1,6 @@
 <script>
   import { createEventDispatcher, onMount } from "svelte";
-  import { account } from "./user.js";
+  import { account } from "../user.js";
 
   let username;
 

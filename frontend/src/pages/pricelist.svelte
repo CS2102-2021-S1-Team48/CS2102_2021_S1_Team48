@@ -1,11 +1,11 @@
 <script>
   import { onMount } from "svelte";
-  import AddPriceForm from "../AddPriceForm.svelte";
-  import EditPriceForm from "../EditPriceForm.svelte";
-  import DeletePriceForm from "../DeletePriceForm.svelte";
-  import ModalAddPrice from "../ModalAddPrice.svelte";
-  import ModalEditPrice from "../ModalEditPrice.svelte";
-  import ModalDeletePrice from "../ModalDeletePrice.svelte";
+  import AddPriceForm from "../Components/AddPriceForm.svelte";
+  import EditPriceForm from "../Components/EditPriceForm.svelte";
+  import DeletePriceForm from "../Components/DeletePriceForm.svelte";
+  import ModalAddPrice from "../Components/ModalAddPrice.svelte";
+  import ModalEditPrice from "../Components/ModalEditPrice.svelte";
+  import ModalDeletePrice from "../Components/ModalDeletePrice.svelte";
   import { account } from "../user.js";
 
   let username;

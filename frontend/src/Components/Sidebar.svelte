@@ -17,6 +17,7 @@
     float: left;
     background-color: #709ce2e5;
     height: 100%;
+    opacity: 1;
   }
 
   ul {
