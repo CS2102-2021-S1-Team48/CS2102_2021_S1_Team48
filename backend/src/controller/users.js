@@ -4,8 +4,11 @@ const pool = require('../db');
 async function createUser(ctx) {
     const { username, password } = ctx.params;
     try {
-        const sqlQuery = `INSERT INTO users (username, pw) VALUES ('${username}', '${password}')`;
-        await pool.query(sqlQuery);
+        const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
+        await pool.query(insertIntoAccounts);
+
+        const insertIntoUsers = `INSERT INTO users (username) VALUES ('${username}')`;
+        await pool.query(insertIntoUsers);
 
         const insertIntoPetowners = `INSERT INTO petowners (username) VALUES ('${username}')`;
         await pool.query(insertIntoPetowners);
