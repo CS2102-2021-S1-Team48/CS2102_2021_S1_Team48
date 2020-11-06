@@ -20,22 +20,6 @@ async function createAdmin(ctx) {
 }
 
 // PATCH api at router
-async function changeAdminUsername(ctx) {
-    const { username, newusername } = ctx.param;
-
-    try {
-        const sqlQuery = `UPDATE admins SET username = '${newusername}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'newusername' : newusername
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// PATCH api at router
 async function changeAdminPassword(ctx) {
     const { username, password, newpassword } = ctx.params;
 
