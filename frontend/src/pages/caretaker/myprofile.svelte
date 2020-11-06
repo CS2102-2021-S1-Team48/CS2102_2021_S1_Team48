@@ -26,12 +26,11 @@
 
 	const addNewWorkPeriod = (e) => {
 		let workperiod = e.detail;
-		console.log(workperiod);
+	
 		let workperiodStartDate1 = workperiod.startDate1;
 		let workperiodEndDate1 = workperiod.endDate1;
 		let workperiodStartDate2 = workperiod.startDate2;
 		let workperiodEndDate2 = workperiod.endDate2;
-		console.log(workperiodStartDate1, workperiodEndDate1);
 		const postChangectFTCall = fetch(
 			`http://18.139.110.246:3000/caretakersft/${username}?startdate1=${workperiodStartDate1}&enddate1=${workperiodEndDate1}&startdate2=${ workperiodStartDate2}&enddate2=${workperiodEndDate2}`,
 			{
