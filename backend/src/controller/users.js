@@ -176,7 +176,7 @@ async function getAddress(ctx) {
 }
 
 // PATCH api at router
-async function editAddress(ctx) {
+async function updateAddress(ctx) {
     const { username, newaddress } = ctx.params;
 
     try {
@@ -217,6 +217,6 @@ module.exports = {
     removeCreditCard,
     addAddress,
     getAddress,
-    editAddress,
+    updateAddress,
     deleteAddress
 };

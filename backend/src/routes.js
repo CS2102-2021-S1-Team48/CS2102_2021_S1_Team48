@@ -9,7 +9,7 @@ const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, e
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
 const { addSchedule, getSchedule, updateSchedule, deleteSchedule } = require('./controller/parttimeschedule');
 const { addPet, getPetsByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
-const { createUser, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard, getAddress, editAddress, addAddress, deleteAddress } = require('./controller/users');
+const { createUser, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard, getAddress, addAddress, deleteAddress, updateAddress } = require('./controller/users');
 
 
 const router = new Router();
@@ -116,7 +116,7 @@ router.patch('/users/changecreditcard/:username/:newcardnum', changeCreditCard);
 router.del('/users/removecreditcard/:username', removeCreditCard);
 router.patch('/users/addaddress/:username/:address', addAddress); 
 router.get('/users/getaddress/:username', getAddress);
-router.patch('/users/editaddress/:username/:newaddress', editAddress);
+router.patch('/users/updateaddress/:username/:newaddress', updateAddress);
 router.del('/users/deleteaddress/:username', deleteAddress);
 
 module.exports = router;
