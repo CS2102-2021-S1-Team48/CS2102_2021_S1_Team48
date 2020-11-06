@@ -51,7 +51,7 @@
 
     <label for="newpassword">Password</label>
     <input
-      type="text"
+      type="password"
       name="password"
       id="password"
       placeholder="password"
@@ -59,7 +59,7 @@
 
     <label for="passwordretype">Retype Password</label>
     <input
-      type="text"
+      type="password"
       name="passwordretyped"
       id="passwordretype"
       bind:value={adminpasswordretyped} />
