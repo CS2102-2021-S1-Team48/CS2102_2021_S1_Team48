@@ -56,15 +56,15 @@
       <input
         class="date-input"
         type="number"
-        name="cardexpiry"
-        id="cardexpiry"
+        name="cardexpirymonth"
+        id="cardexpirymonth"
         placeholder="month"
         bind:value={cardexpirymonth} />
       <input
         class="date-input"
         type="number"
-        name="cardexpiry"
-        id="cardexpiry"
+        name="cardexpiryyear"
+        id="cardexpiryyear"
         placeholder="year"
         bind:value={cardexpiryyear} />
     </div>

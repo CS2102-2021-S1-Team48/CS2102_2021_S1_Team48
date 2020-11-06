@@ -134,7 +134,11 @@
       <label for="username">Username</label>
       <input type="text" name="username" id="username" bind:value={username} />
       <label for="password">Password</label>
-      <input type="text" name="password" id="password" bind:value={password} />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        bind:value={password} />
 
       <button on:click={signIn} type="button">Log in </button>
       <button on:click={signUp} type="button">Sign up</button>

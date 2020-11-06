@@ -43,7 +43,7 @@
   <form on:submit|preventDefault={handleSubmit}>
     <label for="currentpassword">Current Password</label>
     <input
-      type="text"
+      type="password"
       name="currentpassword"
       id="currentpassword"
       placeholder="current password"
@@ -51,7 +51,7 @@
 
     <label for="newpassword">New Password</label>
     <input
-      type="text"
+      type="password"
       name="newpassword"
       id="newpassword"
       placeholder="new password"
@@ -59,7 +59,7 @@
 
     <label for="newpasswordretype">Retype New Password</label>
     <input
-      type="text"
+      type="password"
       name="newpasswordretyped"
       id="newpasswordretype"
       bind:value={newpasswordretyped} />
