@@ -2,8 +2,10 @@
   import { url, isActive } from "@sveltech/routify";
 
   const links = [
-    ["./petowner", "Pet Owner"],
-    ["./caretaker", "Care Taker"],
+    ["./myprofile", "My Profile"],
+    ["./requests", "Requests"],
+    ["./upcoming", "Upcoming"],
+    ["./currentpets", "Current Pets"],
   ];
 </script>
 
@@ -12,14 +14,13 @@
     border-bottom: 1px solid rgba(255, 62, 0, 0.1);
     font-weight: 300;
     padding: 0 1em;
-    max-width: 1024px;
   }
 
   ul {
     display: flex;
     margin: 0 auto;
     padding: 0;
-    justify-content: space-evenly;
+    justify-content: center;
   }
 
   ul::after {
@@ -29,8 +30,9 @@
   }
 
   li {
-    display: inline-flex;
-    padding: 10px 20px;
+    display: block;
+    float: left;
+    padding: 5px 55px;
   }
 
   .selected {

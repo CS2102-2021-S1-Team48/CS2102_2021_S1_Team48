@@ -1,9 +1,9 @@
 <script>
   import { onMount } from "svelte/internal";
-  import Addpets from "../../Addpets.svelte";
-  import Editpets from "../../Editpets.svelte";
-  import AddPetsForm from "../../AddPetsForm.svelte";
-  import EditPetsForm from "../../EditPetsForm.svelte";
+  import Addpets from "../../Components/Addpets.svelte";
+  import Editpets from "../../Components/Editpets.svelte";
+  import AddPetsForm from "../../Components/AddPetsForm.svelte";
+  import EditPetsForm from "../../Components/EditPetsForm.svelte";
   import { account } from "../../user.js";
 
   let username;
@@ -176,7 +176,8 @@
 <div class="title">
   <h1>My Pets</h1>
 </div>
-
+<button on:click={toggleModalAddPets}> New Pet</button>
+<button on:click={toggleModalEditPets}>Edit Pets</button>
 <nav>
   <ul class="header">
     <li>Name</li>
@@ -204,5 +205,3 @@
     <p>You have no pets.</p>
   {/each}
 </div>
-<button on:click={toggleModalAddPets}> New Pet</button>
-<button on:click={toggleModalEditPets}>Edit Pets</button>

@@ -23,7 +23,10 @@
 
   const remaining = (date) => {
     // today
-    var today = new Date();
+    var asiaTime = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Shanghai",
+    });
+    var today = new Date(asiaTime);
     var dd = today.getDate();
     var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();

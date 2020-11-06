@@ -1,5 +1,5 @@
 <script>
-  import SearchCaretaker from "../../SearchCaretaker.svelte";
+  import SearchCaretaker from "../../Components/SearchCaretaker.svelte";
   import { account } from "../../user.js";
 
   let username;
@@ -68,13 +68,13 @@
 
       // POST BID TO BE FIXED
       fetch(
-        `http://18.139.110.246:3000/bids?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&usernamepo=${username}&usernamect=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
+        `http://18.139.110.246:3000/bids/test?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&usernamepo=${username}&usernamect=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
         {
           method: "POST",
         }
       )
         .then((resp) => resp.json())
-        .then((data) => console.log(data));
+        .then((data) => alert(data.errormessage));
     }
   };
 </script>

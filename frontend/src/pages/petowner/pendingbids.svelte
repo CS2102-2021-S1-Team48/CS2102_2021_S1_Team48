@@ -86,7 +86,7 @@
 </style>
 
 <h1>Pending Bids</h1>
-
+<button on:click={reload}>Refresh</button>
 <nav>
   <ul class="header">
     <li>Caretaker</li>
@@ -125,5 +125,4 @@
   {:else}
     <p>You have no bids.</p>
   {/each}
-  <button on:click={reload}>Refresh</button>
 </div>

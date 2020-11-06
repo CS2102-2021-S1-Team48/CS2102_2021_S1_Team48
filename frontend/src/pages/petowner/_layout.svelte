@@ -1,5 +1,5 @@
 <script>
-  import Ownernav from "../../Ownernav.svelte";
+  import Ownernav from "../../Components/Ownernav.svelte";
 </script>
 
 <Ownernav />
