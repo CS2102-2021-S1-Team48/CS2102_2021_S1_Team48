@@ -5,43 +5,13 @@ async function createAdmin(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
-        await pool.query(sqlQuery);
+        const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
+        await pool.query(insertIntoAccounts);
+
+        const insertIntoAdmins = `INSERT INTO admins (username) VALUES ('${username}'}');`;
+        await pool.query(insertIntoAdmins);
         ctx.body = {
             'username' : username,
-            'password' : password
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// PATCH api at router
-async function changeAdminUsername(ctx) {
-    const { username, newusername } = ctx.param;
-
-    try {
-        const sqlQuery = `UPDATE admins SET username = '${newusername}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'newusername' : newusername
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// PATCH api at router
-async function changeAdminPassword(ctx) {
-    const { username, password, newpassword } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username} AND pw = ${password}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'newpassword' : newpassword
         };
     } catch (e) {
         console.log(e);
@@ -54,7 +24,7 @@ async function adminLogin(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT COUNT(username) FROM admins WHERE username = '${username}' AND pw = '${password}'`;
+        const sqlQuery = `SELECT COUNT(*) FROM admins NATURAL JOIN accounts WHERE username = '${username}' AND pw = '${password}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         const onlyRow = rows[0];
@@ -75,8 +45,23 @@ async function adminLogin(ctx) {
     }
 }
 
+// PATCH api at router
+async function changeAdminPassword(ctx) {
+    const { username, password, newpassword } = ctx.params;
+
+    try {
+        const sqlQuery = `UPDATE accounts SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'newpassword' : newpassword
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 // GET api at router
-// GET /admins/getuniquepetscared/:startdate/:enddate , getUniquePetsCared
 async function getUniquePetsCared(ctx) {
     const { startdate, enddate } = ctx.params;
 
@@ -140,7 +125,6 @@ async function getTotalSalaryToBePaid(ctx) {
 
 module.exports = {
     createAdmin,
-    changeAdminUsername,
     changeAdminPassword,
     adminLogin,
     getUniquePetsCared,

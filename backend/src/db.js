@@ -1,9 +1,9 @@
 const { Pool, types } = require('pg');
-const Moment = require('moment');
+const moment = require('moment');
 
 // custom date parser
 function parseDate(val) {
-    return val === null ? null : Moment(val).format('YYYY-MM-DD');
+    return val === null ? null : moment(val).format('YYYY-MM-DD');
 }
 
 // 1082 is the code number for DATE data type
@@ -11,12 +11,6 @@ function parseDate(val) {
 types.setTypeParser(1082, function(val) {
     return val === null ? null : parseDate(val);
 });
-
-// const elephantUrl = 'postgres://haikibbc:qeAUubYqybNnfAIuVi5RlglDsMtAaB2d@john.db.elephantsql.com:5432/haikibbc';
-
-// const pool = new Pool({
-//     connectionString: elephantUrl
-// });
 
 const pool = new Pool({
     user: 'postgres',
