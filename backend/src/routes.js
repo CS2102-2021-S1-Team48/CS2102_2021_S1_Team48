@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const { sayHello, sayHelloes} = require('./controller/hello');
-const { createAdmin, changeAdminUsername, changeAdminPassword, adminLogin, getUniquePetsCared, getCareTakerTotalDaysWorked, getTotalSalaryToBePaid } = require('./controller/admins');
+const { createAdmin, changeAdminPassword, adminLogin, getUniquePetsCared, getCareTakerTotalDaysWorked, getTotalSalaryToBePaid } = require('./controller/admins');
 const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT, getAvailabilitiesByMinDateRangeAndPT } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice, getPetTypes } = require('./controller/basedailyprices');
 const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO, testAddBid } = require('./controller/bids');
@@ -37,7 +37,6 @@ router.post('/admins/login/:username/:password', adminLogin);
 router.get('/admins/getuniquepetscared/:startdate/:enddate', getUniquePetsCared);
 router.get('/admins/getcaretakertotaldaysworked/:startdate/:enddate', getCareTakerTotalDaysWorked);
 router.get('/admins/gettotalsalarytobepaid/:startdate/:enddate', getTotalSalaryToBePaid); 
-router.patch('/admins/changeusername/:username/:newusername', changeAdminUsername);
 router.patch('/admins/changepassword/:username/:password/:newpassword', changeAdminPassword);
 
 // availabilities
