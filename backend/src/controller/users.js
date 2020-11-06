@@ -107,7 +107,7 @@ async function getCreditCard(ctx) {
 }
 
 // PATCH api at router
-async function changeCreditCard(ctx) {
+async function updateCreditCard(ctx) {
     const { username, newcardnum } = ctx.params;
 
     try {
@@ -195,7 +195,7 @@ module.exports = {
     changePassword,
     addCreditCard,
     getCreditCard,
-    changeCreditCard,
+    updateCreditCard,
     removeCreditCard,
     getAddress,
     updateAddress,
