@@ -43,7 +43,16 @@
       method: "GET",
     })
       .then((resp) => resp.json())
-      .then((data) => (pricelist = data.basedailyprices));
+      .then(
+        (data) =>
+          (pricelist = data.basedailyprices.sort(function (a, b) {
+            if (a.pettype != b.pettype) {
+              return a.pettype.localeCompare(b.pettype);
+            } else {
+              return a.minrating - b.minrating;
+            }
+          }))
+      );
   }
 
   const toggleModalAddPrice = () => {
