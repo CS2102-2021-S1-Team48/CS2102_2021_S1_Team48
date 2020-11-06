@@ -52,23 +52,6 @@ async function login(ctx) {
 }
 
 // PATCH api at router
-async function changeUsername(ctx) {
-    const { username, newusername } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE users SET username = '${newusername}' WHERE username = '${username}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'newusername': newusername
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
-// PATCH api at router
-// TODO: Set trigger such that if WHERE clause password supplied is not the same as the old password, then fail
 async function changePassword(ctx) {
     const { username, password, newpassword } = ctx.params;
 
@@ -228,7 +211,6 @@ async function deleteAddress(ctx) {
 module.exports = {
     createUser,
     login,
-    changeUsername,
     changePassword,
     addCreditCard,
     getCreditCard,
