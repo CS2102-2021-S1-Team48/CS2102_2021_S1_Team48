@@ -19,22 +19,6 @@ async function createAdmin(ctx) {
     }
 }
 
-// PATCH api at router
-async function changeAdminPassword(ctx) {
-    const { username, password, newpassword } = ctx.params;
-
-    try {
-        const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
-        await pool.query(sqlQuery);
-        ctx.body = {
-            'newpassword' : newpassword
-        };
-    } catch (e) {
-        console.log(e);
-        ctx.status = 403;
-    }
-}
-
 // POST api at router
 async function adminLogin(ctx) {
     const { username, password } = ctx.params;
@@ -60,8 +44,23 @@ async function adminLogin(ctx) {
     }
 }
 
+// PATCH api at router
+async function changeAdminPassword(ctx) {
+    const { username, password, newpassword } = ctx.params;
+
+    try {
+        const sqlQuery = `UPDATE admins SET pw = '${newpassword}' WHERE username = '${username}' AND pw = '${password}'`;
+        await pool.query(sqlQuery);
+        ctx.body = {
+            'newpassword' : newpassword
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 // GET api at router
-// GET /admins/getuniquepetscared/:startdate/:enddate , getUniquePetsCared
 async function getUniquePetsCared(ctx) {
     const { startdate, enddate } = ctx.params;
 
