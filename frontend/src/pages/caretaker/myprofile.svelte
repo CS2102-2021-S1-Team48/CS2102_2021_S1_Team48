@@ -229,7 +229,7 @@
 
 {#if showAvailabilityModal}
 	<Modal on:close={() => (showAvailabilityModal = false)}>
-		<h2 slot="header">Price List</h2>
+		<h2 slot="header">Availabilities</h2>
 		<CaretakerAvailability />
 	</Modal>
 {/if}
