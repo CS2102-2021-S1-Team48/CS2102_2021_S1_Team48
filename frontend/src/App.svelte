@@ -142,7 +142,6 @@
   </div>
 {:else}
   <Router {routes} />
-  <button
-    on:click={signOut}
-    style="position:absolute; bottom:10px; left:75px;">Log out</button>
+  <button on:click={signOut} style="position:fixed; bottom:10px; left:75px;">Log
+    out</button>
 {/if}

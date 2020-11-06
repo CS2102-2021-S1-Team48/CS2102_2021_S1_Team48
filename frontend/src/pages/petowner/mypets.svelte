@@ -176,7 +176,8 @@
 <div class="title">
   <h1>My Pets</h1>
 </div>
-
+<button on:click={toggleModalAddPets}> New Pet</button>
+<button on:click={toggleModalEditPets}>Edit Pets</button>
 <nav>
   <ul class="header">
     <li>Name</li>
@@ -204,5 +205,3 @@
     <p>You have no pets.</p>
   {/each}
 </div>
-<button on:click={toggleModalAddPets}> New Pet</button>
-<button on:click={toggleModalEditPets}>Edit Pets</button>

@@ -13,7 +13,7 @@
     top: 0px;
     font-weight: 300;
     padding: 0 5em;
-    position: absolute;
+    position: fixed;
     float: left;
     background-color: #709ce2e5;
     height: 100%;

@@ -13,7 +13,7 @@
     top: 0px;
     font-weight: 300;
     padding: 0 5em;
-    position: absolute;
+    position: fixed;
     float: left;
     background-color: orange;
     height: 100%;
@@ -69,3 +69,5 @@
     </ul>
   </div>
 </nav>
+
+<button style="position:fixed; bottom:10px; left:75px;">Log out</button>

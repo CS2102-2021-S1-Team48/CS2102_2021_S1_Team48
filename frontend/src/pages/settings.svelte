@@ -2,6 +2,7 @@
   import ChangePasswordForm from "../ChangePasswordForm.svelte";
   import EditCreditCard from "../EditCreditCard.svelte";
   import UpdateAddress from "../UpdateAddress.svelte";
+  import AddNewAdminForm from "../AddNewAdminForm.svelte";
   import { account, pw, acctype } from "../user.js";
 
   let username;
@@ -97,6 +98,23 @@
     alert("Credit Card Saved!");
   };
 
+  const handleAddAdmin = (e) => {
+    const newAdmin = e.detail;
+    //console.log(newAdmin);
+    const user = newAdmin.username;
+    const pw = newAdmin.password;
+
+    fetch(`http://18.139.110.246:3000/admins/register/${user}/${pw}`, {
+      method: "POST",
+    })
+      .then((resp) => resp.json())
+      .then((data) => console.log(data))
+      .catch((e) => {
+        alert("Error: Admin Username used!");
+      })
+      .then(onfulfilled, alert("Admin account created!"));
+  };
+
   const handleUpdateAddress = (e) => {
     // NOT FIXED
     const newAddress = e.detail;
@@ -115,6 +133,8 @@
 {#if usertype === 'Admin'}
   <h3>Update Password</h3>
   <ChangePasswordForm on:changePassword={handleChangePasswordAdmin} />
+  <h3>Add new Admin</h3>
+  <AddNewAdminForm on:addAdmin={handleAddAdmin} />
 {:else}
   <h3>Update Password</h3>
   <ChangePasswordForm on:changePassword={handleChangePassword} />

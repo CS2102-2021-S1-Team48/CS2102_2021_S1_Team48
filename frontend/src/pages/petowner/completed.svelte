@@ -116,6 +116,7 @@
     padding: 9px;
     font-weight: 500;
     font-size: larger;
+    justify-content: center;
   }
   .contents {
     max-width: 180px;
