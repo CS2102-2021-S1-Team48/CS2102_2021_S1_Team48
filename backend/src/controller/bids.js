@@ -360,7 +360,6 @@ async function getBidsByUsernamePO(ctx) {
     }
 }
 
-
 module.exports = {
     addBid,
     getAcceptedBids,
