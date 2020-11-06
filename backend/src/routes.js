@@ -90,7 +90,7 @@ router.patch('/caretakersft/startdate2/:startdate2/:usernamect', editStartDate2)
 router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
 
 // caretakerspt
-router.get('/caretakerspt/getonversioneligibility/:usernamect', getConversionEligibility);
+router.get('/caretakerspt/getconversioneligibility/:usernamect', getConversionEligibility);
 
 // leaves
 router.post('/leaves/:usernamect/:startdate/:enddate', addLeave);
