@@ -1,26 +1,25 @@
 <script>
-  import { onMount } from "svelte";
-  import HeaderBox from "../Components/Header/HeaderBox.svelte";
-  import { account } from "../../src/user";
-  import { createEventDispatcher } from "svelte";
-  let dispatch = createEventDispatcher();
-  let username;
-  const unsubscribe = account.subscribe((value) => {
-    username = value;
-  });
-  let pettypes = [];
-  let pets = [];
-  let prefix = "";
-  let startDate = "";
-  let endDate = "";
-  let petType = "";
-  let price = "";
-  let usernameCt = "";
-  let oldStartDate = "";
-  let oldEndDate = "";
-  let oldPetType = "";
-  let oldPrice = "";
-  let i = 0;
+	import { onMount } from "svelte";
+	import HeaderBox from "../Components/Header/HeaderBox.svelte";
+	import { account } from "../../src/user";
+	import { createEventDispatcher } from "svelte";
+	let dispatch = createEventDispatcher();
+	let username;
+	const unsubscribe = account.subscribe((value) => {
+		username = value;
+	});
+	let pettypes = [];
+	let pets = [];
+	let prefix = "";
+	let startDate = "";
+	let endDate = "";
+	let petType = "";
+	let price = "";
+	let oldStartDate = "";
+	let oldEndDate = "";
+	let oldPetType = "";
+	let oldPrice = "";
+	let i = 0;
 
   function createEntries(event) {
     event.availabilities.map((obj) => {
@@ -39,29 +38,23 @@
 
   $: reset_inputs(selected);
 
-  function createFromDb(event) {
-    startDate = event.startdate;
-    endDate = event.enddate;
-    petType = event.pettype;
-    price = event.price;
-    usernameCt = event.username_caretaker;
-    pets.push({ startDate, endDate, petType, price, usernameCt });
-    pets = pets;
-    i = pets.length - 1;
-    startDate = endDate = petType = price = usernameCt = "";
-  }
+	function createFromDb(event) {
+		startDate = event.startdate;
+		endDate = event.enddate;
+		petType = event.pettype;
+		price = event.price;
+		pets.push({ startDate, endDate, petType, price });
+		pets = pets;
+		i = pets.length - 1;
+		startDate = endDate = petType = price  = "";
+	}
 
-  function addEntry() {
-    // if (petType.match(/[0-9]/) !== null || price.match(/^[^a-zA-Z0-9]+$/) !== true) {
-    // 	alert("Please ensure pet names contain no numerals and prices contain no special characters!");
-    // 	return;
-    // }
-    pets = pets.concat({ startDate, endDate, petType, price, usernameCt });
-    i = pets.length - 1;
-    console.log(pets);
+	function addEntry() {
+		pets = pets.concat({ startDate, endDate, petType, price });
+		i = pets.length - 1;
 
     const postAvailabilityCall = fetch(
-      `http://18.139.110.246:3000/availabilities?usernamect=${usernameCt}&startdate=${startDate}&enddate=${endDate}&pettype=${petType}&price=${price}`,
+      `http://18.139.110.246:3000/availabilities?usernamect=${username}&startdate=${startDate}&enddate=${endDate}&pettype=${petType}&price=${price}`,
       {
         method: "POST",
       }
@@ -77,8 +70,8 @@
         console.log("ERROR: " + error);
       });
 
-    startDate = endDate = petType = price = usernameCt = "";
-  }
+		startDate = endDate = petType = price = "";
+	}
 
   function update() {
     const index = pets.indexOf(selected);
@@ -100,59 +93,57 @@
       );
       return;
     }
-    console.log(
-      oldStartDate,
-      oldEndDate,
-      oldPetType,
-      price,
-      usernameCt,
-      startDate,
-      endDate,
-      selected.petType,
-      selected.price
-    );
-    const patchAvailabiityCall = fetch(
-      `http://18.139.110.246:3000/availabilities?startdate=${oldStartDate}&enddate=${oldEndDate}&pettype=${oldPetType}&price=${oldPrice}&usernamect=${usernameCt}&newstartdate=${selected.startDate}&newenddate=${selected.endDate}&newpettype=${selected.petType}&newprice=${selected.price}`,
-      {
-        method: "PATCH",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        alert("Your availability is successfully updated!");
-      })
-      .catch((error) => {
-        console.log("ERROR: " + error);
-      });
-  }
+		console.log(
+			oldStartDate,
+			oldEndDate,
+			oldPetType,
+			price,
+			startDate,
+			endDate,
+			selected.petType,
+			selected.price
+		);
+		const patchAvailabiityCall = fetch(
+			`http://18.139.110.246:3000/availabilities?startdate=${oldStartDate}&enddate=${oldEndDate}&pettype=${oldPetType}&price=${oldPrice}&usernamect=${username}&newstartdate=${selected.startDate}&newenddate=${selected.endDate}&newpettype=${selected.petType}&newprice=${selected.price}`,
+			{
+				method: "PATCH",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				alert("Your availability is successfully updated!");
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
+	}
 
   function remove() {
     const index = pets.indexOf(selected);
     pets = [...pets.slice(0, index), ...pets.slice(index + 1)];
 
-    const delAvailabilityCall = fetch(
-      `http://18.139.110.246:3000/availabilities/${selected.startDate}/${selected.endDate}/${selected.petType}/${usernameCt}`,
-      {
-        method: "DELETE",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {})
-      .catch((error) => {
-        console.log("ERROR: " + error);
-      });
+		const delAvailabilityCall = fetch(
+			`http://18.139.110.246:3000/availabilities/${selected.startDate}/${selected.endDate}/${selected.petType}/${username}`,
+			{
+				method: "DELETE",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 
     startDate = endDate = petType = price = "";
     i = Math.min(i, filteredPets.length - 2);
   }
 
-  function reset_inputs(pet) {
-    startDate = pet ? pet.startDate : "";
-    endDate = pet ? pet.endDate : "";
-    petType = pet ? pet.petType : "";
-    price = pet ? pet.price : "";
-    usernameCt = pet ? pet.usernameCt : "";
-  }
+function reset_inputs(pet) {
+		startDate = pet ? pet.startDate : "";
+		endDate = pet ? pet.endDate : "";
+		petType = pet ? pet.petType : "";
+		price = pet ? pet.price : "";
+	}
   onMount(async () => {
     const getUsersAvailabilitiesCall = fetch(
       `http://18.139.110.246:3000/availabilities/usernamect/${username}`,
@@ -196,6 +187,7 @@
     document.getElementById("end").setAttribute("min", today);
     document.getElementById("end").setAttribute("max", enddate);
   });
+
 </script>
 
 <style>
@@ -248,7 +240,6 @@
         <div>End Date</div>
         <div>Type</div>
         <div>price</div>
-        <div>Caretaker Type</div>
       </div>
     </HeaderBox>
     <select bind:value={i} size={5}>
@@ -258,7 +249,6 @@
           {pet.endDate},
           {pet.petType},
           {pet.price},
-          {pet.usernameCt}
         </option>
       {/each}
     </select>

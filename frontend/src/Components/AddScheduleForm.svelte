@@ -4,6 +4,7 @@
   let startdate = "";
   let enddate = "";
   const handleSubmit = () => {
+
     if (startdate === "") {
       alert("Please enter start date!");
     } else if (enddate === "") {
@@ -78,6 +79,5 @@
         bind:value={enddate} />
     </div>
   </div>
-
   <button>Add Leave Schedule</button>
 </form>

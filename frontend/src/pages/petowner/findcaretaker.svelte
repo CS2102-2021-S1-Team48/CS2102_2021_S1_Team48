@@ -124,6 +124,7 @@
   .short-input {
     width: 200px;
   }
+
   .search-component {
     margin-top: 10px;
   }
@@ -132,7 +133,6 @@
 <div class="search-component">
   <SearchCaretaker on:SearchCareTaker={searchCT} />
 </div>
-
 <div class="outer">
   <div class="options">
     <label for="paymentmethod">Payment by</label>

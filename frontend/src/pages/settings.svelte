@@ -25,6 +25,7 @@
   onMount(async () => {
     await fetch(`http://18.139.110.246:3000/users/getaddress/${username}`, {
       method: "GET",
+
     }).then((resp) =>
       resp.json().then((data) => (addressobject = data.address))
     );
@@ -34,6 +35,7 @@
     })
       .then((resp) => resp.json())
       .then((data) => (currentcreditcard = data.cardnum));
+
   });
 
   const handleChangePassword = (e) => {

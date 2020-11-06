@@ -43,7 +43,7 @@
     bidRequests = bidRequests;
   }
   function handleAccept(petname, petowner, caretaker, from, to) {
-    fetch(
+    const acceptBidCall = fetch(
       `http://18.139.110.246:3000/bids/accept/${petname}/${petowner}/${caretaker}/${from}/${to}`,
       {
         method: "PATCH",

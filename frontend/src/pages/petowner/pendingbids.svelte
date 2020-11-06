@@ -50,6 +50,7 @@
 </script>
 
 <style>
+
   nav {
     border-bottom: 2px solid;
     border-top: 2px solid;
