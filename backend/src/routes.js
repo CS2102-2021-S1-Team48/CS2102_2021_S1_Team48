@@ -33,7 +33,7 @@ router.get('/helloes', sayHelloes);
 
 // admins
 router.post('/admins/register/:username/:password', createAdmin);
-router.post('/admins/login/:usernameadmin/:password', adminLogin);
+router.post('/admins/login/:username/:password', adminLogin);
 router.get('/admins/getuniquepetscared/:startdate/:enddate', getUniquePetsCared);
 router.get('/admins/getcaretakertotaldaysworked/:startdate/:enddate', getCareTakerTotalDaysWorked);
 router.get('/admins/gettotalsalarytobepaid/:startdate/:enddate', getTotalSalaryToBePaid); 

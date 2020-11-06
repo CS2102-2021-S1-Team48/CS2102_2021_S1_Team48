@@ -3,9 +3,13 @@ const pool = require('../db');
 // POST api at router
 async function createUser(ctx) {
     const { username, password } = ctx.params;
+
     try {
-        const sqlQuery = `INSERT INTO users (username, pw) VALUES ('${username}', '${password}')`;
-        await pool.query(sqlQuery);
+        const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
+        await pool.query(insertIntoAccounts);
+
+        const insertIntoUsers = `INSERT INTO users (username) VALUES ('${username}')`;
+        await pool.query(insertIntoUsers);
 
         const insertIntoPetowners = `INSERT INTO petowners (username) VALUES ('${username}')`;
         await pool.query(insertIntoPetowners);
@@ -30,7 +34,7 @@ async function login(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT COUNT(username) FROM users WHERE username = '${username}' AND pw = '${password}'`;
+        const sqlQuery = `SELECT COUNT(*) FROM users NATURAL JOIN accounts WHERE username = '${username}' AND pw = '${password}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         const onlyRow = rows[0];

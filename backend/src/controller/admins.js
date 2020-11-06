@@ -5,11 +5,13 @@ async function createAdmin(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
+        const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
+        await pool.query(insertIntoAccounts);
+
+        const sqlQuery = `INSERT INTO admins (username) VALUES ('${username}'}');`;
         await pool.query(sqlQuery);
         ctx.body = {
-            'username' : username,
-            'password' : password
+            'username' : username
         };
     } catch (e) {
         console.log(e);
@@ -51,11 +53,10 @@ async function changeAdminPassword(ctx) {
 
 // POST api at router
 async function adminLogin(ctx) {
-    const { usernameadmin, password } = ctx.params;
+    const { username, password } = ctx.params;
 
     try {
-        const whereClause = `WHERE username_admin = '${usernameadmin}' AND pw = '${password}'`;
-        const sqlQuery = 'SELECT COUNT(*) FROM admins INNER JOIN accounts on username_admin = username ';
+        const sqlQuery = `SELECT COUNT(*) FROM admins NATURAL JOIN accounts WHERE username = '${username}' AND pw = '${password}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         const onlyRow = rows[0];
@@ -64,7 +65,7 @@ async function adminLogin(ctx) {
 
         if (count == 1) {
             ctx.body = {
-                'usernameadmin': usernameadmin
+                'username': username
             };
         } else {
             ctx.status = 403;
