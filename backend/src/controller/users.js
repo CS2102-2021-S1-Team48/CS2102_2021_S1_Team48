@@ -3,6 +3,7 @@ const pool = require('../db');
 // POST api at router
 async function createUser(ctx) {
     const { username, password } = ctx.params;
+
     try {
         const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
         await pool.query(insertIntoAccounts);
@@ -128,7 +129,8 @@ async function changeCreditCard(ctx) {
 
 // DEL api at router
 async function removeCreditCard(ctx) {
-    const username = ctx.params.username;
+    const { username } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE users SET cardnum = NULL WHERE username = '${username}'`;
         await pool.query(sqlQuery);
@@ -163,8 +165,9 @@ async function addAddress(ctx) {
 // GET api at router
 async function getAddress(ctx) {
     const username = ctx.params.username;
+
     try {
-        const sqlQuery = `SELECT username, address FROM users WHERE username = '${username}'`;
+        const sqlQuery = `SELECT address FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         ctx.body = {
@@ -179,6 +182,7 @@ async function getAddress(ctx) {
 // PATCH api at router
 async function editAddress(ctx) {
     const { username, newaddress } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE users SET address = '${newaddress}' WHERE username = '${username}'`;
         await pool.query(sqlQuery);
@@ -194,6 +198,7 @@ async function editAddress(ctx) {
 // DEL api at router
 async function deleteAddress(ctx) {
     const { username } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE users SET address = NULL WHERE username = '${username}'`;
         await pool.query(sqlQuery);
