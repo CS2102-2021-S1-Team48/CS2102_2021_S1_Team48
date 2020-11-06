@@ -87,7 +87,8 @@ async function addCreditCard(ctx) {
 
 // GET api at router
 async function getCreditCard(ctx) {
-    const username = ctx.params.username;
+    const { username } = ctx.params;
+
     try {
         const sqlQuery = `SELECT * FROM users WHERE username = '${username}'`;
         const resultObject = await pool.query(sqlQuery);
