@@ -77,40 +77,20 @@
   };
 
   const handleEditCreditCard = (e) => {
-    let current;
     const newCreditCard = e.detail;
     const cardnum = newCreditCard.num;
     const expiry =
       newCreditCard.expirymonth.toString() +
       newCreditCard.expiryyear.toString();
 
-    //check current:
-    fetch(`http://18.139.110.246:3000/users/getcreditcard/${username}`, {
-      method: "GET",
-    })
+    fetch(
+      `http://18.139.110.246:3000/users/updatecreditcard/${username}/${cardnum}`,
+      {
+        method: "PATCH",
+      }
+    )
       .then((resp) => resp.json())
-      .then((data) => (current = data));
-    console.log(current);
-
-    if (current === null) {
-      fetch(
-        `http://18.139.110.246:3000/users/addcreditcard/${username}/${cardnum}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    } else {
-      fetch(
-        `http://18.139.110.246:3000/users/changecreditcard/${username}/${cardnum}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    }
+      .then((data) => console.log(data));
 
     alert("Credit Card Saved!");
   };
@@ -137,25 +117,15 @@
     const address = newAddress.address;
     const postal = newAddress.postal;
     console.log(newAddress);
-    if (addressobject === null) {
-      fetch(
-        `http://18.139.110.246:3000/users/addaddress/${username}/${address}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    } else {
-      fetch(
-        `http://18.139.110.246:3000/users/editaddress/${username}/${address}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    }
+
+    fetch(
+      `http://18.139.110.246:3000/users/updateaddress/${username}/${address}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => console.log(data));
 
     alert("Address Updated!");
   };
