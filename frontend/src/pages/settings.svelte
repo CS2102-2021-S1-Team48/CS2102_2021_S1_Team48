@@ -85,7 +85,7 @@
 
     if (current === null) {
       fetch(
-        `http://18.139.110.246:3000/users/addcreditcard/${username}?cardnum=${cardnum}`,
+        `http://18.139.110.246:3000/users/addcreditcard/${username}/${cardnum}`,
         {
           method: "PATCH",
         }
@@ -94,7 +94,7 @@
         .then((data) => console.log(data));
     } else {
       fetch(
-        `http://18.139.110.246:3000/users/changecreditcard/${username}?cardnum=${cardnum}`,
+        `http://18.139.110.246:3000/users/changecreditcard/${username}/${cardnum}`,
         {
           method: "PATCH",
         }
