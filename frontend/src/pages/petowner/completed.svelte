@@ -101,7 +101,7 @@
 </script>
 
 <style>
-  h1,
+
   h3 {
     text-align: center;
   }
@@ -124,6 +124,7 @@
     text-align: center;
     display: inline-flex;
     padding: 9px;
+    justify-content: center;
   }
   .entry {
     border: 1px solid;
@@ -137,7 +138,6 @@
   <ReviewForm on:leaveRating={handleRating} />
 </ModalPO>
 
-<h1>Completed</h1>
 <nav>
   <ul class="header">
     <li>Caretaker</li>

@@ -66,9 +66,6 @@
 </script>
 
 <style>
-  h1 {
-    text-align: center;
-  }
   nav {
     border-bottom: 2px solid;
     border-top: 2px solid;
@@ -76,16 +73,18 @@
   }
   li {
     display: inline-flex;
-    width: 100px;
+    width: 113px;
     padding: 9px;
     font-weight: 500;
     font-size: larger;
+    justify-content: center;
   }
   .contents {
-    width: 103px;
+    width: 113px;
     text-align: center;
     display: inline-flex;
     padding: 9px;
+    justify-content: center;
   }
   .entry {
     border: 1px solid;
@@ -93,8 +92,6 @@
     margin: 5px 0;
   }
 </style>
-
-<h1>Ongoing</h1>
 
 <nav>
   <ul class="header">

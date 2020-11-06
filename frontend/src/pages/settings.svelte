@@ -10,6 +10,7 @@
   let pass;
   let usertype;
   let addressobject;
+  let currentcreditcard;
 
   const unsubscribe = account.subscribe((value) => {
     username = value;
@@ -24,7 +25,17 @@
   onMount(async () => {
     await fetch(`http://18.139.110.246:3000/users/getaddress/${username}`, {
       method: "GET",
-    }).then((resp) => resp.json().then((data) => (addressobject = data)));
+
+    }).then((resp) =>
+      resp.json().then((data) => (addressobject = data.address))
+    );
+
+    await fetch(`http://18.139.110.246:3000/users/getcreditcard/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (currentcreditcard = data.cardnum));
+
   });
 
   const handleChangePassword = (e) => {
@@ -68,40 +79,20 @@
   };
 
   const handleEditCreditCard = (e) => {
-    let current;
     const newCreditCard = e.detail;
     const cardnum = newCreditCard.num;
     const expiry =
       newCreditCard.expirymonth.toString() +
       newCreditCard.expiryyear.toString();
 
-    //check current:
-    fetch(`http://18.139.110.246:3000/users/getcreditcard/${username}`, {
-      method: "GET",
-    })
+    fetch(
+      `http://18.139.110.246:3000/users/updatecreditcard/${username}/${cardnum}`,
+      {
+        method: "PATCH",
+      }
+    )
       .then((resp) => resp.json())
-      .then((data) => (current = data));
-    console.log(current);
-
-    if (current === null) {
-      fetch(
-        `http://18.139.110.246:3000/users/addcreditcard/${username}?cardnum=${cardnum}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    } else {
-      fetch(
-        `http://18.139.110.246:3000/users/changecreditcard/${username}?cardnum=${cardnum}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    }
+      .then((data) => console.log(data));
 
     alert("Credit Card Saved!");
   };
@@ -128,25 +119,15 @@
     const address = newAddress.address;
     const postal = newAddress.postal;
     console.log(newAddress);
-    if (addressobject === null) {
-      fetch(
-        `http://18.139.110.246:3000/users/addaddress/${username}/${address}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    } else {
-      fetch(
-        `http://18.139.110.246:3000/users/editaddress/${username}/${address}`,
-        {
-          method: "PATCH",
-        }
-      )
-        .then((resp) => resp.json())
-        .then((data) => console.log(data));
-    }
+
+    fetch(
+      `http://18.139.110.246:3000/users/updateaddress/${username}/${address}`,
+      {
+        method: "PATCH",
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => console.log(data));
 
     alert("Address Updated!");
   };
@@ -160,15 +141,30 @@
 
 <h1>Settings</h1>
 {#if usertype === 'Admin'}
-  <h3>Update Password</h3>
+  <h3>Password</h3>
+  <h4>Update Password</h4>
   <ChangePasswordForm on:changePassword={handleChangePasswordAdmin} />
-  <h3>Add new Admin</h3>
+  <h3>Admin Management</h3>
+  <h4>Add new Admin</h4>
   <AddNewAdminForm on:addAdmin={handleAddAdmin} />
 {:else}
-  <h3>Update Password</h3>
+  <h3>Password</h3>
+  <h4>Update Password</h4>
   <ChangePasswordForm on:changePassword={handleChangePassword} />
-  <h3>Update Credit Card</h3>
+  <h3>Credit Card</h3>
+  {#if currentcreditcard === null}
+    <p>You have no saved credit card</p><br />
+  {:else}
+    <p>Current credit card number: {currentcreditcard}</p><br />
+  {/if}
+  <h4>Update Credit Card</h4>
   <EditCreditCard on:editCreditCard={handleEditCreditCard} />
-  <h3>Update Address</h3>
+  <h3>Address</h3>
+  {#if addressobject === null}
+    <p>You have no saved Address</p><br />
+  {:else}
+    <p>Current saved address: {addressobject}</p><br />
+  {/if}
+  <h4>Update Address</h4>
   <UpdateAddress on:updateAddress={handleUpdateAddress} />
 {/if}

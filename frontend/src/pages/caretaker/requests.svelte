@@ -16,6 +16,7 @@
   let bidRequests = [];
   function createRequestEntries(event) {
     // console.log(event);
+    bidRequests = [];
     event.unacceptedbids.map((obj) => {
       addBidReq(obj);
     });
@@ -58,7 +59,7 @@
       method: "GET",
     })
       .then((resp) => resp.json())
-      .then((data) => (bidRequests = data.unacceptedbids));
+      .then((data) => createRequestEntries(data));
   }
 
   onMount(async () => {
@@ -76,6 +77,41 @@
         console.log("ERROR: " + error);
       });
   });
+
+  const remaining = (date) => {
+    // today
+    var asiaTime = new Date().toLocaleString("en-US", {
+      timeZone: "Asia/Shanghai",
+    });
+    var today = new Date(asiaTime);
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1; //January is 0!
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+      dd = "0" + dd;
+    }
+    if (mm < 10) {
+      mm = "0" + mm;
+    }
+
+    var currdate = new Date(date);
+
+    // calc diff
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+
+    const utc1 = Date.UTC(
+      currdate.getFullYear(),
+      currdate.getMonth(),
+      currdate.getDate()
+    );
+    const utc2 = Date.UTC(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    return Math.floor((utc1 - utc2) / _MS_PER_DAY);
+  };
 </script>
 
 <style>
@@ -84,15 +120,17 @@
     border-top: 2px solid;
     margin-top: 15px;
   }
+
   li {
     display: inline-flex;
-    width: 100px;
+    width: 130px;
     padding: 9px;
     font-weight: 500;
     font-size: larger;
   }
   .contents {
-    width: 100px;
+    max-width: 130px;
+    width: 130px;
     text-align: center;
     display: inline-flex;
     padding: 9px;
@@ -134,41 +172,43 @@
 
 <div>
   {#each bidRequests as bid}
-    <div class="bid">
-      <div class="contents">
-        <div class="subDescription">
-          <div>{bid.owner}</div>
-          <div>
-            <h10>Payment:</h10>
-            {bid.payment}
+    {#if remaining(bid.from) > 0}
+      <div class="bid">
+        <div class="contents">
+          <div class="subDescription">
+            <div>{bid.owner}</div>
+            <div>
+              <h10>Payment:</h10>
+              {bid.payment}
+            </div>
+          </div>
+        </div>
+        <div class="contents">
+          <div style="margin:auto">{bid.pet}</div>
+        </div>
+        <div class="contents">
+          <div class="subDescription">
+            <div>{bid.type}</div>
+
+            <h10>Require:</h10>
+            {bid.require}
+          </div>
+        </div>
+        <div class="contents">{bid.from}</div>
+        <div class="contents">{bid.to}</div>
+        <!-- <div class="contents">
+        <div style="margin:auto"><h8>S$</h8>{bid.bid}</div>
+      </div> -->
+        <div class="button">
+          <div style="margin:auto">
+            <button
+              on:click={handleAccept(bid.pet, bid.owner, bid.caretaker, bid.from, bid.to)}>
+              Accept
+            </button>
           </div>
         </div>
       </div>
-      <div class="contents">
-        <div style="margin:auto">{bid.pet}</div>
-      </div>
-      <div class="contents">
-        <div class="subDescription">
-          <div>{bid.type}</div>
-
-          <h10>Require:</h10>
-          {bid.require}
-        </div>
-      </div>
-      <div class="contents">{bid.from}</div>
-      <div class="contents">{bid.to}</div>
-      <!-- <div class="contents">
-        <div style="margin:auto"><h8>S$</h8>{bid.bid}</div>
-      </div> -->
-      <div class="button">
-        <div style="margin:auto">
-          <button
-            on:click={handleAccept(bid.pet, bid.owner, bid.caretaker, bid.from, bid.to)}>
-            Accept
-          </button>
-        </div>
-      </div>
-    </div>
+    {/if}
   {:else}
     <p>You have no bid requests.</p>
   {/each}

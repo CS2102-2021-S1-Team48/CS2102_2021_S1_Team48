@@ -74,16 +74,15 @@
         }
       )
         .then((resp) => resp.json())
-        .then((data) => alert(data.errormessage));
+        .then((data) => alert("Sent Bid!"))
+        .catch((e) =>
+          alert(`${yourpetname} cannot bid for ${name} for the selected dates!`)
+        );
     }
   };
 </script>
 
 <style>
-  h1 {
-    text-align: center;
-  }
-
   nav {
     border-bottom: 2px solid;
     border-top: 2px solid;
@@ -125,12 +124,15 @@
   .short-input {
     width: 200px;
   }
+
+  .search-component {
+    margin-top: 10px;
+  }
 </style>
 
-<h1>Find Available Caretaker</h1>
-
-<SearchCaretaker on:SearchCareTaker={searchCT} />
-
+<div class="search-component">
+  <SearchCaretaker on:SearchCareTaker={searchCT} />
+</div>
 <div class="outer">
   <div class="options">
     <label for="paymentmethod">Payment by</label>

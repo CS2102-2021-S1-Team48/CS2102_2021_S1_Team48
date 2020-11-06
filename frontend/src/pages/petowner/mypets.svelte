@@ -158,9 +158,11 @@
   .title {
     max-width: 1024px;
   }
-
-  h1 {
-    text-align: center;
+  .options {
+    display: flex;
+  }
+  .buttons {
+    margin: 10px;
   }
 </style>
 
@@ -173,11 +175,16 @@
   <h3>Edit a New Pet</h3>
   <EditPetsForm on:editPets={editPets} />
 </Editpets>
-<div class="title">
-  <h1>My Pets</h1>
+<div class="title" />
+<div class="options">
+  <div class="buttons">
+    <button on:click={toggleModalAddPets}> New Pet</button>
+  </div>
+  <div class="buttons">
+    <button on:click={toggleModalEditPets}>Edit Pets</button>
+  </div>
 </div>
-<button on:click={toggleModalAddPets}> New Pet</button>
-<button on:click={toggleModalEditPets}>Edit Pets</button>
+
 <nav>
   <ul class="header">
     <li>Name</li>

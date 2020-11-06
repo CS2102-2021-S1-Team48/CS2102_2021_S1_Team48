@@ -58,9 +58,7 @@
 </script>
 
 <style>
-  h1 {
-    text-align: center;
-  }
+
   nav {
     border-bottom: 2px solid;
     border-top: 2px solid;
@@ -86,7 +84,6 @@
   }
 </style>
 
-<h1>Upcoming Events</h1>
 <nav>
   <ul class="header">
     <li>Caretaker</li>
