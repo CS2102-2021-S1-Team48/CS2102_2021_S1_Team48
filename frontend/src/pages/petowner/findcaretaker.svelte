@@ -74,7 +74,7 @@
         }
       )
         .then((resp) => resp.json())
-        .then(onfulfilled, (data) => alert("Sent Bid!"))
+        .then((data) => alert("Sent Bid!"))
         .catch((e) =>
           alert(`${yourpetname} cannot bid for ${name} for the selected dates!`)
         );
