@@ -21,8 +21,8 @@ router.get('/helloes', sayHelloes);
 /* 
     Routes categorised by controllers (tables)
     
-    /:<param> will be used for up to 4 params only
-    Above 4 params, the api will employ the use of the ? question mark, where each
+    /:<param> will be used for up to 5 params only
+    Above 5 params, the api will employ the use of the ? question mark, where each
     variable is separated by an & ampersand symbol.
 
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.

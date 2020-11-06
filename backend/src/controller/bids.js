@@ -256,11 +256,10 @@ async function getTotalOwedToCaretaker(ctx) {
 }
 
 // PATCH api at router
-// PATCH /bids/accept/:petname/:usernamepo/:usernamect/:startdate/:enddate , acceptBid
 async function acceptBid(ctx) {
     const { petname, usernamepo, usernamect, startdate, enddate } = ctx.params;
     try {
-        const sqlQuery = `UPDATE bids SET accepted = True WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
+        const sqlQuery = `UPDATE bids SET accepted = true WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
@@ -272,11 +271,10 @@ async function acceptBid(ctx) {
 }
 
 // PATCH api at router
-// PATCH /bids/undoaccept/:petname/:usernamepo/:usernamect/:startdate/:enddate , undoAcceptBid
 async function undoAcceptBid(ctx) {
     const { petname, usernamepo, usernamect, startdate, enddate } = ctx.params;
     try {
-        const sqlQuery = `UPDATE bids SET accepted = False WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
+        const sqlQuery = `UPDATE bids SET accepted = false WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
         ctx.body = {
             'success': 'true!'
