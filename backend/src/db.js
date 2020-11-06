@@ -12,12 +12,6 @@ types.setTypeParser(1082, function(val) {
     return val === null ? null : parseDate(val);
 });
 
-// const elephantUrl = 'postgres://haikibbc:qeAUubYqybNnfAIuVi5RlglDsMtAaB2d@john.db.elephantsql.com:5432/haikibbc';
-
-// const pool = new Pool({
-//     connectionString: elephantUrl
-// });
-
 const pool = new Pool({
     user: 'postgres',
     host: 'petdb.cluuodrt5y8f.ap-southeast-1.rds.amazonaws.com',
