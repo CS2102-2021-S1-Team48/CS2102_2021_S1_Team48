@@ -17,7 +17,7 @@
       petType: petType,
       price: price,
     };
-    dispatch('newAvailability', availability);
+    dispatch("newAvailability", availability);
   };
 
   function validateApplication(event) {

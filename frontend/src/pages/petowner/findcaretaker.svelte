@@ -74,7 +74,10 @@
         }
       )
         .then((resp) => resp.json())
-        .then((data) => alert(data.errormessage));
+        .then(onfulfilled, (data) => alert("Sent Bid!"))
+        .catch((e) =>
+          alert(`${yourpetname} cannot bid for ${name} for the selected dates!`)
+        );
     }
   };
 </script>
