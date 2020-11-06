@@ -4,10 +4,12 @@
   import UpdateAddress from "../Components/UpdateAddress.svelte";
   import AddNewAdminForm from "../Components/AddNewAdminForm.svelte";
   import { account, pw, acctype } from "../user.js";
+  import { onMount } from "svelte";
 
   let username;
   let pass;
   let usertype;
+  let addressobject;
 
   const unsubscribe = account.subscribe((value) => {
     username = value;
@@ -17,6 +19,12 @@
   });
   const unsubscribe3 = acctype.subscribe((value) => {
     usertype = value;
+  });
+
+  onMount(async () => {
+    await fetch(`http://18.139.110.246:3000/users/getaddress/${username}`, {
+      method: "GET",
+    }).then((resp) => resp.json().then((data) => (addressobject = data)));
   });
 
   const handleChangePassword = (e) => {
@@ -116,9 +124,30 @@
   };
 
   const handleUpdateAddress = (e) => {
-    // NOT FIXED
     const newAddress = e.detail;
+    const address = newAddress.address;
+    const postal = newAddress.postal;
     console.log(newAddress);
+    if (addressobject === null) {
+      fetch(
+        `http://18.139.110.246:3000/users/addaddress/${username}/${address}`,
+        {
+          method: "PATCH",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => console.log(data));
+    } else {
+      fetch(
+        `http://18.139.110.246:3000/users/editaddress/${username}/${address}`,
+        {
+          method: "PATCH",
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => console.log(data));
+    }
+
     alert("Address Updated!");
   };
 </script>
