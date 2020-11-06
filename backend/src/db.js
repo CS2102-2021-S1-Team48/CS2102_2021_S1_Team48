@@ -1,9 +1,9 @@
 const { Pool, types } = require('pg');
-const Moment = require('moment');
+const moment = require('moment');
 
 // custom date parser
 function parseDate(val) {
-    return val === null ? null : Moment(val).format('YYYY-MM-DD');
+    return val === null ? null : moment(val).format('YYYY-MM-DD');
 }
 
 // 1082 is the code number for DATE data type
