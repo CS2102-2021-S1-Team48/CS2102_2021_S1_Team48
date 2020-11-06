@@ -24,7 +24,8 @@ async function adminLogin(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT COUNT(*) FROM admins NATURAL JOIN accounts WHERE username = '${username}' AND pw = '${password}'`;        const resultObject = await pool.query(sqlQuery);
+        const sqlQuery = `SELECT COUNT(*) FROM admins NATURAL JOIN accounts WHERE username = '${username}' AND pw = '${password}'`;
+        const resultObject = await pool.query(sqlQuery);
         const rows = resultObject.rows;
         const onlyRow = rows[0];
 
