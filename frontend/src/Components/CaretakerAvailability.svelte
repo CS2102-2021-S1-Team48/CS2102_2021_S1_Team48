@@ -51,10 +51,10 @@
 	}
 
 	function addEntry() {
-		if (petType.match(/[0-9]/) !== null || price.match(/^[^a-zA-Z0-9]+$/) !== true) {
-			alert("Please ensure pet names contain no numerals and prices contain no special characters!");
-			return;
-    }
+		// if (petType.match(/[0-9]/) !== null || price.match(/^[^a-zA-Z0-9]+$/) !== true) {
+		// 	alert("Please ensure pet names contain no numerals and prices contain no special characters!");
+		// 	return;
+    // }
 		pets = pets.concat({ startDate, endDate, petType, price, usernameCt });
 		i = pets.length - 1;
 

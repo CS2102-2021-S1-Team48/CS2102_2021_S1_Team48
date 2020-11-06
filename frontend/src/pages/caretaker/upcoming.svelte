@@ -76,7 +76,6 @@
     var dateMonthPart = varDateParts[1];
     var dateDayPart = varDateParts[2];
     daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
-    console.log(to);
     
     const getTotalPriceOwedCall = await fetch(
       `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
