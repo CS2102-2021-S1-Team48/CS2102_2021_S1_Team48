@@ -5,11 +5,13 @@ async function createAdmin(ctx) {
     const { username, password } = ctx.params;
 
     try {
-        const sqlQuery = `INSERT INTO admins VALUES ('${username}', '${password}');`;
-        await pool.query(sqlQuery);
+        const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
+        await pool.query(insertIntoAccounts);
+
+        const insertIntoAdmins = `INSERT INTO admins (username) VALUES ('${username}'}');`;
+        await pool.query(insertIntoAdmins);
         ctx.body = {
             'username' : username,
-            'password' : password
         };
     } catch (e) {
         console.log(e);
