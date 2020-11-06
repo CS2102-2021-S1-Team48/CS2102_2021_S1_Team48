@@ -86,7 +86,6 @@ async function addCreditCard(ctx) {
 }
 
 // GET api at router
-// GET /users/getcreditcard/:username
 async function getCreditCard(ctx) {
     const username = ctx.params.username;
     try {
@@ -124,7 +123,6 @@ async function changeCreditCard(ctx) {
 }
 
 // DEL api at router
-// DEL /users/removecreditcard/:username , removeCreditCard
 async function removeCreditCard(ctx) {
     const username = ctx.params.username;
     try {
@@ -141,7 +139,6 @@ async function removeCreditCard(ctx) {
 
 
 // PATCH api at router
-// PATCH /users/addaddress/:username/:address , addAddress
 async function addAddress(ctx) {
     const address = ctx.params.address;
     const username = ctx.params.username;
@@ -160,7 +157,6 @@ async function addAddress(ctx) {
 
 
 // GET api at router
-// GET /users/getaddress/:username , getAddress
 async function getAddress(ctx) {
     const username = ctx.params.username;
     try {
@@ -177,7 +173,6 @@ async function getAddress(ctx) {
 }
 
 // PATCH api at router
-// PATCH /users/editaddress/:username/:newaddress , editAddress
 async function editAddress(ctx) {
     const { username, newaddress } = ctx.params;
     try {
@@ -193,7 +188,6 @@ async function editAddress(ctx) {
 }
 
 // DEL api at router
-// DEL /users/deleteaddress/:username , deleteAddress
 async function deleteAddress(ctx) {
     const { username } = ctx.params;
     try {
