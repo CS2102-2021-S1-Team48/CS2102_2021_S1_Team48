@@ -87,6 +87,7 @@ async function addBid(ctx) {
 // GET api at router
 async function getAcceptedBids(ctx) {
     const usernamepo = ctx.params.usernamepo;
+
     try {
         const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
@@ -103,9 +104,9 @@ async function getAcceptedBids(ctx) {
 
 
 // GET api at router
-// /bids/accepted/:usernamect/:startdate/:enddate
 async function getAcceptedBidsForDateRange(ctx) {
     const { usernamect, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.startdate <= '${enddate}'`;
         const resultobject = await pool.query(sqlQuery);
@@ -123,6 +124,7 @@ async function getAcceptedBidsForDateRange(ctx) {
 // GET api at router
 async function getUnacceptedBids(ctx) {
     const usernamect = ctx.params.usernamect;
+
     try {
         const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = False AND b.username_caretaker = '${usernamect}'`;
         const resultobject = await pool.query(sqlQuery);
@@ -138,9 +140,9 @@ async function getUnacceptedBids(ctx) {
 }
 
 // GET api at router
-// /bids/unaccepted/:usernamect/:startdate/:enddate
 async function getUnacceptedBidsForDateRange(ctx) {
     const { usernamect, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = False AND b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}'`;
         const resultobject = await pool.query(sqlQuery);
@@ -159,6 +161,7 @@ async function getUnacceptedBidsForDateRange(ctx) {
 // GET api at router
 async function getBids(ctx) {
     const { petname, usernamect, usernamepo } = ctx.query;
+
     try {
         const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.petname = '${petname}' AND b.username_caretaker = '${usernamect}' AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
@@ -174,7 +177,6 @@ async function getBids(ctx) {
 }
 
 // GET api at router
-// GET /bids/reviews/:usernamect , getReviewsOfCaretaker
 async function getReviewsOfCaretaker(ctx) {
     const usernamect = ctx.params.usernamect;
     try {
@@ -220,7 +222,6 @@ async function getPetDaysForThePeriod(ctx) {
 }
 
 // GET api at router
-// GET /bids/amountowedtocaretaker/:usernamepo/:usernamect/:pettype/:startdate/:enddate , getAmountOwedToCaretaker
 async function getAmountOwedToCaretaker(ctx) {
     const { usernamepo, usernamect, pettype, startdate, enddate } = ctx.params;
     try {
@@ -238,7 +239,6 @@ async function getAmountOwedToCaretaker(ctx) {
 }
 
 // GET api at router
-// GET /bids/totalowedtocaretaker/:usernamect/:pettype/:startdate/:enddate , getTotalOwedToCaretaker
 async function getTotalOwedToCaretaker(ctx) {
     const { usernamect, pettype, startdate, enddate } = ctx.params;
     try {
