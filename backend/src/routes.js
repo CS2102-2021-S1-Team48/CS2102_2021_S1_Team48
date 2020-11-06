@@ -9,7 +9,7 @@ const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, e
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
 const { addSchedule, getSchedule, updateSchedule, deleteSchedule } = require('./controller/parttimeschedule');
 const { addPet, getPetsByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
-const { createUser, changePassword, login, addCreditCard, getCreditCard, changeCreditCard, removeCreditCard, getAddress, editAddress, addAddress, deleteAddress } = require('./controller/users');
+const { createUser, changePassword, login, getCreditCard, updateCreditCard, removeCreditCard, getAddress, deleteAddress, updateAddress } = require('./controller/users');
 
 
 const router = new Router();
@@ -21,8 +21,8 @@ router.get('/helloes', sayHelloes);
 /* 
     Routes categorised by controllers (tables)
     
-    /:<param> will be used for up to 4 params only
-    Above 4 params, the api will employ the use of the ? question mark, where each
+    /:<param> will be used for up to 5 params only
+    Above 5 params, the api will employ the use of the ? question mark, where each
     variable is separated by an & ampersand symbol.
 
     In the case of /:<param> , order of params do matter and they are of course compulsory to fill in.
@@ -110,13 +110,11 @@ router.del('/pets/:petname/:usernamepo', deletePetByPetname);
 router.post('/users/register/:username/:password', createUser);
 router.post('/users/login/:username/:password', login);
 router.patch('/users/changepassword/:username/:password/:newpassword', changePassword);
-router.patch('/users/addcreditcard/:username/:cardnum',addCreditCard);
 router.get('/users/getcreditcard/:username', getCreditCard); 
-router.patch('/users/changecreditcard/:username/:newcardnum', changeCreditCard);
+router.patch('/users/updatecreditcard/:username/:newcardnum', updateCreditCard);
 router.del('/users/removecreditcard/:username', removeCreditCard);
-router.patch('/users/addaddress/:username/:address', addAddress); 
 router.get('/users/getaddress/:username', getAddress);
-router.patch('/users/editaddress/:username/:newaddress', editAddress);
+router.patch('/users/updateaddress/:username/:newaddress', updateAddress);
 router.del('/users/deleteaddress/:username', deleteAddress);
 
 module.exports = router;
