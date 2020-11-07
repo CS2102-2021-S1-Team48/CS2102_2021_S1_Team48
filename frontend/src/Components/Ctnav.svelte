@@ -5,7 +5,7 @@
     ["./myprofile", "My Profile"],
     ["./requests", "Requests"],
     ["./upcoming", "Upcoming"],
-    ["./currentpets", "Current Pets"],
+    ["./currentpets", "Ongoing"],
   ];
 </script>
 
