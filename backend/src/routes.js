@@ -81,7 +81,7 @@ router.get('/caretakers', getAllCaretakers);
 router.get('/caretakers/:usernamect', getCaretakerByUsername);
 
 // caretakersft
-router.post('/caretakersft/:usernamect', switchCaretakerPtToFt); // POST /caretakersft/duc99?startdate1=20200101&enddate1=20200531&startdate2=20200601&enddate2=20201231
+router.post('/caretakersft/:usernamect', switchCaretakerPtToFt);
 router.get('/caretakersft', getCaretakerFtInfo);
 router.get('/caretakersft/:usernamect', getSpecificCaretakerFtInfo);
 router.patch('/caretakersft/startdate1/:startdate1/:usernamect', editStartDate1);
