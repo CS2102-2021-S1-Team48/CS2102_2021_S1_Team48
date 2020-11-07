@@ -6,7 +6,7 @@ const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDai
 const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO, testAddBid } = require('./controller/bids');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
-const { getConversionEligibility } = require('./controller/caretakerspt');
+const { getEligibilityToBeFT } = require('./controller/caretakerspt');
 const { addLeave, getLeaves, deleteLeaves } = require('./controller/leaveschedule');
 const { addSchedule, getSchedule, updateSchedule, deleteSchedule } = require('./controller/parttimeschedule');
 const { addPet, getPetsByUsername, getPetByPetname, editPetDetails, deletePetByPetname } = require('./controller/pets');
@@ -90,7 +90,7 @@ router.patch('/caretakersft/startdate2/:startdate2/:usernamect', editStartDate2)
 router.patch('/caretakersft/enddate2/:enddate2/:usernamect', editEndDate2);
 
 // caretakerspt
-router.get('/caretakerspt/getconversioneligibility/:usernamect', getConversionEligibility);
+router.get('/caretakerspt/eligibilitytobeft/:usernamect', getEligibilityToBeFT);
 
 // leaves
 router.post('/leaves/:usernamect/:startdate/:enddate', addLeave);
