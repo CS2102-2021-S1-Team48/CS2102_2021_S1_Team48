@@ -22,7 +22,6 @@
 		let schedule = e.detail;
 		let scheduleStartDate = schedule.startDate;
 		let scheduleEndDate = schedule.endDate;
-		console.log(scheduleEndDate);
 		const postLeaveScheduleCall = fetch(
 			`http://18.139.110.246:3000/leaves/${username}/${scheduleStartDate}/${scheduleEndDate}`,
 			{
@@ -67,6 +66,7 @@
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
+			
 	});
 </script>
 
