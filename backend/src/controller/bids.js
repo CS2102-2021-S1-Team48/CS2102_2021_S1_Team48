@@ -202,7 +202,7 @@ async function getPetDaysForThePeriod(ctx) {
 
     try {
         if (startdate === undefined && enddate === undefined) {
-            const sqlQuery = `SELECT sum(enddate-startdate) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' GROUP BY username_caretaker`;
+            const sqlQuery = `SELECT sum(enddate-startdate + 1) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' GROUP BY username_caretaker`;
             const resultObject = await pool.query(sqlQuery);
             const rows = resultObject.rows;
             ctx.body = {
@@ -210,7 +210,7 @@ async function getPetDaysForThePeriod(ctx) {
             };
 
         } else {
-            const sqlQuery = `SELECT sum(enddate-startdate) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' AND startdate >= '${startdate}' AND enddate <= '${enddate}' GROUP BY username_caretaker`;
+            const sqlQuery = `SELECT sum(enddate-startdate + 1) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' AND startdate >= '${startdate}' AND enddate <= '${enddate}' GROUP BY username_caretaker`;
             const resultObject = await pool.query(sqlQuery);
             const rows = resultObject.rows;
             ctx.body = {
@@ -228,7 +228,7 @@ async function getAmountOwedToCaretaker(ctx) {
     const { usernamepo, usernamect, pettype, startdate, enddate } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * av.price) FROM bids b INNER JOIN availabilities av ON b.username_caretaker = av.username_caretaker AND b.pettype = av.pettype AND b.startdate = av.startdate AND b.enddate = av.enddate WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True' AND b.username_petowner = '${usernamepo}'`;
+        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * price) FROM bids b WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True' AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -246,7 +246,7 @@ async function getTotalOwedToCaretaker(ctx) {
     const { usernamect, pettype, startdate, enddate } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * av.price) FROM bids b INNER JOIN availabilities av ON b.username_caretaker = av.username_caretaker AND b.pettype = av.pettype AND b.startdate = av.startdate AND b.enddate = av.enddate WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True'`;
+        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * price) FROM bids b WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
