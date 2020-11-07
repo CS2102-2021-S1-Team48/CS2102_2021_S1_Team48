@@ -1,5 +1,11 @@
 <script>
   import { url } from "@sveltech/routify";
+  import { account } from "../../user";
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
 </script>
 
 <style>
@@ -8,4 +14,4 @@
   }
 </style>
 
-<h1>Welcome back Care Taker!</h1>
+<h1>Welcome Back {username}!</h1>

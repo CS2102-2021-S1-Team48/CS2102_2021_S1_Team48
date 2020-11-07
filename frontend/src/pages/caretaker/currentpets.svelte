@@ -57,7 +57,7 @@
     return new Date(dt.setFullYear(dt.getFullYear() + n));
   }
 
-  var nextTenYearsDate = convertDate(add_years(date, 10));
+  var nextTwoYearsDate = convertDate(add_years(date, 2));
 
   function createCurrentEntries(event) {
     event.acceptedbids.map((obj) => {
@@ -81,21 +81,21 @@
     var dateYearPart = varDateParts[0];
     var dateMonthPart = varDateParts[1];
     var dateDayPart = varDateParts[2];
-    const getPetLimitCall = await fetch(
-      `http://18.139.110.246:3000/caretakers/${username}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        data.caretakers.map((obj) => {
-          maxCanCareFor = obj.petlimit;
-        });
-      })
-      .catch((error) => {
-        console.log("ERROR: " + error);
-      });
+    // const getPetLimitCall = await fetch(
+    //   `http://18.139.110.246:3000/caretakers/${username}`,
+    //   {
+    //     method: "GET",
+    //   }
+    // )
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     data.caretakers.map((obj) => {
+    //       maxCanCareFor = obj.petlimit;
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log("ERROR: " + error);
+    //   });
     daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
     currentBids.push({
       owner,
@@ -114,7 +114,7 @@
   $: emptySlots = maxCanCareFor - currentCaringFor;
   onMount(async () => {
     const getCurrentPetsCall = fetch(
-      `http://18.139.110.246:3000/bids/accepteddaterange/${username}/${todayDate}/${todayDate}`,
+      `http://18.139.110.246:3000/bids/currentaccepteddaterange/${username}/${todayDate}/${todayDate}`,
       {
         method: "GET",
       }
@@ -122,6 +122,22 @@
       .then((response) => response.json())
       .then((data) => {
         createCurrentEntries(data);
+      })
+      .catch((error) => {
+        console.log("ERROR: " + error);
+      });
+
+      const getPetLimitCall = fetch(
+      `http://18.139.110.246:3000/caretakers/${username}`,
+      {
+        method: "GET",
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        data.caretakers.map((obj) => {
+          maxCanCareFor = obj.petlimit;
+        });
       })
       .catch((error) => {
         console.log("ERROR: " + error);
