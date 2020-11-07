@@ -3,6 +3,7 @@
 	import { account } from "../user";
 	import AddSchedule from "./AddSchedule.svelte";
 	import AddScheduleForm from "./AddScheduleForm.svelte";
+
 	export let limit = () => {};
 	let username;
 	$: isFT = 0;
@@ -50,6 +51,7 @@
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
+			console.log(isFT);
 	});
 </script>
 
@@ -81,10 +83,10 @@
 	}
 
 	.CaretakerSince {
-		background-image: url(./chronometer.svg);
+		background-image: url(../chronometer.svg);
 	}
 	.PetLimit {
-		background-image: url(./pawprint.svg);
+		background-image: url(../pawprint.svg);
 	}
 
 	.CaretakerProfile {
@@ -104,9 +106,11 @@
 	<h2>
 		<slot class="CaretakerProfilePic" />
 		<slot name="name">
-			{#if (isFT = 1)}
-				<span class="ProfileName">Fulltime Caretaker</span>
-			{:else}<span class="ProfileName">Parttime Caretaker</span>{/if}
+			{#if isFT == 1}
+				<span class="ProfileName">Full-time Caretaker</span>
+			{:else}
+				<span class="ProfileName">Part-time Caretaker</span>
+			{/if}
 		</slot>
 	</h2>
 
@@ -123,5 +127,7 @@
 			<span style="float:right">{limit}</span>
 		</slot>
 	</div>
-	<div><button on:click={toggleModalAddSchedule}>Add FT Leave Schedule</button></div>
+	<div>
+		<button on:click={toggleModalAddSchedule}>Add FT Leave Schedule</button>
+	</div>
 </article>
