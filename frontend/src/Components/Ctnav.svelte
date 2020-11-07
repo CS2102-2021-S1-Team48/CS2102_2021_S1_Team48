@@ -6,6 +6,7 @@
     ["./requests", "Requests"],
     ["./upcoming", "Upcoming"],
     ["./currentpets", "Ongoing"],
+    ["./completed", "Completed"],
   ];
 </script>
 
