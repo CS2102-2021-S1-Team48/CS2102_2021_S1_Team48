@@ -22,20 +22,23 @@
 
   onMount(async () => {
     // To BE CHANGED
-    await fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
-      method: "GET",
-    })
+    await fetch(
+      `http://18.139.110.246:3000/bids/accepted/usernamect/${username}`,
+      {
+        method: "GET",
+      }
+    )
       .then((resp) => resp.json())
-      .then((data) => (completed = data.acceptedbids));
+      .then((data) => (completed = data.bids));
   });
 
   function reload() {
     // To BE CHANGED
-    fetch(`http://18.139.110.246:3000/bids/accepted/${username}`, {
+    fetch(`http://18.139.110.246:3000/bids/accepted/usernamect/${username}`, {
       method: "GET",
     })
       .then((resp) => resp.json())
-      .then((data) => (completed = data.acceptedbids));
+      .then((data) => (completed = data.bids));
   }
 
   function selectUser(bid) {
@@ -151,13 +154,10 @@
         <div class="contents">{entry.petname}</div>
         <div class="contents">{entry.startdate}</div>
         <div class="contents">{entry.enddate}</div>
-        {#if entry.rating === null}
-          <div class="contents">
-            <button on:click={selectUser(entry)}> VIEW </button>
-          </div>
-        {:else}
-          <div class="contents">{entry.rating}</div>
-        {/if}
+
+        <div class="contents">
+          <button on:click={selectUser(entry)}> VIEW </button>
+        </div>
       </div>
     {/if}
   {:else}
