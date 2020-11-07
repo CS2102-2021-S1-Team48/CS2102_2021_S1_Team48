@@ -48,7 +48,7 @@
     //console.log(request);
   };
 
-  const handleBid = (name) => {
+  const handleBid = (name, price) => {
     if (yourpaymethod === "none") {
       alert("Please select a payment method");
     } else if (yourtransfer === "none") {
@@ -63,21 +63,19 @@
         bid: yourbid,
         start: startdate,
         end: enddate,
+        price: price,
       };
       console.log(bid);
 
       // POST BID TO BE FIXED
       fetch(
-        `http://18.139.110.246:3000/bids/test?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&usernamepo=${username}&usernamect=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}`,
+        `http://18.139.110.246:3000/bids/test?transfermethod=${yourtransfer}&paymentmethod=${yourpaymethod}&petname=${yourpetname}&usernamepo=${username}&usernamect=${name}&startdate=${startdate}&enddate=${enddate}&pettype=${yourpettype}&price=${price}`,
         {
           method: "POST",
         }
       )
         .then((resp) => resp.json())
-        .then((data) => alert("Sent Bid!"))
-        .catch((e) =>
-          alert(`${yourpetname} cannot bid for ${name} for the selected dates!`)
-        );
+        .then((data) => alert(data.response));
     }
   };
 </script>
@@ -172,7 +170,7 @@
       <div class="form">
         <button
           on:click={() => {
-            handleBid(caretaker.username_caretaker);
+            handleBid(caretaker.username_caretaker, caretaker.price);
           }}>
           BID
         </button>

@@ -32,12 +32,15 @@
   let name = "";
   let category;
   let requirements;
+  var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
   const handleSubmit = () => {
     //console.log(name, category, requirements);
     //Check empty fields
     if (name === "" || name.match(/^ *$/) !== null || category === "none") {
       alert("Please fill in the name and category!");
+    } else if (format.test(name) === true) {
+      alert("Pet Name cannot contain special characters!");
     } else {
       dispatch("addPets", {
         petname: name,

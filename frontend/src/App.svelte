@@ -11,6 +11,7 @@
   let password = "";
   let usertype = null;
   let usertypes = ["Admin", "Non-Admin"];
+  var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
   function signOut() {
     userObject = null;
@@ -28,9 +29,11 @@
       password.match(/^ *$/) !== null
     ) {
       alert("Please fill in username/password!");
+    } else if (format.test(username) === true) {
+      alert("Username cannot contain special characters!");
     } else if (usertype == "Non-Admin") {
       fetch(
-        `http://18.139.110.246:3000/users?username=${username}&password=${password}`,
+        `http://18.139.110.246:3000/users/register/${username}/${password}`,
         {
           method: "POST",
         }

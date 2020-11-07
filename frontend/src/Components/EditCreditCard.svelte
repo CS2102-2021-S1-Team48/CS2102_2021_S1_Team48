@@ -13,7 +13,8 @@
     } else if (
       cardexpirymonth === "" ||
       cardexpiryyear === "" ||
-      cardexpirymonth.toString().length != 2 ||
+      cardexpirymonth.toString().length > 2 ||
+      cardexpirymonth.toString().length < 1 ||
       cardexpirymonth <= 0 ||
       cardexpirymonth > 12 ||
       cardexpiryyear.toString().length != 2
