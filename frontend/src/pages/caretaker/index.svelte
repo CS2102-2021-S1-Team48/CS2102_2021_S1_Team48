@@ -1,6 +1,7 @@
 <script>
   import { url } from "@sveltech/routify";
-  import { account } from "../../user";
+  import { account } from "../../user.js";
+
   let username;
 
   const unsubscribe = account.subscribe((value) => {
