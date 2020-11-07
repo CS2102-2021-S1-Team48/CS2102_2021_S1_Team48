@@ -37,11 +37,11 @@ async function testAddBid(ctx) {
             const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype, price) ' + valuesClause;
             await pool.query(sqlQuery);
             ctx.body = {
-                'success': 'Bid has been sent!'
+                'response': 'Bid has been sent!'
             };
         } else {
             ctx.body = {
-                'errormessage': 'caretaker already hit his/her petlimit!'
+                'response': 'caretaker already hit his/her petlimit!'
             };
             ctx.status = 403;
         }
