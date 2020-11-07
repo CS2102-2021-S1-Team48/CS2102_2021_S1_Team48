@@ -29,8 +29,10 @@ async function switchCaretakerPtToFt(ctx) {
         if (eligibility == 'eligible') {
             const deleteFromCaretakersPt = `DELETE FROM caretakers_pt WHERE username = '${usernamect}'`;
             await pool.query(deleteFromCaretakersPt);
+
             const insertIntoCaretakersFt = `INSERT INTO caretakers_ft (username) VALUES ('${usernamect}')`;
             await pool.query(insertIntoCaretakersFt);
+
             const updatePetLimit = `UPDATE caretakers SET petlimit = 5 WHERE username = '${usernamect}'`;
             await pool.query(updatePetLimit);
             ctx.body = {
@@ -38,7 +40,7 @@ async function switchCaretakerPtToFt(ctx) {
             };
         } else {
             ctx.body = {
-                'errormessage': 'To be fulltimer, you need to be available for a minimum of 2 x 150 consecutive days, in a year.'
+                'errormessage': 'To be a fulltime caretaker, you need to be available for a minimum of 2 x 150 consecutive days, in a year.'
             };
             ctx.status = 403;
         }
