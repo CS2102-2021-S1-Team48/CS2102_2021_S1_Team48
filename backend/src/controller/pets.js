@@ -82,7 +82,11 @@ async function editPetDetails(ctx) {
 // DEL api at router
 // DEL /pet/:petname/:usernamepo , deletePetByPetname
 async function deletePetByPetname(ctx) {
-    const { petname, usernamepo } = ctx.params;
+
+    const usernamepo = ctx.params.usernamepo;
+    var petname = ctx.params.petname;
+    petname = petname.replace(/%20/g, ' ');
+
     try {
         const sqlQuery = `DELETE FROM pets WHERE username_petowner = '${usernamepo}' AND petname = '${petname}'`;
         await pool.query(sqlQuery);
