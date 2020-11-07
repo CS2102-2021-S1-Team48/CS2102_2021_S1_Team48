@@ -2,9 +2,9 @@ const pool = require('../db');
 const moment = require('moment');
 
 // POST api at router
-// POST /bids/test?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
+// POST /bids/test?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog&price=123
 async function testAddBid(ctx) {
-    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
+    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype, price } = ctx.query;
 
     try {
         const petLimitQuery = `SELECT petlimit from caretakers WHERE username = '${usernamect}'`;
@@ -33,8 +33,8 @@ async function testAddBid(ctx) {
         }
 
         if (canInsert) {
-            const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}')`;
-            const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
+            const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}', ${price})`;
+            const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype, price) ' + valuesClause;
             await pool.query(sqlQuery);
             ctx.body = {
                 'transfermethod': transfermethod,
