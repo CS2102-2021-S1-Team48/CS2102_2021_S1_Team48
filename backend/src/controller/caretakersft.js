@@ -29,7 +29,7 @@ async function switchCaretakerPtToFt(ctx) {
         } else {
             ctx.body = {
                 'errormessage': 'To be fulltimer, you need to be available for a minimum of 2 x 150 consecutive days, in a year.'
-            }
+            };
             ctx.status = 403;
         }
         
