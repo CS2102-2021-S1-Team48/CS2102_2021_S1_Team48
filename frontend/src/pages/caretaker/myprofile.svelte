@@ -122,7 +122,6 @@
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data);
 				if (data.eligibility == "eligible") {
 					isEligible = true;
 				}

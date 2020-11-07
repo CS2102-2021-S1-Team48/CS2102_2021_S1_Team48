@@ -60,7 +60,6 @@
 			.then((data) => {
 				if (data.eligibility == "eligible") {
 					isEligible = true;
-					console.log(isEligible);
 				}
 			})
 			.catch((error) => {
