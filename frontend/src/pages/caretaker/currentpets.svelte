@@ -81,21 +81,6 @@
     var dateYearPart = varDateParts[0];
     var dateMonthPart = varDateParts[1];
     var dateDayPart = varDateParts[2];
-    // const getPetLimitCall = await fetch(
-    //   `http://18.139.110.246:3000/caretakers/${username}`,
-    //   {
-    //     method: "GET",
-    //   }
-    // )
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     data.caretakers.map((obj) => {
-    //       maxCanCareFor = obj.petlimit;
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log("ERROR: " + error);
-    //   });
     daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
     currentBids.push({
       owner,
