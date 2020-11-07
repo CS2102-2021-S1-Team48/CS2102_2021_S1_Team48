@@ -37,14 +37,7 @@ async function testAddBid(ctx) {
             const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype, price) ' + valuesClause;
             await pool.query(sqlQuery);
             ctx.body = {
-                'transfermethod': transfermethod,
-                'paymentmethod': paymentmethod,
-                'petname': petname,
-                'usernamepo': usernamepo,
-                'usernamect': usernamect,
-                'startdate': startdate,
-                'enddate': enddate,
-                'pettype': pettype
+                'success': 'Bid has been sent!'
             };
         } else {
             ctx.body = {
