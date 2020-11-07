@@ -15,7 +15,6 @@
   });
   let bidRequests = [];
   function createRequestEntries(event) {
-    // console.log(event);
     bidRequests = [];
     event.unacceptedbids.map((obj) => {
       addBidReq(obj);

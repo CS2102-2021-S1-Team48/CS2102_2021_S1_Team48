@@ -55,41 +55,7 @@
     );
     return daysLeft;
   }
-  // const getTotalPriceOwedCall = async (username, type, from, to) => {
-  //   let response = await fetch(
-  //     `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   );
-  //   let data = await response.json();
-  //   console.log(data.totalowned);
-  //   return data.totalowned;
-  // }
   
-  // function getTotalPriceOwedCall(username, type, from, to) {
-  //   fetch(
-  //     `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
-  //     {
-  //       method: "GET",
-  //     }
-  //   )
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       data.totalowned.map((obj) => {
-  //         total = obj.sum;
-  //         console.log(total);
-  //         // return total;
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       console.log("ERROR: " + error);
-  //     });
-      
-  // }
-  // console.log(total);
-
-  // total = getTotalPriceOwedCall(username, type, from, to);
   function createUpcomingEntries(event) {
     event.acceptedbids.map((obj) => {
       addUpcomingEntry(obj);
@@ -136,7 +102,6 @@
       .then((response) => response.json())
       .then((data) => {
         createUpcomingEntries(data);
-        console.log(data);
       })
       .catch((error) => {
         console.log("ERROR: " + error);
