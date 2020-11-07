@@ -12,6 +12,7 @@
   let to = "";
   let total = "";
   let username;
+  let SuccessfulBids = [];
   const unsubscribe = account.subscribe((value) => {
     username = value;
   });
@@ -41,7 +42,7 @@
       (ddChars[1] ? dd : "0" + ddChars[0])
     );
   }
-  var nextTenYearsDate = convertDate(add_years(todayDate, 10));
+  var nextTwoYearsDate = convertDate(add_years(todayDate, 2));
   var tmrDate = convertDate(tmrdate);
   function calculateDaysLeft(year, month, day) {
     month -= 1;
@@ -54,14 +55,47 @@
     );
     return daysLeft;
   }
+  // const getTotalPriceOwedCall = async (username, type, from, to) => {
+  //   let response = await fetch(
+  //     `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   );
+  //   let data = await response.json();
+  //   console.log(data.totalowned);
+  //   return data.totalowned;
+  // }
+  
+  // function getTotalPriceOwedCall(username, type, from, to) {
+  //   fetch(
+  //     `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   )
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       data.totalowned.map((obj) => {
+  //         total = obj.sum;
+  //         console.log(total);
+  //         // return total;
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log("ERROR: " + error);
+  //     });
+      
+  // }
+  // console.log(total);
 
-  let SuccessfulBids = [];
+  // total = getTotalPriceOwedCall(username, type, from, to);
   function createUpcomingEntries(event) {
     event.acceptedbids.map((obj) => {
       addUpcomingEntry(obj);
     });
   }
-  async function addUpcomingEntry(event) {
+  function addUpcomingEntry(event) {
     owner = event.username_petowner;
     caretaker = event.username_caretaker;
     payment = event.paymentmethod;
@@ -69,29 +103,13 @@
     type = event.pettype;
     from = event.startdate;
     to = event.enddate;
-    
     require = event.requirements;
+    total = event.owed;
     var varDateParts = from.split("-");
     var dateYearPart = varDateParts[0];
     var dateMonthPart = varDateParts[1];
     var dateDayPart = varDateParts[2];
     daysLeft = calculateDaysLeft(dateYearPart, dateMonthPart, dateDayPart);
-    
-    const getTotalPriceOwedCall = await fetch(
-      `http://18.139.110.246:3000/bids/totalowedtocaretaker/${username}/${type}/${from}/${to}}`,
-      {
-        method: "GET",
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        data.totalowned.map((obj) => {
-          total = obj.sum;
-        });
-      })
-      .catch((error) => {
-        console.log("ERROR: " + error);
-      });
 
     SuccessfulBids.push({
       owner,
@@ -107,9 +125,10 @@
     });
     SuccessfulBids = SuccessfulBids;
   }
+  console.log(SuccessfulBids);
   onMount(async () => {
     const getUpcomingEntriesCall = fetch(
-      `http://18.139.110.246:3000/bids/accepteddaterange/${username}/${tmrDate}/${nextTenYearsDate}`,
+      `http://18.139.110.246:3000/bids/accepteddaterange/${username}/${tmrDate}/${nextTwoYearsDate}`,
       {
         method: "GET",
       }
@@ -117,6 +136,7 @@
       .then((response) => response.json())
       .then((data) => {
         createUpcomingEntries(data);
+        console.log(data);
       })
       .catch((error) => {
         console.log("ERROR: " + error);

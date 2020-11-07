@@ -46,12 +46,10 @@
 			.then((response) => response.json())
 			.then((data) => {
 				isFT = data.caretakerftinfo.length;
-				console.log(isFT);
 			})
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
-			console.log(isFT);
 	});
 </script>
 
