@@ -3,7 +3,7 @@ const { sayHello, sayHelloes} = require('./controller/hello');
 const { createAdmin, changeAdminPassword, adminLogin, getUniquePetsCared, getCareTakerTotalDaysWorked, getTotalSalaryToBePaid } = require('./controller/admins');
 const { postAvailability, getAllAvailabilities, editAvailability, deleteAvailability, getAvailabilitiesByPetType, getAvailabilitiesByUsernameCT, getAvailabilitiesByUCTandPT, getAvailabilitiesByMinDateRangeAndPT } = require('./controller/availabilities');
 const { addBaseDailyPrice, getBaseDailyPrices, editBaseDailyPrice, deleteBaseDailyPrice, getPetTypes } = require('./controller/basedailyprices');
-const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO, testAddBid } = require('./controller/bids');
+const { addBid, getAcceptedBids, getUnacceptedBids, getBids, getReviewsOfCaretaker, getPetDaysForThePeriod, acceptBid, undoAcceptBid, submitReviewAndRating, deleteBid, getTotalOwedToCaretaker, getAmountOwedToCaretaker, getAcceptedBidsForDateRange, getUnacceptedBidsForDateRange, getRatingByUsernameCT, getBidsByUsernamePO, testAddBid, getCurrentAcceptedBidsForDateRange } = require('./controller/bids');
 const { getAllCaretakers, getCaretakerByUsername } = require('./controller/caretakers');
 const { switchCaretakerPtToFt, getCaretakerFtInfo, getSpecificCaretakerFtInfo, editStartDate1, editEndDate1, editStartDate2, editEndDate2 } = require('./controller/caretakersft');
 const { getEligibilityToBeFT } = require('./controller/caretakerspt');
@@ -61,6 +61,7 @@ router.get('/basedailyprices/pettypes', getPetTypes);
 router.post('/bids', addBid); // POST /bids?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
 router.get('/bids/accepted/:usernamepo', getAcceptedBids);
 router.get('/bids/accepteddaterange/:usernamect/:startdate/:enddate', getAcceptedBidsForDateRange);
+router.get('/bids/currentaccepteddaterange/:usernamect/:startdate/:enddate', getCurrentAcceptedBidsForDateRange);
 router.get('/bids/unaccepted/:usernamect', getUnacceptedBids);
 router.get('/bids/unaccepteddaterange/:usernamect/:startdate/:enddate', getUnacceptedBidsForDateRange); 
 router.get('/bids', getBids); // GET /bids?petname=eva&usernamect=john&usernamepo=lim // If there is nothing after the ? then it should get all bids

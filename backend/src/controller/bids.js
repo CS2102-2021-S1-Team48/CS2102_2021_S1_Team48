@@ -114,6 +114,25 @@ async function getAcceptedBidsForDateRange(ctx) {
     }
 }
 
+
+// GET api at router
+async function getCurrentAcceptedBidsForDateRange(ctx) {
+    const { usernamect, startdate, enddate } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT *, (enddate-startdate+1) * price as owed FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}' AND b.startdate <= '${startdate}' AND b.enddate >= '${enddate}'`;
+        const resultobject = await pool.query(sqlQuery);
+        const rows = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'acceptedbids': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 // GET api at router
 async function getUnacceptedBids(ctx) {
     const usernamect = ctx.params.usernamect;
@@ -359,6 +378,7 @@ module.exports = {
     addBid,
     getAcceptedBids,
     getAcceptedBidsForDateRange,
+    getCurrentAcceptedBidsForDateRange,
     getUnacceptedBids,
     getUnacceptedBidsForDateRange,
     getBids,
