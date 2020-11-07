@@ -7,6 +7,7 @@
 	export let limit = () => {};
 	let username;
 	$: isFT = 0;
+	$: isEligible = false;
 
 	const unsubscribe = account.subscribe((value) => {
 		username = value;
@@ -50,6 +51,22 @@
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
+		const getIfEligibleToBeFTCall = fetch(
+			"http://18.139.110.246:3000/caretakerspt/eligibilitytobeft/:usernamect",
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				console.log(data.eligibility);
+				if (data.eligibility == "eligible") {
+					isEligible = True;
+				}
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 	});
 </script>
 
@@ -81,7 +98,7 @@
 	}
 
 	.CaretakerSince {
-		background-image: url(../chronometer.svg);
+		background-image: url(../upgrade.svg);
 	}
 	.PetLimit {
 		background-image: url(../pawprint.svg);
@@ -106,16 +123,16 @@
 		<slot name="name">
 			{#if isFT == 1}
 				<span class="ProfileName">Full-time Caretaker</span>
-			{:else}
-				<span class="ProfileName">Part-time Caretaker</span>
-			{/if}
+			{:else}<span class="ProfileName">Part-time Caretaker</span>{/if}
 		</slot>
 	</h2>
 
 	<div class="CaretakerSince">
 		<slot name="CaretakerSince">
-			<span class="CaretakerProfile">Caretaker Since</span>
-			<span style="float:right">-</span>
+			{#if isEligible}
+				<span class="CaretakerProfile">Eligible to be Full-Timer</span>
+				<span style="float:right">yes</span>
+			{:else}<span></span>{/if}
 		</slot>
 	</div>
 
