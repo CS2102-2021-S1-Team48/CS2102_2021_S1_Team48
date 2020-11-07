@@ -374,6 +374,23 @@ async function getBidsByUsernamePO(ctx) {
     }
 }
 
+// GET api at router
+async function getAcceptedBidsByUsernameCT(ctx) {
+    const { usernamect } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = true`;
+        const resultObject = await pool.query(sqlQuery);
+        const bids = resultObject.rows;
+        ctx.body = {
+            'bids': bids
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     addBid,
     getAcceptedBids,
@@ -392,5 +409,6 @@ module.exports = {
     deleteBid,
     getRatingByUsernameCT,
     getBidsByUsernamePO,
-    testAddBid
+    testAddBid,
+    getAcceptedBidsByUsernameCT
 };
