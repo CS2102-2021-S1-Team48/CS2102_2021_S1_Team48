@@ -4,13 +4,14 @@
 	import { account } from "../../user";
 	import Modal from "../../Components/Modal.svelte";
 	import CaretakerAvailability from "../../Components/CaretakerAvailability.svelte";
-	import AddWorkPeriod from "../../Components/AddWorkPeriod.svelte";
-	import AddWorkPeriodForm from "../../Components/AddWorkPeriodForm.svelte";
+	// import AddWorkPeriod from "../../Components/AddWorkPeriod.svelte";
+	// import AddWorkPeriodForm from "../../Components/AddWorkPeriodForm.svelte";
+	// import { isEligible } from "../../Components/Box.svelte";
 	// import AddAvailabilityForm from "../../Components/AddAvailabilityForm.svelte";
 	let showAvailabilityModal = false;
-	let showModal = false;
 	let petDaysThisMth = 0;
 	export let limit = 0;
+	$: isEligible = false;
 	let name = "";
 	let rating = "";
 	let reviewMsg = "";
@@ -18,33 +19,42 @@
 	var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
 	var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
 
-	let showModalAddWorkPeriod = false;
+	// let showModalAddWorkPeriod = false;
 
-	const toggleModalAddWorkPeriod = () => {
-		showModalAddWorkPeriod = !showModalAddWorkPeriod;
-	};
+	// const toggleModalAddWorkPeriod = () => {
+	// 	showModalAddWorkPeriod = !showModalAddWorkPeriod;
+	// };
 
-	const addNewWorkPeriod = (e) => {
-		let workperiod = e.detail;
+	// const addNewWorkPeriod = (e) => {
+	// 	let workperiod = e.detail;
 	
-		let workperiodStartDate1 = workperiod.startDate1;
-		let workperiodEndDate1 = workperiod.endDate1;
-		let workperiodStartDate2 = workperiod.startDate2;
-		let workperiodEndDate2 = workperiod.endDate2;
-		const postChangectFTCall = fetch(
-			`http://18.139.110.246:3000/caretakersft/${username}?startdate1=${workperiodStartDate1}&enddate1=${workperiodEndDate1}&startdate2=${ workperiodStartDate2}&enddate2=${workperiodEndDate2}`,
-			{
-				method: "POST",
-			}
-		)
-			.then((response) => response.json())
-			.then((data) => {
-				alert("You just switched to full time!");
-			})
-			.catch((error) => {
-				console.log("ERROR: " + error);
-			});
-	};
+	// 	let workperiodStartDate1 = workperiod.startDate1;
+	// 	let workperiodEndDate1 = workperiod.endDate1;
+	// 	let workperiodStartDate2 = workperiod.startDate2;
+	// 	let workperiodEndDate2 = workperiod.endDate2;
+	// 	const postChangectFTCall = fetch(
+	// 		`http://18.139.110.246:3000/caretakersft/${username}?startdate1=${workperiodStartDate1}&enddate1=${workperiodEndDate1}&startdate2=${ workperiodStartDate2}&enddate2=${workperiodEndDate2}`,
+	// 		{
+	// 			method: "POST",
+	// 		}
+	// 	)
+	// 		.then((response) => response.json())
+	// 		.then((data) => {
+	// 			alert("You just switched to full time!");
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log("ERROR: " + error);
+	// 		});
+	// };
+
+	function handleChangeToFT() {
+		if (isEligible) {
+			alert("You just switched to full time!");
+		}
+		else {
+			alert("You're not eligible to switch to full time!")
+		}
+	}
 
 	function convertDate(date) {
 		var yyyy = date.getFullYear().toString();
@@ -127,6 +137,21 @@
 			.catch((error) => {
 				console.log("ERROR: " + error);
 			});
+			const getIfEligibleToBeFTCall = fetch(
+			`http://18.139.110.246:3000/caretakerspt/eligibilitytobeft/${username}`,
+			{
+				method: "GET",
+			}
+		)
+			.then((response) => response.json())
+			.then((data) => {
+				if (data.eligibility == "eligible") {
+					isEligible = true;
+				}
+			})
+			.catch((error) => {
+				console.log("ERROR: " + error);
+			});
 	});
 </script>
 
@@ -186,11 +211,7 @@
 	<ul class="header">
 		<li style="font-weight:bold">Pet Days this Month:</li>
 		<li>{petDaysThisMth}</li>
-		<li>
-			<button class="button" on:click={toggleModalAddWorkPeriod}>
-				Switch to FullTime
-			</button>
-		</li>
+		<li><button class="button" on:click={handleChangeToFT}> Switch to FullTime </button></li>
 		<li>
 			<button class="button" on:click={() => (showAvailabilityModal = true)}>
 				Availability
@@ -221,10 +242,10 @@
 	</div>
 </div>
 
-<AddWorkPeriod {showModalAddWorkPeriod} on:click={toggleModalAddWorkPeriod}>
+<!-- <AddWorkPeriod {showModalAddWorkPeriod} on:click={toggleModalAddWorkPeriod}>
 	<h3>Fill in your work period</h3>
 	<AddWorkPeriodForm on:addWorkPeriod={addNewWorkPeriod} />
-</AddWorkPeriod>
+</AddWorkPeriod> -->
 
 {#if showAvailabilityModal}
 	<Modal on:close={() => (showAvailabilityModal = false)}>

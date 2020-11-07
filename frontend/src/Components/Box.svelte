@@ -52,16 +52,16 @@
 				console.log("ERROR: " + error);
 			});
 		const getIfEligibleToBeFTCall = fetch(
-			"http://18.139.110.246:3000/caretakerspt/eligibilitytobeft/:usernamect",
+			`http://18.139.110.246:3000/caretakerspt/eligibilitytobeft/${username}`,
 			{
 				method: "GET",
 			}
 		)
 			.then((response) => response.json())
 			.then((data) => {
-				console.log(data.eligibility);
 				if (data.eligibility == "eligible") {
-					isEligible = True;
+					isEligible = true;
+					console.log(isEligible);
 				}
 			})
 			.catch((error) => {
@@ -131,7 +131,6 @@
 		<slot name="CaretakerSince">
 			{#if isEligible}
 				<span class="CaretakerProfile">Eligible to be Full-Timer</span>
-				<span style="float:right">yes</span>
 			{:else}<span></span>{/if}
 		</slot>
 	</div>
