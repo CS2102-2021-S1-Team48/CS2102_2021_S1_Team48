@@ -25,7 +25,6 @@
   onMount(async () => {
     await fetch(`http://18.139.110.246:3000/users/getaddress/${username}`, {
       method: "GET",
-
     }).then((resp) =>
       resp.json().then((data) => (addressobject = data.address))
     );
@@ -35,8 +34,21 @@
     })
       .then((resp) => resp.json())
       .then((data) => (currentcreditcard = data.cardnum));
-
   });
+
+  function reload() {
+    fetch(`http://18.139.110.246:3000/users/getaddress/${username}`, {
+      method: "GET",
+    }).then((resp) =>
+      resp.json().then((data) => (addressobject = data.address))
+    );
+
+    fetch(`http://18.139.110.246:3000/users/getcreditcard/${username}`, {
+      method: "GET",
+    })
+      .then((resp) => resp.json())
+      .then((data) => (currentcreditcard = data.cardnum));
+  }
 
   const handleChangePassword = (e) => {
     const received = e.detail;
@@ -92,7 +104,8 @@
       }
     )
       .then((resp) => resp.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log(data))
+      .then(() => reload());
 
     alert("Credit Card Saved!");
   };
@@ -127,7 +140,8 @@
       }
     )
       .then((resp) => resp.json())
-      .then((data) => console.log(data));
+      .then((data) => console.log(data))
+      .then(() => reload());
 
     alert("Address Updated!");
   };
