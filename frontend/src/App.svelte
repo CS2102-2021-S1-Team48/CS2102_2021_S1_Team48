@@ -30,7 +30,7 @@
       alert("Please fill in username/password!");
     } else if (usertype == "Non-Admin") {
       fetch(
-        `http://18.139.110.246:3000/users?username=${username}&password=${password}`,
+        `http://18.139.110.246:3000/users/register/${username}/${password}`,
         {
           method: "POST",
         }
