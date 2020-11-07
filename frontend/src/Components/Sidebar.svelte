@@ -5,8 +5,6 @@
     ["/index", "Home"],
     ["/settings", "Settings"],
   ];
-
-  const logout = [["/logout", "logout"]];
 </script>
 
 <style>
@@ -15,10 +13,11 @@
     top: 0px;
     font-weight: 300;
     padding: 0 5em;
-    position: absolute;
+    position: fixed;
     float: left;
-    background-color: bisque;
+    background-color: #709ce2e5;
     height: 100%;
+    opacity: 1;
   }
 
   ul {
@@ -58,11 +57,6 @@
     padding: 1em 0.5em;
     display: block;
   }
-
-  .bottom {
-    position: absolute;
-    bottom: 0px;
-  }
 </style>
 
 <nav>
@@ -71,16 +65,6 @@
       {#each links as [path, name]}
         <li>
           <a href={$url(path)} class:selected={$isActive(path)}> {name} </a>
-        </li>
-      {/each}
-    </ul>
-  </div>
-
-  <div class="bottom">
-    <ul>
-      {#each logout as [path, name]}
-        <li>
-          <a href={$url(path)} class:selected={$isActive(path)}> {name}</a>
         </li>
       {/each}
     </ul>

@@ -2,8 +2,11 @@
   import { url, isActive } from "@sveltech/routify";
 
   const links = [
-    ["./petowner", "Pet Owner"],
-    ["./caretaker", "Care Taker"],
+    ["./myprofile", "My Profile"],
+    ["./requests", "Requests"],
+    ["./upcoming", "Upcoming"],
+    ["./currentpets", "Ongoing"],
+    ["./completed", "Completed"],
   ];
 </script>
 
@@ -15,8 +18,10 @@
   }
 
   ul {
-    margin: 0;
+    display: flex;
+    margin: 0 auto;
     padding: 0;
+    justify-content: center;
   }
 
   ul::after {
@@ -28,6 +33,7 @@
   li {
     display: block;
     float: left;
+    padding: 5px 55px;
   }
 
   .selected {

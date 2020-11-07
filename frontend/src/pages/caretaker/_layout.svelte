@@ -1,5 +1,5 @@
 <script>
-  import Ctnav from "../../Ctnav.svelte";
+  import Ctnav from "../../Components/Ctnav.svelte";
 </script>
 
 <Ctnav />

@@ -1,5 +1,18 @@
 <script>
   import { url } from "@sveltech/routify";
+  import { account } from "../../user.js";
+
+  let username;
+
+  const unsubscribe = account.subscribe((value) => {
+    username = value;
+  });
 </script>
 
-<h1>Welcome Back Petowner!</h1>
+<style>
+  h1 {
+    text-align: center;
+  }
+</style>
+
+<h1>Welcome Back {username}!</h1>
