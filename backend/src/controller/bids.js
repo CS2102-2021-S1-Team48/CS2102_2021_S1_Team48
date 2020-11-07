@@ -2,9 +2,9 @@ const pool = require('../db');
 const moment = require('moment');
 
 // POST api at router
-// POST /bids/test?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog
+// POST /bids/test?transfermethod=deliver&paymentmethod=cash&petname=eva&usernamepo=clara&usernamect=trump&startdate=20201123&enddate=20201125&pettype=dog&price=123
 async function testAddBid(ctx) {
-    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype } = ctx.query;
+    const { transfermethod, paymentmethod, petname, usernamepo, usernamect, startdate, enddate, pettype, price } = ctx.query;
 
     try {
         const petLimitQuery = `SELECT petlimit from caretakers WHERE username = '${usernamect}'`;
@@ -33,22 +33,15 @@ async function testAddBid(ctx) {
         }
 
         if (canInsert) {
-            const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}')`;
-            const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype) ' + valuesClause;
+            const valuesClause = `VALUES ('${transfermethod}', '${paymentmethod}', '${petname}', '${usernamepo}', '${usernamect}', '${startdate}', '${enddate}', '${pettype}', ${price})`;
+            const sqlQuery = 'INSERT INTO bids (transfermethod, paymentmethod, petname, username_petowner, username_caretaker, startdate, enddate, pettype, price) ' + valuesClause;
             await pool.query(sqlQuery);
             ctx.body = {
-                'transfermethod': transfermethod,
-                'paymentmethod': paymentmethod,
-                'petname': petname,
-                'usernamepo': usernamepo,
-                'usernamect': usernamect,
-                'startdate': startdate,
-                'enddate': enddate,
-                'pettype': pettype
+                'response': 'Bid has been sent!'
             };
         } else {
             ctx.body = {
-                'errormessage': 'caretaker already hit his/her petlimit!'
+                'response': 'caretaker already hit his/her petlimit!'
             };
             ctx.status = 403;
         }
@@ -108,7 +101,26 @@ async function getAcceptedBidsForDateRange(ctx) {
     const { usernamect, startdate, enddate } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT * FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.startdate <= '${enddate}'`;
+        const sqlQuery = `SELECT *, (enddate-startdate+1) * price as owed FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.startdate <= '${enddate}'`;
+        const resultobject = await pool.query(sqlQuery);
+        const rows = resultobject.rows;
+        console.table(rows);
+        ctx.body = {
+            'acceptedbids': rows
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
+
+// GET api at router
+async function getCurrentAcceptedBidsForDateRange(ctx) {
+    const { usernamect, startdate, enddate } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT *, (enddate-startdate+1) * price as owed FROM bids b INNER JOIN pets p ON b.petname = p.petname AND b.username_petowner = p.username_petowner WHERE b.accepted = True AND b.username_caretaker = '${usernamect}' AND b.startdate <= '${startdate}' AND b.enddate >= '${enddate}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -157,8 +169,8 @@ async function getUnacceptedBidsForDateRange(ctx) {
     }
 }
 
-// GET /bids?petname=eva&usernamect=john&usernamepo=lim , getBids
 // GET api at router
+// GET /bids?petname=eva&usernamect=john&usernamepo=lim , getBids
 async function getBids(ctx) {
     const { petname, usernamect, usernamepo } = ctx.query;
 
@@ -202,7 +214,7 @@ async function getPetDaysForThePeriod(ctx) {
 
     try {
         if (startdate === undefined && enddate === undefined) {
-            const sqlQuery = `SELECT sum(enddate-startdate) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' GROUP BY username_caretaker`;
+            const sqlQuery = `SELECT sum(enddate-startdate + 1) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' GROUP BY username_caretaker`;
             const resultObject = await pool.query(sqlQuery);
             const rows = resultObject.rows;
             ctx.body = {
@@ -210,7 +222,7 @@ async function getPetDaysForThePeriod(ctx) {
             };
 
         } else {
-            const sqlQuery = `SELECT sum(enddate-startdate) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' AND startdate >= '${startdate}' AND enddate <= '${enddate}' GROUP BY username_caretaker`;
+            const sqlQuery = `SELECT sum(enddate-startdate + 1) FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = 'True' AND startdate >= '${startdate}' AND enddate <= '${enddate}' GROUP BY username_caretaker`;
             const resultObject = await pool.query(sqlQuery);
             const rows = resultObject.rows;
             ctx.body = {
@@ -228,7 +240,7 @@ async function getAmountOwedToCaretaker(ctx) {
     const { usernamepo, usernamect, pettype, startdate, enddate } = ctx.params;
 
     try {
-        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * av.price) FROM bids b INNER JOIN availabilities av ON b.username_caretaker = av.username_caretaker AND b.pettype = av.pettype AND b.startdate = av.startdate AND b.enddate = av.enddate WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True' AND b.username_petowner = '${usernamepo}'`;
+        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * price) FROM bids b WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True' AND b.username_petowner = '${usernamepo}'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -244,8 +256,9 @@ async function getAmountOwedToCaretaker(ctx) {
 // GET api at router
 async function getTotalOwedToCaretaker(ctx) {
     const { usernamect, pettype, startdate, enddate } = ctx.params;
+
     try {
-        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * av.price) FROM bids b INNER JOIN availabilities av ON b.username_caretaker = av.username_caretaker AND b.pettype = av.pettype AND b.startdate = av.startdate AND b.enddate = av.enddate WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True'`;
+        const sqlQuery = `SELECT sum((b.enddate - b.startdate + 1) * price) FROM bids b WHERE b.username_caretaker = '${usernamect}' AND b.startdate >= '${startdate}' AND b.enddate <= '${enddate}' AND b.pettype = '${pettype}' AND accepted = 'True'`;
         const resultobject = await pool.query(sqlQuery);
         const rows = resultobject.rows;
         console.table(rows);
@@ -261,6 +274,7 @@ async function getTotalOwedToCaretaker(ctx) {
 // PATCH api at router
 async function acceptBid(ctx) {
     const { petname, usernamepo, usernamect, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `UPDATE bids SET accepted = true WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
@@ -289,7 +303,6 @@ async function undoAcceptBid(ctx) {
     }
 }
 
-// This is not in the api documentation but I added in recently
 // PATCH api at router
 // PATCH /bids/submitreviewandrating/:petname/:usernamepo/:usernamect/:startdate/:enddate?rating=4&review=good , submitReviewAndRating
 async function submitReviewAndRating(ctx) {
@@ -313,6 +326,7 @@ async function submitReviewAndRating(ctx) {
 // DEL /bids/:petname/:usernamepo/:usernamect/:startdate/:enddate , deleteBid
 async function deleteBid(ctx) {
     const { petname, usernamepo, usernamect, startdate, enddate } = ctx.params;
+
     try {
         const sqlQuery = `DELETE FROM bids WHERE petname = '${petname}' AND username_petowner = '${usernamepo}' AND username_caretaker = '${usernamect}' AND startdate = '${startdate}' AND enddate = '${enddate}'`;
         await pool.query(sqlQuery);
@@ -360,10 +374,28 @@ async function getBidsByUsernamePO(ctx) {
     }
 }
 
+// GET api at router
+async function getAcceptedBidsByUsernameCT(ctx) {
+    const { usernamect } = ctx.params;
+
+    try {
+        const sqlQuery = `SELECT * FROM bids WHERE username_caretaker = '${usernamect}' AND accepted = true`;
+        const resultObject = await pool.query(sqlQuery);
+        const bids = resultObject.rows;
+        ctx.body = {
+            'bids': bids
+        };
+    } catch (e) {
+        console.log(e);
+        ctx.status = 403;
+    }
+}
+
 module.exports = {
     addBid,
     getAcceptedBids,
     getAcceptedBidsForDateRange,
+    getCurrentAcceptedBidsForDateRange,
     getUnacceptedBids,
     getUnacceptedBidsForDateRange,
     getBids,
@@ -377,5 +409,6 @@ module.exports = {
     deleteBid,
     getRatingByUsernameCT,
     getBidsByUsernamePO,
-    testAddBid
+    testAddBid,
+    getAcceptedBidsByUsernameCT
 };

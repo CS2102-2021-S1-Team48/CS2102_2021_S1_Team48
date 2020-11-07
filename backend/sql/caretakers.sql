@@ -25,3 +25,18 @@ SELECT *
 SELECT *
   FROM caretakers
  WHERE username = 'ExampleName'
+
+ 
+CREATE OR REPLACE FUNCTION updatePetLimit() RETURNS TRIGGER AS
+' 
+BEGIN 	
+	IF NEW.username IN (SELECT username FROM caretakers_pt) THEN
+		NEW.petlimit = NEW.rating; END IF;
+	RETURN NEW;
+	END;'
+LANGUAGE plpgsql;
+
+
+CREATE TRIGGER updatePetLimit
+BEFORE UPDATE ON caretakers
+EXECUTE PROCEDURE updatePetLimit();

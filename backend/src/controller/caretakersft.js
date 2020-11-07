@@ -1,26 +1,50 @@
 const pool = require('../db');
 
 // POST api at router
-// POST /caretakersft/duc99?startdate1=20200101&enddate1=20200531&startdate2=20200601&enddate2=20201231
 async function switchCaretakerPtToFt(ctx) {
-    const { startdate1, enddate1, startdate2, enddate2 } = ctx.query;
+    const { usernamect } = ctx.params;
 
-    const usernamect = ctx.params.usernamect;
     try {
-        // Should we be using trigger to delete so that we can guarantee atomicity?
-        const deleteFromCaretakersPt = `DELETE FROM caretakers_pt WHERE username = '${usernamect}'`;
-        await pool.query(deleteFromCaretakersPt);
-        const insertIntoCaretakersFt = `INSERT INTO caretakers_ft VALUES ('${usernamect}', '${startdate1}', '${enddate1}', '${startdate2}', '${enddate2}')`;
-        await pool.query(insertIntoCaretakersFt);
-        const updatePetLimit = `UPDATE caretakers SET petlimit = 5 WHERE username = '${usernamect}'`;
-        await pool.query(updatePetLimit);
-        ctx.body = {
-            'usernamect': usernamect,
-            'startdate1': startdate1,
-            'enddate1': enddate1,
-            'startdate2': startdate2,
-            'enddate2': enddate2
-        };
+        const sqlQuery = `SELECT 
+                            CASE WHEN EXISTS ((SELECT 1 FROM (SELECT COUNT(*) cnt FROM (
+                                    SELECT DISTINCT enddate-startdate+1 AS days 
+                                    FROM availabilities 
+                                    WHERE username_caretaker = '${usernamect}') blocklengths 
+                                    WHERE days >= 150) c WHERE c.cnt = 2) UNION 
+                                    (SELECT 1 
+                                    FROM (SELECT count(*) 
+                                    FROM (SELECT DISTINCT enddate-startdate+1 AS availdays 
+                                    FROM availabilities WHERE username_caretaker = '${usernamect}') as c
+                                    WHERE availdays >= 300) AS n 
+                                    WHERE n.count = 1))
+                                THEN 'eligible'
+                                ELSE 'not eligible'
+                            END`;
+
+        const resultObject = await pool.query(sqlQuery);
+        const rows = resultObject.rows;
+        const onlyRow = rows[0];
+        const eligibility = onlyRow.case;
+        
+        if (eligibility == 'eligible') {
+            const deleteFromCaretakersPt = `DELETE FROM caretakers_pt WHERE username = '${usernamect}'`;
+            await pool.query(deleteFromCaretakersPt);
+
+            const insertIntoCaretakersFt = `INSERT INTO caretakers_ft (username) VALUES ('${usernamect}')`;
+            await pool.query(insertIntoCaretakersFt);
+
+            const updatePetLimit = `UPDATE caretakers SET petlimit = 5 WHERE username = '${usernamect}'`;
+            await pool.query(updatePetLimit);
+            ctx.body = {
+                'success': 'true!',
+            };
+        } else {
+            ctx.body = {
+                'errormessage': 'To be a fulltime caretaker, you need to be available for a minimum of 2 x 150 consecutive days, in a year.'
+            };
+            ctx.status = 403;
+        }
+        
     } catch (e) {
         console.log(e);
         ctx.status = 403;
