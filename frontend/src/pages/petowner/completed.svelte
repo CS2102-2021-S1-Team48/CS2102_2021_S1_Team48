@@ -11,10 +11,13 @@
   });
 
   let showModal = false;
+  let showModal2 = false;
   let caretaker;
   let petname;
   let startdate;
   let enddate;
+  let userrating;
+  let userreview;
 
   let completed = [];
 
@@ -42,8 +45,22 @@
     toggleModal();
   }
 
+  function selectUser2(bid) {
+    caretaker = bid.username_caretaker;
+    petname = bid.petname;
+    startdate = bid.startdate;
+    enddate = bid.enddate;
+    userrating = bid.rating;
+    userreview = bid.review;
+    toggleModal2();
+  }
+
   function toggleModal() {
     showModal = !showModal;
+  }
+
+  function toggleModal2() {
+    showModal2 = !showModal2;
   }
 
   function handleRating(e) {
@@ -101,7 +118,6 @@
 </script>
 
 <style>
-
   h3 {
     text-align: center;
   }
@@ -138,6 +154,22 @@
   <ReviewForm on:leaveRating={handleRating} />
 </ModalPO>
 
+<ModalPO {showModal2} on:click={toggleModal2}>
+  <h3>Ratings</h3>
+  {#if userrating != null}
+    <div>Rating: {userrating}</div>
+  {:else}
+    <div>Rating: No Rating</div>
+  {/if}
+
+  {#if userrating != null}
+    <div>Review: {userreview}</div>
+  {:else}
+    <div>Review: No Review</div>
+  {/if}
+  <button on:click={toggleModal2}>Close</button>
+</ModalPO>
+
 <nav>
   <ul class="header">
     <li>Caretaker</li>
@@ -161,7 +193,9 @@
             <button on:click={selectUser(entry)}> Leave Rating </button>
           </div>
         {:else}
-          <div class="contents">{entry.rating}</div>
+          <div class="contents">
+            <button on:click={selectUser2(entry)}> VIEW </button>
+          </div>
         {/if}
       </div>
     {/if}
