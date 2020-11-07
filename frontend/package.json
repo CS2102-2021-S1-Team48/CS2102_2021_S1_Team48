@@ -7,7 +7,7 @@
     "prebuild": "routify --single-build",
     "watch:rollup": "rollup -c -w",
     "watch:routify": "routify",
-    "start": "sirv public --single"
+    "start": "sirv public --host 0.0.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^14.0.0",
