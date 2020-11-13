@@ -65,7 +65,9 @@
 			})
 			.catch((error) => {
 				if ((error = 403)) {
-					alert("Check that your input dates do not overlap with any existing availability dates.");
+					alert(
+						"Check that your input dates do not overlap with any existing availability dates."
+					);
 				}
 				console.log("ERROR: " + error);
 			});
@@ -245,7 +247,6 @@
 
 		<label for="start">Start</label>
 		<input
-			required
 			class="short-input"
 			type="date"
 			id="start"
@@ -256,7 +257,6 @@
 
 		<label for="end">End </label>
 		<input
-			required
 			class="short-input"
 			type="date"
 			id="end"
@@ -274,7 +274,6 @@
 		</select>
 		<label for="price">Price</label><input
 			id="price"
-			required
 			bind:value={price}
 			placeholder="price" />
 	</div>
@@ -282,8 +281,7 @@
 		<div class="buttons">
 			<button
 				style="color: black; background-color:cornflowerblue"
-				on:click={addEntry}
-				disabled={!petType || !price}>Add</button>
+				on:click={addEntry}>Add</button>
 			<button
 				style="color: black; background-color:cornflowerblue"
 				on:click={update}
