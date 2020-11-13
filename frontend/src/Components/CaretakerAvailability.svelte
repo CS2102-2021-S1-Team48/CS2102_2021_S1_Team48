@@ -9,6 +9,7 @@
 		username = value;
 	});
 	let pettypes = [];
+	let value = pettypes[0];
 	let pets = [];
 	let prefix = "";
 	let startDate = "";
@@ -50,7 +51,11 @@
 	}
 
 	function addEntry() {
+		if (petType == "") {
+			alert("Pet Type cannot be empty.");
+		}
 		pets = pets.concat({ startDate, endDate, petType, price });
+
 		i = pets.length - 1;
 
 		const postAvailabilityCall = fetch(
@@ -61,16 +66,17 @@
 		)
 			.then((response1) => response1.json())
 			.then((data1) => {
+				startDate = endDate = price = petType = "";
 				alert(`Success! Your availability has been posted!`);
 			})
 			.catch((error) => {
 				if ((error = 403)) {
-					alert("Check that your input dates do not overlap with any existing availability dates.");
+					alert(
+						"Check that your input dates do not overlap with any existing availability dates."
+					);
 				}
 				console.log("ERROR: " + error);
 			});
-		console.log(startDate, endDate, petType, price);
-		startDate = endDate = price = "";
 	}
 
 	function update() {
@@ -84,16 +90,7 @@
 		selected.petType = petType;
 		selected.price = price;
 		pets = pets;
-		console.log(
-			oldStartDate,
-			oldEndDate,
-			oldPetType,
-			price,
-			startDate,
-			endDate,
-			selected.petType,
-			selected.price
-		);
+
 		const patchAvailabiityCall = fetch(
 			`http://18.139.110.246:3000/availabilities?startdate=${oldStartDate}&enddate=${oldEndDate}&pettype=${oldPetType}&price=${oldPrice}&usernamect=${username}&newstartdate=${selected.startDate}&newenddate=${selected.endDate}&newpettype=${selected.petType}&newprice=${selected.price}`,
 			{
@@ -245,7 +242,6 @@
 
 		<label for="start">Start</label>
 		<input
-			required
 			class="short-input"
 			type="date"
 			id="start"
@@ -256,7 +252,6 @@
 
 		<label for="end">End </label>
 		<input
-			required
 			class="short-input"
 			type="date"
 			id="end"
@@ -266,7 +261,12 @@
 			placeholder="end date" />
 
 		<label for="category">Category</label>
-		<select bind:value={petType} id="category">
+		<select
+			id="category"
+			bind:value={petType}
+			on:change={() => {
+				petType = value;
+			}}>
 			<option value="none" selected disable hidden>Select an Option</option>
 			{#each pettypes as type}
 				<option value={type.pettype} selected="selected">{type.pettype}</option>
@@ -274,7 +274,6 @@
 		</select>
 		<label for="price">Price</label><input
 			id="price"
-			required
 			bind:value={price}
 			placeholder="price" />
 	</div>
@@ -282,8 +281,7 @@
 		<div class="buttons">
 			<button
 				style="color: black; background-color:cornflowerblue"
-				on:click={addEntry}
-				disabled={!petType || !price}>Add</button>
+				on:click={addEntry}>Add</button>
 			<button
 				style="color: black; background-color:cornflowerblue"
 				on:click={update}
