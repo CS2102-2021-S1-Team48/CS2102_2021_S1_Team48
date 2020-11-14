@@ -127,8 +127,8 @@
 			// .then(() => reload())
 			.catch((error) => {
 				alert(
-							"Please ensure that the new updated values do not conflict with existing entries."
-						);
+					"Please ensure that the new updated values do not conflict with existing entries."
+				);
 			});
 	}
 
@@ -246,7 +246,8 @@
 
 <div class="float-container">
 	<div class="float-child">
-		<input placeholder="search" bind:value={prefix} />
+		<label for="search">Search by pet type </label>
+		<input placeholder="eg. dog" bind:value={prefix} />
 		<HeaderBox>
 			<div
 				style="display: -webkit-box; grid-template-columns: 2fr 2fr; grid-gap: 1em">
