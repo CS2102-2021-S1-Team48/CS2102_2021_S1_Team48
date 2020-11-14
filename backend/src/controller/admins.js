@@ -8,7 +8,7 @@ async function createAdmin(ctx) {
         const insertIntoAccounts = `INSERT INTO accounts (username, pw) VALUES ('${username}', '${password}')`;
         await pool.query(insertIntoAccounts);
 
-        const insertIntoAdmins = `INSERT INTO admins (username) VALUES ('${username}'}');`;
+        const insertIntoAdmins = `INSERT INTO admins (username) VALUES ('${username}');`;
         await pool.query(insertIntoAdmins);
         ctx.body = {
             'username' : username,
