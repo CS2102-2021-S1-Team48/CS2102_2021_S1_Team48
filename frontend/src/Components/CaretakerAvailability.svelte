@@ -94,7 +94,7 @@
 				.catch((error) => {
 					if ((error = 403)) {
 						alert(
-							"Check that your input dates do not overlap with any existing availability dates."
+							"ERROR: Check that your input dates do not overlap with any existing availability dates and the price for the selected pet type meets the minimum daily price."
 						);
 					}
 					console.log("ERROR: " + error);
@@ -127,7 +127,7 @@
 			// .then(() => reload())
 			.catch((error) => {
 				alert(
-					"Please ensure that the new updated values do not conflict with existing entries."
+					"Please ensure that the new updated values do not conflict with existing entries and the new price meets the minimum daily pet price."
 				);
 			});
 	}
