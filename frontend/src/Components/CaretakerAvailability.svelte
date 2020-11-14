@@ -104,29 +104,31 @@
 
 	function update() {
 		const index = pets.indexOf(selected);
-		oldStartDate = pets[index].startDate;
-		oldEndDate = pets[index].endDate;
-		oldPetType = pets[index].petType;
-		oldPrice = pets[index].price;
-		selected.startDate = startDate;
-		selected.endDate = endDate;
-		selected.petType = petType;
-		selected.price = price;
-		pets = pets;
+		oldStartDate = selected.startDate;
+		oldEndDate = selected.endDate;
+		oldPetType = selected.petType;
+		oldPrice = selected.price;
 
 		const patchAvailabiityCall = fetch(
-			`http://18.139.110.246:3000/availabilities?startdate=${oldStartDate}&enddate=${oldEndDate}&pettype=${oldPetType}&price=${oldPrice}&usernamect=${username}&newstartdate=${selected.startDate}&newenddate=${selected.endDate}&newpettype=${selected.petType}&newprice=${selected.price}`,
+			`http://18.139.110.246:3000/availabilities?startdate=${oldStartDate}&enddate=${oldEndDate}&pettype=${oldPetType}&price=${oldPrice}&usernamect=${username}&newstartdate=${startDate}&newenddate=${endDate}&newpettype=${petType}&newprice=${price}`,
 			{
 				method: "PATCH",
 			}
 		)
 			.then((response) => response.json())
 			.then((data) => {
+				selected.startDate = startDate;
+				selected.endDate = endDate;
+				selected.petType = petType;
+				selected.price = price;
+				pets = pets;
 				alert("Your availability is successfully updated!");
 			})
 			// .then(() => reload())
 			.catch((error) => {
-				console.log("ERROR: " + error);
+				alert(
+							"Please ensure that the new updated values do not conflict with existing entries."
+						);
 			});
 	}
 
