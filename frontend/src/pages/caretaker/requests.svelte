@@ -171,7 +171,7 @@
 
 <div>
   {#each bidRequests as bid}
-    {#if remaining(bid.from) > 0}
+    {#if remaining(bid.from) >= 0}
       <div class="bid">
         <div class="contents">
           <div class="subDescription">
